@@ -1,37 +1,16 @@
 package models;
 
-import java.util.Scanner;
-
 public class User {
 
-    private int userId;
     private String username;
     private String password;
     private String role;
-    private boolean isLoggedIn;
+    public User(String username, String password, String role) {
 
-    public void getInput() {
-
-        Scanner sc = new Scanner(System.in);
-
-        System.out.print("Enter User ID: ");
-        userId = sc.nextInt();
-        sc.nextLine();
-
-        System.out.print("Enter Username: ");
-        username = sc.nextLine();
-
-        System.out.print("Enter Password: ");
-        password = sc.nextLine();
-
-        System.out.print("Enter Role: ");
-        role = sc.nextLine();
+        this.username = username;
+        this.password = password;
+        this.role = role;
     }
-
-    public int getUserId() {
-        return userId;
-    }
-
     public String getUsername() {
         return username;
     }
@@ -43,12 +22,15 @@ public class User {
     public String getRole() {
         return role;
     }
-
-    public boolean isLoggedIn() {
-        return isLoggedIn;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
-    public void setLoggedIn(boolean loggedIn) {
-        isLoggedIn = loggedIn;
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
     }
 }
