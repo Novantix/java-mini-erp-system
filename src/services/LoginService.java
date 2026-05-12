@@ -1,5 +1,4 @@
 package services;
-
 import java.util.Scanner;
 import models.User;
 public class LoginService {
