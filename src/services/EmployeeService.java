@@ -94,10 +94,7 @@ public class EmployeeService {
         }
 
         scanner.nextLine();
-        System.out.print("Enter New Name: ");
-        emp.setEmployeeName(scanner.nextLine());
-        System.out.print("Enter New Department: ");
-        emp.setDepartment(scanner.nextLine());
+        
         System.out.print("Enter New Designation: ");
         emp.setDesignation(scanner.nextLine());
         System.out.print("Enter New Salary: ");
@@ -105,9 +102,7 @@ public class EmployeeService {
         scanner.nextLine();
         System.out.print("Enter New Manager Name: ");
         emp.setManagerName(scanner.nextLine());
-        System.out.print("Enter New Experience: ");
-        emp.setYearsOfExperience(readInt());
-
+    
         saveEmployees();
         System.out.println("Employee updated successfully.");
     }
