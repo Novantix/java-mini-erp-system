@@ -1,3 +1,7 @@
+<<<<<<< HEAD
+=======
+package main;
+>>>>>>> main
 
 public class Main {
 
