@@ -1,0 +1,39 @@
+===== USER DATA =====
+Username : mohanchb123@gmail.com
+Password : Cmohan@123
+Role : Admin
+Check-In : 09:45:13
+Check-Out : 17:45:13
+----------------------
+===== USER DATA =====
+Username : Anil
+Password : anil@123
+Role : Amin
+Check-In : 17:02:25
+Check-Out : 01:02:25
+----------------------
+Anil,Amin
+===== USER DATA =====
+Username : Anil
+Password : anil@123
+Role : Employee
+Check-In : 17:03:01
+Check-Out : 01:03:01
+----------------------
+Anil,Amin
+===== USER DATA =====
+Username : Bigil
+Password : bigil@123
+Role : Employee
+Check-In : 17:04:58
+Check-Out : 01:04:58
+----------------------
+Bigil,Employee
+===== USER DATA =====
+Username : vishnu123
+Password : vishnu123
+Role : Admin
+Check-In : 20:55:26
+Check-Out : 04:55:26
+----------------------
+vishnu123,Admin
