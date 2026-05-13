@@ -10,6 +10,7 @@ public class Main {
         RoleService roleService = new RoleService();
         while (true) {
             User loginUser = null;
+            // MAIN MENU
             System.out.println("\n===== MAIN MENU =====");
             System.out.println("1. User Registration");
             System.out.println("2. Login");
@@ -43,6 +44,8 @@ public class Main {
                         System.out.println(
                                 "\nWelcome User");
                     }
+                    // STOP PROGRAM AFTER SUCCESS LOGIN
+                    break;
                 }
             }
             // FORGOT PASSWORD
@@ -51,12 +54,10 @@ public class Main {
             }
             // EXIT
             else if (choice == 4) {
-
                 System.out.println("Program Closed");
                 break;
             }
             else {
-
                 System.out.println("Invalid Choice");
             }
         }
