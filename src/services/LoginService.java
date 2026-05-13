@@ -35,10 +35,15 @@ public class LoginService {
                 checkInTime,
                 checkOutTime
         );
+        // CREATE DATA FOLDER IF NOT EXISTS
+        File folder = new File("data");
+        if (!folder.exists()) {
+            folder.mkdir();
+        }
         // STORE DATA INTO FILE
         try {
             FileWriter writer =
-                    new FileWriter("src/data/users.txt", true);
+                    new FileWriter("data/users.txt", true);
             writer.write("===== USER DATA =====\n");
             writer.write("Username : " + username + "\n");
             writer.write("Password : " + password + "\n");
@@ -47,10 +52,10 @@ public class LoginService {
             writer.write("Check-Out : " + checkOutTime + "\n");
             writer.write("----------------------\n");
             writer.close();
+            System.out.println("\nRegistration Successful");
         } catch (IOException e) {
             System.out.println("File Error");
         }
-        System.out.println("Registration Successful");
         return user;
     }
     // LOGIN USER
@@ -62,7 +67,11 @@ public class LoginService {
             System.out.print("Enter Password : ");
             String password = sc.nextLine();
             try {
-                File file = new File("src/data/users.txt");
+                File file = new File("data/users.txt");
+                if (!file.exists()) {
+                    System.out.println("No Registered Users Found");
+                    return null;
+                }
                 Scanner fileScanner = new Scanner(file);
                 while (fileScanner.hasNextLine()) {
                     String line = fileScanner.nextLine();
@@ -72,16 +81,24 @@ public class LoginService {
                         String passwordLine =
                                 fileScanner.nextLine();
                         String storedPassword =
-                                passwordLine.substring(11);
+                                passwordLine.replace(
+                                        "Password : ",
+                                        ""
+                                );
                         // READ ROLE
                         String roleLine =
                                 fileScanner.nextLine();
                         String role =
-                                roleLine.substring(7);
+                                roleLine.replace(
+                                        "Role : ",
+                                        ""
+                                );
                         // CHECK PASSWORD
                         if (storedPassword.equals(password)) {
                             System.out.println(
                                     "\nLogin Successful");
+                            System.out.println(
+                                    "Welcome " + username);
                             fileScanner.close();
                             return new User(
                                     username,
@@ -118,7 +135,11 @@ public class LoginService {
         System.out.print("Enter Username : ");
         String username = sc.nextLine();
         try {
-            File file = new File("src/data/users.txt");
+            File file = new File("data/users.txt");
+            if (!file.exists()) {
+                System.out.println("No User Data Found");
+                return;
+            }
             Scanner fileScanner = new Scanner(file);
             boolean found = false;
             while (fileScanner.hasNextLine()) {
@@ -128,14 +149,15 @@ public class LoginService {
                     // READ PASSWORD LINE
                     String passwordLine =
                             fileScanner.nextLine();
-                    System.out.println(passwordLine);
+                    System.out.println(
+                            "\n" + passwordLine);
                     found = true;
                     break;
                 }
             }
             if (found == false) {
-
-                System.out.println("Username Not Found");
+                System.out.println(
+                        "Username Not Found");
             }
             fileScanner.close();
         } catch (Exception e) {
