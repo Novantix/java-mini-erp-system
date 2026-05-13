@@ -1,66 +1,76 @@
 package main;
+
 import java.util.Scanner;
 import models.User;
+import services.EmployeeService;
 import services.LoginService;
 import services.RoleService;
+
 public class Main {
+
     public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
+
+         Scanner sc = new Scanner(System.in);
         LoginService loginService = new LoginService();
         RoleService roleService = new RoleService();
+        User loginUser = null;
         while (true) {
-            User loginUser = null;
             // MAIN MENU
             System.out.println("\n===== MAIN MENU =====");
             System.out.println("1. User Registration");
             System.out.println("2. Login");
             System.out.println("3. Forgot Password");
-            System.out.println("4. Exit");
+            System.out.println("4. Logout");
             System.out.print("Enter Choice : ");
             int choice = sc.nextInt();
             sc.nextLine();
-            // USER REGISTRATION
+            // ================= REGISTER =================
             if (choice == 1) {
                 loginService.registerUser();
             }
-            // LOGIN
+            // ================= LOGIN =================
             else if (choice == 2) {
                 loginUser = loginService.login();
-                // ROLE VALIDATION
                 if (loginUser != null) {
+                    // ADMIN
                     if (roleService.isAdmin(
-                            loginUser.getRole())) {
-                        System.out.println(
-                                "\nWelcome Admin");
-                        System.out.println(
-                                "Admin Access Granted");
-                    } else if (roleService.isEmployee(
-                            loginUser.getRole())) {
-                        System.out.println(
-                                "\nWelcome Employee");
-                        System.out.println(
-                                "Employee Access Granted");
-                    } else {
-                        System.out.println(
-                                "\nWelcome User");
+                            loginUser.getRole()
+                    )) {
+                        System.out.println("\nWelcome Admin");
+                        System.out.println("Admin Access Granted");
                     }
-                    // STOP PROGRAM AFTER SUCCESS LOGIN
-                    break;
+                    // EMPLOYEE
+                    else if (roleService.isEmployee(
+                            loginUser.getRole()
+                    )) {
+                        System.out.println("\nWelcome Employee");
+                        System.out.println("Employee Access Granted");
+                    }
+                    // OTHER ROLE
+                    else {
+                        System.out.println("\nWelcome User");
+                    }
                 }
             }
-            // FORGOT PASSWORD
+            // ================= FORGOT PASSWORD =================
             else if (choice == 3) {
                 loginService.forgotPassword();
             }
-            // EXIT
+            // ================= LOGOUT =================
             else if (choice == 4) {
-                System.out.println("Program Closed");
+                System.out.println("\nLogout Successful"
+                );
                 break;
             }
+            // INVALID
             else {
-                System.out.println("Invalid Choice");
+                System.out.println("\nInvalid Choice");
             }
         }
+
+         EmployeeService employeeService = new EmployeeService();
+        employeeService.employeeDashboard();
+
         sc.close();
     }
 }
