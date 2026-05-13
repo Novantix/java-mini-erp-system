@@ -378,9 +378,6 @@ public class EmployeeService {
             return;
         }
 
-        // This version keeps the file permanently on disk.
-        // It does not rebuild Employee objects from text.
-        // The file remains available even after closing the program.
         employees = new ArrayList<>();
 
         System.out.println("Existing employee data found at: " + FILE_PATH);
