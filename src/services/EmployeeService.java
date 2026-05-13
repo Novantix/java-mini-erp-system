@@ -1,11 +1,9 @@
 package services;
-
-import models.Employee;
-
 import java.io.*;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
+import models.Employee;
 
 public class EmployeeService {
     private ArrayList<Employee> employees = new ArrayList<>();
@@ -303,4 +301,3 @@ public class EmployeeService {
         }
     }
 }
-
