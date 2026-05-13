@@ -1,3 +1,4 @@
 *.class
+src/users.txt
+src/data/users.txt
 *.dat
-data/
