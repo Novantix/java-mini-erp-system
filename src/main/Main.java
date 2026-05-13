@@ -1,7 +1,9 @@
 package main;
+
 import models.User;
 import services.LoginService;
 import services.RoleService;
+
 public class Main {
     public static void main(String[] args) {
         LoginService loginService = new LoginService();
@@ -23,3 +25,4 @@ public class Main {
         }
     }
 }
+    
