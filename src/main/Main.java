@@ -1,6 +1,7 @@
 package main;
 import java.util.Scanner;
 import models.User;
+import services.EmployeeService;
 import services.LoginService;
 import services.RoleService;
 public class Main {
@@ -61,6 +62,8 @@ public class Main {
                 System.out.println("Invalid Choice");
             }
         }
+         EmployeeService employeeService = new EmployeeService();
+        employeeService.employeeDashboard();
         sc.close();
     }
 }
