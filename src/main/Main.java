@@ -110,6 +110,9 @@ public class Main {
             }
         }
 
+         EmployeeService employeeService = new EmployeeService();
+        employeeService.employeeDashboard();
+
         sc.close();
     }
 }
