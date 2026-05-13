@@ -1,5 +1,6 @@
 package services;
 public class RoleService {
+    // CHECK ADMIN
     public boolean isAdmin(String role) {
         if (role.equalsIgnoreCase("admin")) {
             return true;
@@ -7,6 +8,7 @@ public class RoleService {
             return false;
         }
     }
+    // CHECK EMPLOYEE
     public boolean isEmployee(String role) {
         if (role.equalsIgnoreCase("employee")) {
             return true;
