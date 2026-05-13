@@ -4,7 +4,8 @@ public class RoleService {
     public boolean isAdmin(String role) {
         if (role.equalsIgnoreCase("admin")) {
             return true;
-        } else {
+        }
+        else {
             return false;
         }
     }
@@ -12,7 +13,8 @@ public class RoleService {
     public boolean isEmployee(String role) {
         if (role.equalsIgnoreCase("employee")) {
             return true;
-        } else {
+        }
+        else {
             return false;
         }
     }
