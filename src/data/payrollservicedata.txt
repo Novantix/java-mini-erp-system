@@ -1,0 +1,16 @@
+===== PAYSLIP =====
+Employee ID: 1
+Basic Salary: 1.0E7
+PF: 1200000.0
+Tax: 1000000.0
+Bonus: 500000.0
+Net Salary: 8300000.0
+-----------------------
+===== PAYSLIP =====
+Employee ID: 101
+Basic Salary: 100000.0
+PF: 12000.0
+Tax: 10000.0
+Bonus: 5000.0
+Net Salary: 83000.0
+-----------------------
