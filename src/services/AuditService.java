@@ -1,28 +1,27 @@
 package services;
-
-import models.User;
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import models.User;
+import services.AuditService;
 
 public class AuditService {
 
     private List<String> auditLogs = new ArrayList<>();
 
-    private static final DateTimeFormatter FORMATTER =
-            DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
+    private static final DateTimeFormatter FORMATTER
+            = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
 
     private static final String AUDIT_FILE
             = "data/audit_log.txt";
 
     // Constructor Loads existing logs from file
-    
     public AuditService() {
         loadLogsFromFile();
     }
@@ -37,39 +36,38 @@ public class AuditService {
             }
         } catch (Exception e) {
             System.out.println(
-                "[AuditService Warning] "
-                + "Could not load previous audit logs: "
-                + e.getMessage());
+                    "[AuditService Warning] "
+                    + "Could not load previous audit logs: "
+                    + e.getMessage());
         }
     }
 
     private boolean isLoggedIn(User user) {
         if (user == null) {
             System.out.println(
-                "[Access Denied] "
-                + "No user is logged in. "
-                + "Please login first.");
+                    "[Access Denied] "
+                    + "No user is logged in. "
+                    + "Please login first.");
             return false;
         }
         return true;
     }
 
     private boolean hasRole(User user,
-                            String... allowedRoles) {
+            String... allowedRoles) {
         for (String role : allowedRoles) {
             if (user.getRole().equalsIgnoreCase(role)) {
                 return true;
             }
         }
         System.out.println(
-            "[Access Denied] User '"
-            + user.getUsername()
-            + "' with role '"
-            + user.getRole()
-            + "' is not allowed to perform this action.");
+                "[Access Denied] User '"
+                + user.getUsername()
+                + "' with role '"
+                + user.getRole()
+                + "' is not allowed to perform this action.");
         return false;
     }
-
 
     public void logAction(String username, String action) {
         try {
@@ -80,15 +78,15 @@ public class AuditService {
             if (action == null
                     || action.trim().isEmpty()) {
                 System.out.println(
-                    "[AuditService] "
-                    + "Cannot log empty action.");
+                        "[AuditService] "
+                        + "Cannot log empty action.");
                 return;
             }
 
             String timestamp = LocalDateTime.now()
                     .format(FORMATTER);
-            String logEntry =
-                    "[" + timestamp + "] "
+            String logEntry
+                    = "[" + timestamp + "] "
                     + "USER: " + username.toUpperCase()
                     + " | ACTION: " + action;
 
@@ -99,8 +97,8 @@ public class AuditService {
 
         } catch (Exception e) {
             System.out.println(
-                "[AuditService Error] logAction : "
-                + e.getMessage());
+                    "[AuditService Error] logAction : "
+                    + e.getMessage());
         }
     }
 
@@ -110,31 +108,35 @@ public class AuditService {
     // ─────────────────────────────────────
     public void viewAllLogs(User loggedInUser) {
         try {
-            if (!isLoggedIn(loggedInUser)) return;
-            if (!hasRole(loggedInUser, "ADMIN")) return;
+            if (!isLoggedIn(loggedInUser)) {
+                return;
+            }
+            if (!hasRole(loggedInUser, "ADMIN")) {
+                return;
+            }
 
             if (auditLogs.isEmpty()) {
                 System.out.println(
-                    "[Audit] No audit logs available.");
+                        "[Audit] No audit logs available.");
                 return;
             }
 
             System.out.println(
-                "\n========== AUDIT LOG ==========");
+                    "\n========== AUDIT LOG ==========");
             System.out.println(
-                "Total Entries : " + auditLogs.size());
+                    "Total Entries : " + auditLogs.size());
             System.out.println(
-                "--------------------------------");
+                    "--------------------------------");
             for (String log : auditLogs) {
                 System.out.println(log);
             }
             System.out.println(
-                "================================\n");
+                    "================================\n");
 
         } catch (Exception e) {
             System.out.println(
-                "[AuditService Error] viewAllLogs : "
-                + e.getMessage());
+                    "[AuditService Error] viewAllLogs : "
+                    + e.getMessage());
         }
     }
 
@@ -143,15 +145,19 @@ public class AuditService {
     // ADMIN only
     // ─────────────────────────────────────
     public void viewLogsByUser(String targetUsername,
-                               User loggedInUser) {
+            User loggedInUser) {
         try {
-            if (!isLoggedIn(loggedInUser)) return;
-            if (!hasRole(loggedInUser, "ADMIN")) return;
+            if (!isLoggedIn(loggedInUser)) {
+                return;
+            }
+            if (!hasRole(loggedInUser, "ADMIN")) {
+                return;
+            }
 
             if (targetUsername == null
                     || targetUsername.trim().isEmpty()) {
                 System.out.println(
-                    "[Audit] Username cannot be empty.");
+                        "[Audit] Username cannot be empty.");
                 return;
             }
 
@@ -166,25 +172,25 @@ public class AuditService {
 
             if (filtered.isEmpty()) {
                 System.out.println(
-                    "[Audit] No logs found for user: "
-                    + targetUsername);
+                        "[Audit] No logs found for user: "
+                        + targetUsername);
                 return;
             }
 
             System.out.println(
-                "\n===== LOGS FOR USER: "
-                + targetUsername.toUpperCase()
-                + " =====");
+                    "\n===== LOGS FOR USER: "
+                    + targetUsername.toUpperCase()
+                    + " =====");
             for (String log : filtered) {
                 System.out.println(log);
             }
             System.out.println(
-                "===========================================\n");
+                    "===========================================\n");
 
         } catch (Exception e) {
             System.out.println(
-                "[AuditService Error] viewLogsByUser : "
-                + e.getMessage());
+                    "[AuditService Error] viewLogsByUser : "
+                    + e.getMessage());
         }
     }
 
@@ -193,17 +199,21 @@ public class AuditService {
     // ADMIN and MANAGER
     // ─────────────────────────────────────
     public void viewLogsByDate(String date,
-                               User loggedInUser) {
+            User loggedInUser) {
         try {
-            if (!isLoggedIn(loggedInUser)) return;
+            if (!isLoggedIn(loggedInUser)) {
+                return;
+            }
             if (!hasRole(loggedInUser,
-                    "ADMIN", "MANAGER")) return;
+                    "ADMIN", "MANAGER")) {
+                return;
+            }
 
             if (date == null
                     || date.trim().isEmpty()) {
                 System.out.println(
-                    "[Audit] Date cannot be empty. "
-                    + "Use format: dd-MM-yyyy");
+                        "[Audit] Date cannot be empty. "
+                        + "Use format: dd-MM-yyyy");
                 return;
             }
 
@@ -216,24 +226,24 @@ public class AuditService {
 
             if (filtered.isEmpty()) {
                 System.out.println(
-                    "[Audit] No logs found for date: "
-                    + date);
+                        "[Audit] No logs found for date: "
+                        + date);
                 return;
             }
 
             System.out.println(
-                "\n===== LOGS FOR DATE: "
-                + date + " =====");
+                    "\n===== LOGS FOR DATE: "
+                    + date + " =====");
             for (String log : filtered) {
                 System.out.println(log);
             }
             System.out.println(
-                "=====================================\n");
+                    "=====================================\n");
 
         } catch (Exception e) {
             System.out.println(
-                "[AuditService Error] viewLogsByDate : "
-                + e.getMessage());
+                    "[AuditService Error] viewLogsByDate : "
+                    + e.getMessage());
         }
     }
 
@@ -244,61 +254,70 @@ public class AuditService {
     // ─────────────────────────────────────
     public void exportLogsToFile(User loggedInUser) {
         try {
-            if (!isLoggedIn(loggedInUser)) return;
-            if (!hasRole(loggedInUser, "ADMIN")) return;
+            if (!isLoggedIn(loggedInUser)) {
+                return;
+            }
+            if (!hasRole(loggedInUser, "ADMIN")) {
+                return;
+            }
 
             File dir = new File("data");
-            if (!dir.exists()) dir.mkdirs();
+            if (!dir.exists()) {
+                dir.mkdirs();
+            }
 
             // Overwrite mode for full export
             FileWriter fw = new FileWriter(
                     AUDIT_FILE, false);
             fw.write(
-                "========== FULL AUDIT LOG EXPORT"
-                + " ==========\n");
+                    "========== FULL AUDIT LOG EXPORT"
+                    + " ==========\n");
             fw.write(
-                "Total Entries : "
-                + auditLogs.size() + "\n");
+                    "Total Entries : "
+                    + auditLogs.size() + "\n");
             fw.write(
-                "--------------------------------------------\n");
+                    "--------------------------------------------\n");
             for (String log : auditLogs) {
                 fw.write(log + "\n");
             }
             fw.write(
-                "============================================\n");
+                    "============================================\n");
             fw.close();
 
             System.out.println(
-                "[Audit] Logs exported to : "
-                + AUDIT_FILE);
+                    "[Audit] Logs exported to : "
+                    + AUDIT_FILE);
 
             logAction(loggedInUser.getUsername(),
-                "Exported audit logs to " + AUDIT_FILE);
+                    "Exported audit logs to " + AUDIT_FILE);
 
         } catch (IOException e) {
             System.out.println(
-                "[AuditService Error] exportLogsToFile : "
-                + e.getMessage());
+                    "[AuditService Error] exportLogsToFile : "
+                    + e.getMessage());
         }
     }
 
     // 6. Clear All Logs  by  ADMIN only
-
     public void clearAllLogs(User loggedInUser) {
         try {
-            if (!isLoggedIn(loggedInUser)) return;
-            if (!hasRole(loggedInUser, "ADMIN")) return;
+            if (!isLoggedIn(loggedInUser)) {
+                return;
+            }
+            if (!hasRole(loggedInUser, "ADMIN")) {
+                return;
+            }
 
             int count = auditLogs.size();
             auditLogs.clear();
 
             String timestamp = LocalDateTime.now()
                     .format(FORMATTER);
-            String clearEntry =
-                    "[" + timestamp + "] "
+            String clearEntry
+                    = "[" + timestamp + "] "
                     + "USER: "
                     + loggedInUser.getUsername()
-                              .toUpperCase()
+                            .toUpperCase()
                     + " | ACTION: Cleared all audit logs ("
                     + count + " entries removed)";
 
@@ -310,13 +329,13 @@ public class AuditService {
             fw.close();
 
             System.out.println(
-                "[Audit] All logs cleared by admin: "
-                + loggedInUser.getUsername());
+                    "[Audit] All logs cleared by admin: "
+                    + loggedInUser.getUsername());
 
         } catch (Exception e) {
             System.out.println(
-                "[AuditService Error] clearAllLogs : "
-                + e.getMessage());
+                    "[AuditService Error] clearAllLogs : "
+                    + e.getMessage());
         }
     }
 
@@ -326,7 +345,6 @@ public class AuditService {
 
     // Get All Logs
     // Called by BackupService not properly ......
-
     public List<String> getAllLogs() {
         return new ArrayList<>(auditLogs);
     }
@@ -335,7 +353,9 @@ public class AuditService {
     private void appendToFile(String logEntry) {
         try {
             File dir = new File("data");
-            if (!dir.exists()) dir.mkdirs();
+            if (!dir.exists()) {
+                dir.mkdirs();
+            }
 
             // Append mode
             FileWriter fw = new FileWriter(
@@ -346,9 +366,9 @@ public class AuditService {
         } catch (IOException e) {
             // Silent fail — log saved in memory
             System.out.println(
-                "[AuditService Warning] "
-                + "Could not write to audit file: "
-                + e.getMessage());
+                    "[AuditService Warning] "
+                    + "Could not write to audit file: "
+                    + e.getMessage());
         }
     }
 }
