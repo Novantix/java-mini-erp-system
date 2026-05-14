@@ -45,3 +45,10 @@ Check-In : 23:27:58
 Check-Out : 07:27:58
 ----------------------
 
+===== USER DATA =====
+Username : Manohar
+Password : Manohar@123
+Role : Employee
+Check-In : 11:09:09
+Check-Out : 19:09:09
+----------------------

@@ -1,9 +1,9 @@
-Employee ID      : 8
-Employee Name    : Bharath
-Department       : Iot
-Designation      : intern
-Salary           : 8000.0
-Manager Name     : Anil
-Experience       : 5 years
+Employee ID      : 9
+Employee Name    : Manohar
+Department       : Lot
+Designation      : Csm
+Salary           : 80000.0
+Manager Name     : Not
+Experience       : 8 years
 Promotion Status : Not Promoted
 ----------------------------------------
