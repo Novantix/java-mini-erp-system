@@ -44,3 +44,17 @@ Role : Employee
 Check-In : 23:27:58
 Check-Out : 07:27:58
 ----------------------
+===== USER DATA =====
+Username : mohana
+Password : mohana@123
+Role : Employee
+Check-In : 23:37:44
+Check-Out : 07:37:44
+----------------------
+===== USER DATA =====
+Username : mohana
+Password : mohana@123
+Role : Employee
+Check-In : 06:54:48
+Check-Out : 14:54:48
+----------------------

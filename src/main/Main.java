@@ -45,10 +45,17 @@ public class Main {
                     )) {
                         System.out.println("\nWelcome Employee");
                         System.out.println("Employee Access Granted");
+
+                        // EMPLOYEE DASHBOARD
+                        EmployeeService employeeService = new EmployeeService();
+                        employeeService.employeeDashboard();
+                        
                     }
+                    
                     // OTHER ROLE
                     else {
                         System.out.println("\nWelcome User");
+                        
                     }
                 }
             }
@@ -67,10 +74,6 @@ public class Main {
                 System.out.println("\nInvalid Choice");
             }
         }
-
-         EmployeeService employeeService = new EmployeeService();
-        employeeService.employeeDashboard();
-
         sc.close();
     }
 }

@@ -1,9 +1,9 @@
-Employee ID      : 3
-Employee Name    : Anil
-Department       : IT
-Designation      : Developer
-Salary           : 1.0E7
-Manager Name     : Sai
-Experience       : 1 years
+Employee ID      : 8
+Employee Name    : mohan
+Department       : lot
+Designation      : csm
+Salary           : 80000.0
+Manager Name     : lol
+Experience       : 6 years
 Promotion Status : Not Promoted
 ----------------------------------------
