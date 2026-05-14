@@ -30,3 +30,18 @@ Check-Out : 01:04:58
 ----------------------
 Bigil,Employee
 mohanchb123@gmail.com,Admin
+===== USER DATA =====
+Username : sravan123@gmail.com
+Password : Sravan@123
+Role : Employee
+Check-In : 23:20:43
+Check-Out : 07:20:43
+----------------------
+===== USER DATA =====
+Username : teja
+Password : teja@123
+Role : Employee
+Check-In : 23:27:58
+Check-Out : 07:27:58
+----------------------
+
