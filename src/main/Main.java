@@ -1,10 +1,14 @@
 package main;
 
 import java.util.Scanner;
+import models.Payroll;
+import models.Product;
 import models.User;
 import services.AuditService;
 import services.EmployeeService;
+import services.InventoryService;
 import services.LoginService;
+import services.PayrollService;
 import services.ReportService;
 import services.RoleService;
 
@@ -19,6 +23,10 @@ public class Main {
         AuditService auditService = new AuditService();
         ReportService reportService = new ReportService(auditService);
         EmployeeService employeeService = new EmployeeService();
+
+        // NEW SERVICES
+        PayrollService payrollService = new PayrollService();
+        InventoryService inventoryService = new InventoryService();
 
         boolean systemRunning = true;
 
@@ -42,18 +50,17 @@ public class Main {
 
                 loginService.registerUser();
 
-            } // ================= LOGIN =================
+            }
+
+            // ================= LOGIN =================
             else if (choice == 2) {
 
                 loginUser = loginService.login();
 
                 if (loginUser != null) {
 
-                    String currentUser
-                            = loginUser.getUsername();
-
-                    String currentRole
-                            = loginUser.getRole();
+                    String currentUser = loginUser.getUsername();
+                    String currentRole = loginUser.getRole();
 
                     auditService.logAction(
                             currentUser,
@@ -61,27 +68,19 @@ public class Main {
                     );
 
                     // ROLE MESSAGE
-                    if (roleService.isAdmin(
-                            currentRole)) {
+                    if (roleService.isAdmin(currentRole)) {
 
-                        System.out.println(
-                                "\nWelcome Admin");
-                        System.out.println(
-                                "Admin Access Granted");
+                        System.out.println("\nWelcome Admin");
+                        System.out.println("Admin Access Granted");
 
-                    } else if (roleService.isEmployee(
-                            currentRole)) {
+                    } else if (roleService.isEmployee(currentRole)) {
 
-                        System.out.println(
-                                "\nWelcome Employee");
-                        System.out.println(
-                                "Employee Access Granted");
+                        System.out.println("\nWelcome Employee");
+                        System.out.println("Employee Access Granted");
 
                     } else {
 
-                        System.out.println(
-                                "\nWelcome User");
-
+                        System.out.println("\nWelcome User");
                     }
 
                     // ================= ERP MENU =================
@@ -102,20 +101,16 @@ public class Main {
                         System.out.println(
                                 "-----------------------------------------");
 
-                        System.out.println(
-                                "1. Employee Management");
-
-                        System.out.println(
-                                "2. Reports & Audit");
-
-                        System.out.println(
-                                "0. Logout");
+                        System.out.println("1. Employee Management");
+                        System.out.println("2. Payroll Module");
+                        System.out.println("3. Inventory Module");
+                        System.out.println("4. Reports & Audit");
+                        System.out.println("0. Logout");
 
                         System.out.println(
                                 "=========================================");
 
-                        System.out.print(
-                                "Enter Choice: ");
+                        System.out.print("Enter Choice: ");
 
                         mainChoice = sc.nextInt();
                         sc.nextLine();
@@ -134,8 +129,76 @@ public class Main {
 
                                 break;
 
-                            // REPORTS & AUDIT
+                            // ================= PAYROLL =================
                             case 2:
+
+                                System.out.println(
+                                        "\n======== PAYROLL MODULE ========");
+
+                                System.out.print("Enter Employee ID: ");
+                                int employeeId = sc.nextInt();
+                                sc.nextLine();
+
+                                System.out.print("Enter Year and Month: ");
+                                String yrmonth = sc.nextLine();
+
+                                System.out.print("Enter Net Salary: ");
+                                double salary = sc.nextDouble();
+                                sc.nextLine();
+
+                                // Payroll Object
+                                Payroll payroll = new Payroll(
+                                        employeeId,
+                                        salary,
+                                        yrmonth
+                                );
+
+                                // Generate Payslip
+                                payrollService.generatePayslip(payroll);
+
+                                auditService.logAction(
+                                        currentUser,
+                                        "Generated Payroll"
+                                );
+
+                                break;
+
+                            // ================= INVENTORY =================
+                            case 3:
+
+                                System.out.println(
+                                        "\n======== INVENTORY MODULE ========");
+
+                                System.out.print("Enter Product ID: ");
+                                int productId = sc.nextInt();
+                                sc.nextLine();
+
+                                System.out.print("Enter Product Name: ");
+                                String productName = sc.nextLine();
+
+                                System.out.print("Enter Product Stock: ");
+                                int stock = sc.nextInt();
+                                sc.nextLine();
+
+                                // Product Object
+                                Product product = new Product(
+                                        productId,
+                                        productName,
+                                        stock
+                                );
+
+                                // Add Product
+                              //  inventoryService.addProduct(product);
+
+                                auditService.logAction(
+                                        currentUser,
+                                        "Added Product to Inventory"
+                                );
+
+                                break;
+
+                            // REPORTS & AUDIT
+                            case 4:
 
                                 auditService.logAction(
                                         currentUser,
@@ -182,26 +245,29 @@ public class Main {
 
                 }
 
-            } // ================= FORGOT PASSWORD =================
+            }
+
+            // ================= FORGOT PASSWORD =================
             else if (choice == 3) {
 
                 loginService.forgotPassword();
 
-            } // ================= EXIT =================
+            }
+
+            // ================= EXIT =================
             else if (choice == 4) {
 
                 systemRunning = false;
 
-                System.out.println(
-                        "\nExiting ERP System...");
-                System.out.println(
-                        "Thank You!");
+                System.out.println("\nExiting ERP System...");
+                System.out.println("Thank You!");
 
-            } // ================= INVALID =================
-            else {
+            }
 
-                System.out.println(
-                        "\nInvalid Choice");
+            // ================= INVALID =================
+             else {
+
+                System.out.println("\nInvalid Choice");
 
             }
         }
@@ -209,7 +275,7 @@ public class Main {
         sc.close();
     }
 
-    // ================= REPORTS MENU =================
+        // ================= REPORTS MENU =================
     private static void reportsMenu(
             Scanner sc,
             ReportService reportService,
