@@ -1,9 +1,9 @@
 Employee ID      : 8
-Employee Name    : mohan
-Department       : lot
-Designation      : csm
-Salary           : 80000.0
-Manager Name     : lol
-Experience       : 6 years
+Employee Name    : Bharath
+Department       : Iot
+Designation      : intern
+Salary           : 8000.0
+Manager Name     : Anil
+Experience       : 5 years
 Promotion Status : Not Promoted
 ----------------------------------------

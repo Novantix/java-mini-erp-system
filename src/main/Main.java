@@ -38,6 +38,8 @@ public class Main {
                     )) {
                         System.out.println("\nWelcome Admin");
                         System.out.println("Admin Access Granted");
+                        EmployeeService employeeService = new EmployeeService();
+                        employeeService.employeeDashboard();
                     }
                     // EMPLOYEE
                     else if (roleService.isEmployee(
