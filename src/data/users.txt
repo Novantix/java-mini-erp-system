@@ -30,6 +30,9 @@ Check-Out : 01:04:58
 ----------------------
 Bigil,Employee
 <<<<<<< HEAD
+Bigil,Employee
+=======
+<<<<<<< HEAD
 ===== USER DATA =====
 Username : vishnu123
 Password : vishnu123
@@ -84,3 +87,11 @@ Check-In : 11:00:40
 Check-Out : 19:00:40
 ----------------------
 rahul,admin
+>>>>>>> c76890350a9a4bed6fcd08c8ad9ce49752376482
+===== USER DATA =====
+Username : Sundar
+Password : sundar@123
+Role : Employee
+Check-In : 11:46:03
+Check-Out : 19:46:03
+----------------------
