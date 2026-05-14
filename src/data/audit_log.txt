@@ -76,3 +76,9 @@ Total Entries : 61
 [14-05-2026 10:25:24] USER: VISHNU123456 | ACTION: Opened Reports & Audit
 [14-05-2026 10:25:34] USER: VISHNU123456 | ACTION: Generated Daily Report for 14-05-2026 [ID: 1]
 [14-05-2026 10:29:04] USER: VISHNU123456 | ACTION: Logged Out
+[14-05-2026 10:49:43] USER: TEJA | ACTION: Logged In as Employee
+[14-05-2026 10:50:05] USER: TEJA | ACTION: Opened Reports & Audit
+[14-05-2026 10:50:21] USER: TEJA | ACTION: Opened Employee Management
+[14-05-2026 10:50:47] USER: TEJA | ACTION: Opened Reports & Audit
+[14-05-2026 10:50:50] USER: TEJA | ACTION: Generated Daily Report for 14-05-2026 [ID: 1]
+[14-05-2026 10:51:06] USER: TEJA | ACTION: Logged Out
