@@ -390,30 +390,82 @@ public class Main {
 
                 case 5:
 
-                    reportService.generatePayrollReport(
-                            loginUser
-                    );
+                    java.util.List<Payroll> payrollList = new java.util.ArrayList<>();
+                    try {
+                        java.io.File file = new java.io.File("data/payrollservicedata.txt");
+                        if (file.exists()) {
+                            java.util.Scanner fileScanner = new java.util.Scanner(file);
+                            int empId = 0;
+                            double basicSalary = 0;
+                            while (fileScanner.hasNextLine()) {
+                                String line = fileScanner.nextLine();
+                                if (line.startsWith("Employee ID:")) {
+                                    empId = Integer.parseInt(line.substring(12).trim());
+                                } else if (line.startsWith("Basic Salary:")) {
+                                    basicSalary = Double.parseDouble(line.substring(13).trim());
+                                } else if (line.startsWith("-----------------------")) {
+                                    payrollList.add(new Payroll(empId, basicSalary, ""));
+                                }
+                            }
+                            fileScanner.close();
+                        }
+                    } catch (Exception e) {
+                        System.out.println("Error reading payroll data: " + e.getMessage());
+                    }
+                    reportService.generatePayrollReport(payrollList, loginUser);
 
                     break;
 
                 case 6:
 
-                    reportService.generateEmployeeReport(
-                            employeeService.getEmployees(),
-                            loginUser
-                    );
+                    java.util.List<models.Employee> employeeList = new java.util.ArrayList<>();
+                    try {
+                        java.io.File empFile = new java.io.File("data/employees.txt");
+                        if (empFile.exists()) {
+                            java.util.Scanner empScanner = new java.util.Scanner(empFile);
+                            int empId = 0, exp = 0;
+                            String empName = "", dept = "", desig = "", mgr = "", promo = "";
+                            double salary = 0;
+                            while (empScanner.hasNextLine()) {
+                                String line = empScanner.nextLine();
+                                if (line.startsWith("Employee ID")) {
+                                    empId = Integer.parseInt(line.split(":", 2)[1].trim());
+                                } else if (line.startsWith("Employee Name")) {
+                                    empName = line.split(":", 2)[1].trim();
+                                } else if (line.startsWith("Department")) {
+                                    dept = line.split(":", 2)[1].trim();
+                                } else if (line.startsWith("Designation")) {
+                                    desig = line.split(":", 2)[1].trim();
+                                } else if (line.startsWith("Salary")) {
+                                    salary = Double.parseDouble(line.split(":", 2)[1].trim());
+                                } else if (line.startsWith("Manager Name")) {
+                                    mgr = line.split(":", 2)[1].trim();
+                                } else if (line.startsWith("Experience")) {
+                                    exp = Integer.parseInt(line.split(":", 2)[1].replaceAll("[^0-9]", "").trim());
+                                } else if (line.startsWith("Promotion Status")) {
+                                    promo = line.split(":", 2)[1].trim();
+                                } else if (line.startsWith("----------------------------------------")) {
+                                    employeeList.add(new models.Employee(empId, empName, dept, desig, salary, mgr, exp, promo));
+                                }
+                            }
+                            empScanner.close();
+                        }
+                    } catch (Exception e) {
+                        System.out.println("Error reading employee data: " + e.getMessage());
+                    }
+                    reportService.generateEmployeeReport(employeeList, loginUser);
 
                     break;
 
                 case 7:
 
-                    reportService.viewDailyReports();
+                    reportService.viewDailyReports(loginUser);
 
                     break;
 
                 case 8:
 
-                    reportService.viewMonthlyReports();
+                    reportService.viewMonthlyReports(loginUser);
 
                     break;
 
