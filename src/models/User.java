@@ -17,6 +17,7 @@ public class User {
         this.checkInTime = checkInTime;
         this.checkOutTime = checkOutTime;
     }
+    
     // GETTERS
     public String getUsername() {
         return username;
