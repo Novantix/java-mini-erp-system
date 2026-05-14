@@ -1,1 +1,8 @@
+<<<<<<< HEAD
 *.class
+=======
+*.class
+src/users.txt
+src/data/users.txt
+*.dat
+>>>>>>> 54fe520c70ce076ebd4265dd2f1af6aa16bd3179

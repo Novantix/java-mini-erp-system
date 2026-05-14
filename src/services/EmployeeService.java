@@ -1,5 +1,7 @@
 package services;
-import java.io.*;
+
+import java.io.File;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
@@ -8,12 +10,15 @@ import models.Employee;
 public class EmployeeService {
     private ArrayList<Employee> employees = new ArrayList<>();
     private Scanner scanner = new Scanner(System.in);
-    private static final String FILE_PATH = "data/employees.dat";
+    private static final String FILE_PATH = "data/employees.txt";
 
     public EmployeeService() {
         loadEmployees();
     }
 
+    // =========================
+    // DASHBOARD
+    // =========================
     public void employeeDashboard() {
         int choice;
         do {
@@ -30,7 +35,6 @@ public class EmployeeService {
             System.out.println("8. View Promotion Data");
             System.out.println("9. Manager Functions");
             System.out.println("0. Back to Main Menu");
-            System.out.println("========================================");
             System.out.print("Enter your choice: ");
 
             choice = readInt();
@@ -51,6 +55,9 @@ public class EmployeeService {
         } while (choice != 0);
     }
 
+    // =========================
+    // ADD EMPLOYEE
+    // =========================
     public void addEmployee() {
         System.out.print("Enter Employee ID: ");
         int id = readInt();
@@ -61,27 +68,47 @@ public class EmployeeService {
         }
 
         scanner.nextLine();
+
         System.out.print("Enter Name: ");
         String name = scanner.nextLine();
+
         System.out.print("Enter Department: ");
         String dept = scanner.nextLine();
+
         System.out.print("Enter Designation: ");
         String designation = scanner.nextLine();
+
         System.out.print("Enter Salary: ");
         double salary = readDouble();
+
         scanner.nextLine();
+
         System.out.print("Enter Manager Name: ");
         String manager = scanner.nextLine();
+
         System.out.print("Enter Years of Experience: ");
         int exp = readInt();
 
-        Employee employee = new Employee(id, name, dept, designation, salary,
-                manager, exp, "Not Promoted");
+        Employee employee = new Employee(
+                id,
+                name,
+                dept,
+                designation,
+                salary,
+                manager,
+                exp,
+                "Not Promoted"
+        );
+
         employees.add(employee);
         saveEmployees();
+
         System.out.println("Employee added successfully.");
     }
 
+    // =========================
+    // UPDATE EMPLOYEE
+    // =========================
     public void updateEmployee() {
         System.out.print("Enter Employee ID to update: ");
         Employee emp = findEmployeeById(readInt());
@@ -92,19 +119,25 @@ public class EmployeeService {
         }
 
         scanner.nextLine();
-        
+
         System.out.print("Enter New Designation: ");
         emp.setDesignation(scanner.nextLine());
+
         System.out.print("Enter New Salary: ");
         emp.setSalary(readDouble());
+
         scanner.nextLine();
+
         System.out.print("Enter New Manager Name: ");
         emp.setManagerName(scanner.nextLine());
-    
+
         saveEmployees();
         System.out.println("Employee updated successfully.");
     }
 
+    // =========================
+    // DELETE EMPLOYEE
+    // =========================
     public void deleteEmployee() {
         System.out.print("Enter Employee ID to delete: ");
         Employee emp = findEmployeeById(readInt());
@@ -116,18 +149,23 @@ public class EmployeeService {
 
         employees.remove(emp);
         saveEmployees();
+
         System.out.println("Employee deleted successfully.");
     }
 
+    // =========================
+    // SEARCH EMPLOYEE
+    // =========================
     public void searchEmployee() {
         scanner.nextLine();
         System.out.print("Enter Employee ID or Name: ");
         String input = scanner.nextLine();
 
         boolean found = false;
+
         for (Employee emp : employees) {
-            if (String.valueOf(emp.getEmployeeId()).equals(input) ||
-                emp.getEmployeeName().equalsIgnoreCase(input)) {
+            if (String.valueOf(emp.getEmployeeId()).equals(input)
+                    || emp.getEmployeeName().equalsIgnoreCase(input)) {
                 System.out.println(emp);
                 found = true;
             }
@@ -138,6 +176,9 @@ public class EmployeeService {
         }
     }
 
+    // =========================
+    // VIEW ALL EMPLOYEES
+    // =========================
     public void viewAllEmployees() {
         if (employees.isEmpty()) {
             System.out.println("No employees available.");
@@ -150,6 +191,9 @@ public class EmployeeService {
         }
     }
 
+    // =========================
+    // TRANSFER DEPARTMENT
+    // =========================
     public void transferDepartment() {
         System.out.print("Enter Employee ID: ");
         Employee emp = findEmployeeById(readInt());
@@ -167,6 +211,9 @@ public class EmployeeService {
         System.out.println("Department transferred successfully.");
     }
 
+    // =========================
+    // PROMOTE EMPLOYEE
+    // =========================
     public void promoteEmployee() {
         System.out.print("Enter Employee ID: ");
         Employee emp = findEmployeeById(readInt());
@@ -186,6 +233,9 @@ public class EmployeeService {
         }
     }
 
+    // =========================
+    // VIEW PROMOTION DATA
+    // =========================
     public void viewPromotionData() {
         boolean found = false;
 
@@ -201,20 +251,26 @@ public class EmployeeService {
         }
     }
 
+    // =========================
+    // MANAGER FUNCTIONS
+    // =========================
     public void managerFunctions() {
         int choice;
+
         do {
             System.out.println("\n1. View Employees Under a Manager");
             System.out.println("2. Count Employees Under a Manager");
             System.out.println("3. Back");
             System.out.print("Enter choice: ");
-            choice = readInt();
 
+            choice = readInt();
             scanner.nextLine();
+
             switch (choice) {
                 case 1 -> {
                     System.out.print("Enter Manager Name: ");
                     String manager = scanner.nextLine();
+
                     for (Employee emp : employees) {
                         if (emp.getManagerName().equalsIgnoreCase(manager)) {
                             System.out.println(emp);
@@ -224,12 +280,14 @@ public class EmployeeService {
                 case 2 -> {
                     System.out.print("Enter Manager Name: ");
                     String manager = scanner.nextLine();
+
                     int count = 0;
                     for (Employee emp : employees) {
                         if (emp.getManagerName().equalsIgnoreCase(manager)) {
                             count++;
                         }
                     }
+
                     System.out.println("Employees under " + manager + ": " + count);
                 }
                 case 3 -> System.out.println("Returning...");
@@ -238,6 +296,9 @@ public class EmployeeService {
         } while (choice != 3);
     }
 
+    // =========================
+    // HELPER METHODS
+    // =========================
     private Employee findEmployeeById(int employeeId) {
         for (Employee emp : employees) {
             if (emp.getEmployeeId() == employeeId) {
@@ -273,6 +334,9 @@ public class EmployeeService {
         }
     }
 
+    // =========================
+    // SAVE EMPLOYEES TO TXT FILE
+    // =========================
     private void saveEmployees() {
         try {
             File dir = new File("data");
@@ -280,24 +344,44 @@ public class EmployeeService {
                 dir.mkdirs();
             }
 
-            ObjectOutputStream oos = new ObjectOutputStream(
-                    new FileOutputStream(FILE_PATH));
-            oos.writeObject(employees);
-            oos.close();
-        } catch (IOException e) {
+            PrintWriter writer = new PrintWriter(FILE_PATH);
+
+            for (Employee emp : employees) {
+                writer.println("Employee ID      : " + emp.getEmployeeId());
+                writer.println("Employee Name    : " + emp.getEmployeeName());
+                writer.println("Department       : " + emp.getDepartment());
+                writer.println("Designation      : " + emp.getDesignation());
+                writer.println("Salary           : " + emp.getSalary());
+                writer.println("Manager Name     : " + emp.getManagerName());
+                writer.println("Experience       : " + emp.getYearsOfExperience() + " years");
+                writer.println("Promotion Status : " + emp.getPromotionStatus());
+                writer.println("----------------------------------------");
+            }
+
+            writer.close();
+            System.out.println("Employee data saved successfully to " + FILE_PATH);
+
+        } catch (Exception e) {
             System.out.println("Error saving employees: " + e.getMessage());
         }
     }
 
-    @SuppressWarnings("unchecked")
+    // =========================
+    // LOAD EMPLOYEES
+    // =========================
     private void loadEmployees() {
-        try {
-            ObjectInputStream ois = new ObjectInputStream(
-                    new FileInputStream(FILE_PATH));
-            employees = (ArrayList<Employee>) ois.readObject();
-            ois.close();
-        } catch (IOException | ClassNotFoundException e) {
+        File file = new File(FILE_PATH);
+
+        if (!file.exists()) {
             employees = new ArrayList<>();
+            return;
         }
+
+        employees = new ArrayList<>();
+
+        System.out.println("Existing employee data found at: " + FILE_PATH);
+    }
+    public ArrayList<Employee> getEmployees() {
+        return employees;
     }
 }

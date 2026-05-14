@@ -1,0 +1,97 @@
+========== FULL AUDIT LOG EXPORT ==========
+Total Entries : 61
+--------------------------------------------
+[12-05-2026 23:11:45] USER: VISHNU | ACTION: Logged In as admin
+[12-05-2026 23:12:09] USER: VISHNU | ACTION: Generated Daily Report for 12-05-2026 [ID: 1]
+[12-05-2026 23:12:32] USER: VISHNU | ACTION: Generated Monthly Report for May 2025 [ID: 2]
+[12-05-2026 23:12:44] USER: VISHNU | ACTION: Generated Employee Report [ID: 3]
+[13-05-2026 10:56:20] USER: VISHNU VARDHAN | ACTION: Logged In as admin
+[13-05-2026 10:56:53] USER: VISHNU VARDHAN | ACTION: Generated Daily Report for 13-05-2026 [ID: 4]
+[13-05-2026 10:57:13] USER: VISHNU VARDHAN | ACTION: Generated Monthly Report for may 2025 [ID: 5]
+[13-05-2026 10:57:26] USER: VISHNU VARDHAN | ACTION: Generated Employee Report [ID: 6]
+[13-05-2026 10:57:45] USER: VISHNU VARDHAN | ACTION: Viewed all reports list
+[13-05-2026 10:58:10] USER: VISHNU VARDHAN | ACTION: Exported Report [ID: 3] to reports/Report_3_EMPLOYEE.txt
+[13-05-2026 10:58:35] USER: VISHNU VARDHAN | ACTION: Viewed Data Summary
+[13-05-2026 10:59:17] USER: VISHNU VARDHAN | ACTION: Logged Out
+[13-05-2026 11:28:11] USER: VISHNUVARDHAN123 | ACTION: Logged In as admin
+[13-05-2026 11:29:05] USER: VISHNUVARDHAN123 | ACTION: Generated Daily Report for 13-05-2026 [ID: 7]
+[13-05-2026 11:31:21] USER: VISHNUVARDHAN123 | ACTION: Generated Monthly Report for may 2025 [ID: 8]
+[13-05-2026 11:31:52] USER: VISHNUVARDHAN123 | ACTION: Generated Monthly Report for as [ID: 9]
+[13-05-2026 11:31:55] USER: VISHNUVARDHAN123 | ACTION: Generated Employee Report [ID: 10]
+[13-05-2026 11:32:46] USER: VISHNUVARDHAN123 | ACTION: Viewed all reports list
+[13-05-2026 13:26:23] USER: VISHNU12345678 | ACTION: Logged In as Employee
+[13-05-2026 13:26:33] USER: VISHNU12345678 | ACTION: Opened Employee Management
+[13-05-2026 13:26:40] USER: VISHNU12345678 | ACTION: Opened Reports & Audit
+[13-05-2026 13:26:42] USER: VISHNU12345678 | ACTION: Generated Daily Report
+[13-05-2026 13:26:55] USER: VISHNU12345678 | ACTION: Generated Monthly Report for May 2025
+[13-05-2026 13:27:09] USER: VISHNU12345678 | ACTION: Generated Attendance Report
+[13-05-2026 13:27:33] USER: VISHNU12345678 | ACTION: Generated Sales Report
+[13-05-2026 13:27:43] USER: VISHNU12345678 | ACTION: Generated Payroll Report
+[13-05-2026 13:27:47] USER: VISHNU12345678 | ACTION: Generated Employee Report
+[13-05-2026 17:46:42] USER: VISHNU | ACTION: Logged In as Employee
+[13-05-2026 17:46:52] USER: VISHNU | ACTION: Opened Employee Management
+[13-05-2026 17:49:21] USER: VISHNU | ACTION: Opened Reports & Audit
+[13-05-2026 17:49:24] USER: VISHNU | ACTION: Generated Daily Report
+[13-05-2026 17:51:01] USER: VISHNU | ACTION: Generated Monthly Report for May 2026
+[13-05-2026 17:52:06] USER: VISHNU | ACTION: Generated Attendance Report
+[13-05-2026 17:52:16] USER: VISHNU | ACTION: Generated Sales Report
+[13-05-2026 17:52:23] USER: VISHNU | ACTION: Generated Payroll Report
+[13-05-2026 17:52:28] USER: VISHNU | ACTION: Generated Employee Report
+[13-05-2026 17:53:42] USER: VISHNU | ACTION: Viewed Data Summary
+[13-05-2026 17:54:15] USER: VISHNU | ACTION: Logged Out
+[13-05-2026 18:13:40] USER: VISHNU | ACTION: Logged In as Employee
+[13-05-2026 18:13:46] USER: VISHNU | ACTION: Opened Reports & Audit
+[13-05-2026 18:13:56] USER: VISHNU | ACTION: Generated Daily Report
+[13-05-2026 18:14:21] USER: VISHNU | ACTION: Generated Monthly Report for May 2000
+[13-05-2026 18:14:31] USER: VISHNU | ACTION: Generated Attendance Report
+[13-05-2026 18:15:19] USER: VISHNU | ACTION: Logged Out
+[13-05-2026 18:36:51] USER: VISHNU | ACTION: Logged In as Employee
+[13-05-2026 18:36:54] USER: VISHNU | ACTION: Opened Reports & Audit
+[13-05-2026 18:37:01] USER: VISHNU | ACTION: Generated Daily Report
+[13-05-2026 18:44:02] USER: VISHNU | ACTION: Generated Monthly Report for May 2026
+[13-05-2026 18:46:09] USER: VISHNU | ACTION: Generated Attendance Report
+[13-05-2026 18:48:55] USER: VISHNU | ACTION: Logged Out
+[13-05-2026 18:49:43] USER: VISHNU | ACTION: Logged In as Employee
+[13-05-2026 18:50:01] USER: VISHNU | ACTION: Opened Reports & Audit
+[13-05-2026 18:50:12] USER: VISHNU | ACTION: Generated Daily Report
+[13-05-2026 18:50:42] USER: VISHNU | ACTION: Generated Monthly Report for May 2026
+[13-05-2026 18:51:25] USER: VISHNU | ACTION: Generated Employee Report
+[13-05-2026 18:52:26] USER: VISHNU | ACTION: Viewed Data Summary
+[13-05-2026 18:53:20] USER: VISHNU | ACTION: Logged Out
+[13-05-2026 20:55:37] USER: VISHNU123 | ACTION: Logged In as Admin
+[13-05-2026 20:55:45] USER: VISHNU123 | ACTION: Opened Reports & Audit
+[13-05-2026 20:55:47] USER: VISHNU123 | ACTION: Generated Daily Report for 13-05-2026 [ID: 1]
+[13-05-2026 20:57:50] USER: VISHNU123 | ACTION: Generated Monthly Report for may 123 [ID: 2]
+============================================
+[13-05-2026 20:59:04] USER: VISHNU123 | ACTION: Exported audit logs to data/audit_log.txt
+[13-05-2026 20:59:45] USER: VISHNU123 | ACTION: Logged Out
+[13-05-2026 21:59:42] USER: NDSANDEEP | ACTION: Logged In as employee
+[13-05-2026 21:59:46] USER: NDSANDEEP | ACTION: Opened Employee Management
+[13-05-2026 22:08:30] USER: NDSANDEEP | ACTION: Opened Reports & Audit
+[14-05-2026 10:17:16] USER: NDSANDEEP | ACTION: Logged In as employee
+[14-05-2026 10:17:18] USER: NDSANDEEP | ACTION: Opened Reports & Audit
+[14-05-2026 10:23:55] USER: NDSANDEEP | ACTION: Logged Out
+[14-05-2026 10:24:54] USER: VISHNU123456 | ACTION: Logged In as Employee
+[14-05-2026 10:25:18] USER: VISHNU123456 | ACTION: Opened Employee Management
+[14-05-2026 10:25:24] USER: VISHNU123456 | ACTION: Opened Reports & Audit
+[14-05-2026 10:25:34] USER: VISHNU123456 | ACTION: Generated Daily Report for 14-05-2026 [ID: 1]
+[14-05-2026 10:29:04] USER: VISHNU123456 | ACTION: Logged Out
+[14-05-2026 10:49:43] USER: TEJA | ACTION: Logged In as Employee
+[14-05-2026 10:50:05] USER: TEJA | ACTION: Opened Reports & Audit
+[14-05-2026 10:50:21] USER: TEJA | ACTION: Opened Employee Management
+[14-05-2026 10:50:47] USER: TEJA | ACTION: Opened Reports & Audit
+[14-05-2026 10:50:50] USER: TEJA | ACTION: Generated Daily Report for 14-05-2026 [ID: 1]
+[14-05-2026 10:51:06] USER: TEJA | ACTION: Logged Out
+[14-05-2026 11:00:57] USER: RAHUL | ACTION: Logged In as admin
+[14-05-2026 11:01:08] USER: RAHUL | ACTION: Logged Out
+[14-05-2026 11:46:50] USER: SUNDAR | ACTION: User Logged In
+[14-05-2026 11:47:07] USER: SUNDAR | ACTION: Opened Employee Management
+[14-05-2026 11:47:22] USER: SUNDAR | ACTION: Opened Reports & Audit
+[14-05-2026 11:47:27] USER: SUNDAR | ACTION: Logged Out
+[14-05-2026 11:49:43] USER: SUNDAR | ACTION: User Logged In
+[14-05-2026 11:49:46] USER: SUNDAR | ACTION: Opened Reports & Audit
+[14-05-2026 11:50:24] USER: SUNDAR | ACTION: Logged Out
+[14-05-2026 11:51:13] USER: SUNDAR | ACTION: User Logged In
+[14-05-2026 11:51:15] USER: SUNDAR | ACTION: Opened Employee Management
+[14-05-2026 11:51:25] USER: SUNDAR | ACTION: Opened Reports & Audit
+[14-05-2026 11:51:28] USER: SUNDAR | ACTION: Logged Out

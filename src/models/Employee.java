@@ -14,12 +14,10 @@ public class Employee implements Serializable {
     private int yearsOfExperience;
     private String promotionStatus;
 
-    // Default constructor
     public Employee() {
         this.promotionStatus = "Not Promoted";
     }
 
-    // Parameterized constructor
     public Employee(int employeeId, String employeeName, String department,
                     String designation, double salary, String managerName,
                     int yearsOfExperience, String promotionStatus) {
@@ -33,69 +31,29 @@ public class Employee implements Serializable {
         this.promotionStatus = promotionStatus;
     }
 
-    public int getEmployeeId() {
-        return employeeId;
-    }
+    public int getEmployeeId() { return employeeId; }
+    public void setEmployeeId(int employeeId) { this.employeeId = employeeId; }
 
-    public void setEmployeeId(int employeeId) {
-        this.employeeId = employeeId;
-    }
+    public String getEmployeeName() { return employeeName; }
+    public void setEmployeeName(String employeeName) { this.employeeName = employeeName; }
 
-    public String getEmployeeName() {
-        return employeeName;
-    }
+    public String getDepartment() { return department; }
+    public void setDepartment(String department) { this.department = department; }
 
-    public void setEmployeeName(String employeeName) {
-        this.employeeName = employeeName;
-    }
+    public String getDesignation() { return designation; }
+    public void setDesignation(String designation) { this.designation = designation; }
 
-    public String getDepartment() {
-        return department;
-    }
+    public double getSalary() { return salary; }
+    public void setSalary(double salary) { this.salary = salary; }
 
-    public void setDepartment(String department) {
-        this.department = department;
-    }
+    public String getManagerName() { return managerName; }
+    public void setManagerName(String managerName) { this.managerName = managerName; }
 
-    public String getDesignation() {
-        return designation;
-    }
+    public int getYearsOfExperience() { return yearsOfExperience; }
+    public void setYearsOfExperience(int yearsOfExperience) { this.yearsOfExperience = yearsOfExperience; }
 
-    public void setDesignation(String designation) {
-        this.designation = designation;
-    }
-
-    public double getSalary() {
-        return salary;
-    }
-
-    public void setSalary(double salary) {
-        this.salary = salary;
-    }
-
-    public String getManagerName() {
-        return managerName;
-    }
-
-    public void setManagerName(String managerName) {
-        this.managerName = managerName;
-    }
-
-    public int getYearsOfExperience() {
-        return yearsOfExperience;
-    }
-
-    public void setYearsOfExperience(int yearsOfExperience) {
-        this.yearsOfExperience = yearsOfExperience;
-    }
-
-    public String getPromotionStatus() {
-        return promotionStatus;
-    }
-
-    public void setPromotionStatus(String promotionStatus) {
-        this.promotionStatus = promotionStatus;
-    }
+    public String getPromotionStatus() { return promotionStatus; }
+    public void setPromotionStatus(String promotionStatus) { this.promotionStatus = promotionStatus; }
 
     @Override
     public String toString() {
@@ -106,6 +64,6 @@ public class Employee implements Serializable {
                "Salary           : " + salary + "\n" +
                "Manager Name     : " + managerName + "\n" +
                "Experience       : " + yearsOfExperience + " years\n" +
-               "Promotion Status : " + promotionStatus;
+               "Promotion Status : " + promotionStatus + "\n";
     }
 }
