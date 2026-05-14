@@ -82,3 +82,5 @@ Total Entries : 61
 [14-05-2026 10:50:47] USER: TEJA | ACTION: Opened Reports & Audit
 [14-05-2026 10:50:50] USER: TEJA | ACTION: Generated Daily Report for 14-05-2026 [ID: 1]
 [14-05-2026 10:51:06] USER: TEJA | ACTION: Logged Out
+[14-05-2026 11:00:57] USER: RAHUL | ACTION: Logged In as admin
+[14-05-2026 11:01:08] USER: RAHUL | ACTION: Logged Out

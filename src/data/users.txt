@@ -76,3 +76,11 @@ Check-Out : 07:27:58
 
 >>>>>>> b6d2e2bb1af2bf097532589377c68e9696b8ad6a
 teja,Employee
+===== USER DATA =====
+Username : rahul
+Password : rahul
+Role : admin
+Check-In : 11:00:40
+Check-Out : 19:00:40
+----------------------
+rahul,admin

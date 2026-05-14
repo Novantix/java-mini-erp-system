@@ -2,10 +2,6 @@ package main;
 
 import java.util.Scanner;
 import models.User;
-<<<<<<< HEAD
-import services.AuditService;
-=======
->>>>>>> b6d2e2bb1af2bf097532589377c68e9696b8ad6a
 import services.EmployeeService;
 import services.LoginService;
 import services.ReportService;
@@ -15,89 +11,6 @@ public class Main {
 
     public static void main(String[] args) {
 
-<<<<<<< HEAD
-        Scanner sc = new Scanner(System.in);
-
-        LoginService    loginService    = new LoginService();
-        RoleService     roleService     = new RoleService();
-        AuditService    auditService    = new AuditService();
-        EmployeeService employeeService = new EmployeeService();
-        ReportService   reportService   = new ReportService(auditService);
-
-        boolean systemRunning = true;
-
-        while (systemRunning) {
-            User loginUser = null;
-
-            while (loginUser == null) {
-                System.out.println("\n ===== MAIN MENU =====");
-                System.out.println("1. User Registration");
-                System.out.println("2. Login");
-                System.out.println("3. Forgot Password");
-                System.out.println("4. Exit");
-                System.out.print("Enter Choice : ");
-
-                int choice = sc.nextInt();
-                sc.nextLine();
-
-                // USER REGISTRATION
-                if (choice == 1) {
-                    loginService.registerUser();
-                }
-                // LOGIN
-                else if (choice == 2) {
-                    loginUser = loginService.login();
-
-                    // ROLE VALIDATION
-                    if (loginUser != null) {
-                        // FILE SERVICE
-                        FileService fileService = new FileService();
-
-                    fileService.saveData(
-                            loginUser.getUsername()
-                            + ","
-                            + loginUser.getRole());
-
-                    fileService.readData();
-
-                    // ADMIN LOGIN
-                        if (roleService.isAdmin(loginUser.getRole())) {
-                            System.out.println("\nWelcome Admin");
-                            System.out.println("Admin Access Granted");
-                        } 
-                        // EMPLOYEE LOGIN
-                        else if (roleService.isEmployee(loginUser.getRole())) {
-                            System.out.println("\nWelcome Employee");
-                            System.out.println("Employee Access Granted");
-                        }// NORMAL USER
-                         else {
-                            System.out.println("\nWelcome User");
-                        }
-
-                        // LOG LOGIN ACTION
-                        auditService.logAction(
-                            loginUser.getUsername(),
-                            "Logged In as " + loginUser.getRole()
-                        );
-
-                        // STOP LOGIN LOOP → go to ERP menu
-                        break;
-                    }
-                }
-                // FORGOT PASSWORD
-                else if (choice == 3) {
-                    loginService.forgotPassword();
-                }
-                // EXIT
-                else if (choice == 4) {
-                    System.out.println("Program Closed");
-                    systemRunning = false;
-                    break;
-                }
-                else {
-                    System.out.println("Invalid Choice");
-                }
-=======
          Scanner sc = new Scanner(System.in);
         LoginService loginService = new LoginService();
         RoleService roleService = new RoleService();
@@ -162,7 +75,6 @@ public class Main {
             // INVALID
             else {
                 System.out.println("\nInvalid Choice");
->>>>>>> b6d2e2bb1af2bf097532589377c68e9696b8ad6a
             }
 
             if (!systemRunning) {
@@ -216,7 +128,6 @@ public class Main {
         }
         sc.close();
     }
-<<<<<<< HEAD
 
     // REPORTS & AUDIT MENU
     private static void reportsMenu(
@@ -310,6 +221,4 @@ public class Main {
 
         } while (choice != 0);
     }
-=======
->>>>>>> b6d2e2bb1af2bf097532589377c68e9696b8ad6a
 }
