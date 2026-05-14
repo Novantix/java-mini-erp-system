@@ -1,4 +1,5 @@
 package main;
+
 import java.util.Scanner;
 import models.Purchase;
 import models.Supplier;
@@ -9,9 +10,7 @@ import services.LoginService;
 import services.PurchaseService;
 import services.ReportService;
 import services.RoleService;
-import models.Purchase;
-import models.Supplier;
-import services.PurchaseService;
+
 public class Main {
 
     public static void main(String[] args) {
@@ -145,19 +144,54 @@ public class Main {
                                 break;
                             case 3:
 
-                                Supplier supplier1
-                                        = new Supplier(1, "Ramesh", "Laptop", 50);
+                                System.out.println(
+                                        "\n===== SUPPLIER & PURCHASE MANAGEMENT =====");
 
-                                Supplier supplier2
-                                        = new Supplier(2, "Suresh", "Mouse", 100);
+                                System.out.print("Enter Supplier ID : ");
+                                int supplierId = sc.nextInt();
+                                sc.nextLine();
 
-                                purchaseService.addSupplier(supplier1);
-                                purchaseService.addSupplier(supplier2);
+                                System.out.print("Enter Supplier Name : ");
+                                String supplierName = sc.nextLine();
 
-                                Purchase purchase1
-                                        = new Purchase(101, "Laptop", 2, 90000);
+                                System.out.print("Enter Product Name : ");
+                                String productName = sc.nextLine();
 
-                                purchaseService.addPurchase(purchase1);
+                                System.out.print("Enter Stock Quantity : ");
+                                int stockQuantity = sc.nextInt();
+
+                                Supplier supplier
+                                        = new Supplier(
+                                                supplierId,
+                                                supplierName,
+                                                productName,
+                                                stockQuantity
+                                        );
+
+                                purchaseService.addSupplier(supplier);
+
+                                System.out.print("\nEnter Purchase ID : ");
+                                int purchaseId = sc.nextInt();
+                                sc.nextLine();
+
+                                System.out.print("Enter Purchase Product Name : ");
+                                String purchaseProduct = sc.nextLine();
+
+                                System.out.print("Enter Quantity : ");
+                                int quantity = sc.nextInt();
+
+                                System.out.print("Enter Amount : ");
+                                double amount = sc.nextDouble();
+
+                                Purchase purchase
+                                        = new Purchase(
+                                                purchaseId,
+                                                purchaseProduct,
+                                                quantity,
+                                                amount
+                                        );
+
+                                purchaseService.addPurchase(purchase);
 
                                 System.out.println(
                                         "\n===== SUPPLIER DETAILS =====");
@@ -173,7 +207,7 @@ public class Main {
                                         "\n===== STOCK CHECK =====");
 
                                 purchaseService.checkStockAvailability(
-                                        "Laptop");
+                                        purchaseProduct);
 
                                 break;
 

@@ -95,3 +95,4 @@ Total Entries : 61
 [14-05-2026 11:51:15] USER: SUNDAR | ACTION: Opened Employee Management
 [14-05-2026 11:51:25] USER: SUNDAR | ACTION: Opened Reports & Audit
 [14-05-2026 11:51:28] USER: SUNDAR | ACTION: Logged Out
+[14-05-2026 19:51:39] USER: BIGIL | ACTION: User Logged In

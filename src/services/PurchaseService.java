@@ -1,9 +1,8 @@
 package services;
-
-import models.Supplier;
-import models.Purchase;
-
+import java.io.FileWriter;
 import java.util.ArrayList;
+import models.Purchase;
+import models.Supplier;
 
 public class PurchaseService {
 
@@ -15,6 +14,24 @@ public class PurchaseService {
         supplierList.add(supplier);
 
         System.out.println("Supplier Added Successfully");
+        try {
+
+    FileWriter writer =
+            new FileWriter(
+                    "src/data/suppliers.txt",
+                    true);
+
+    writer.write(
+            supplier.toString()
+            + "\n");
+
+    writer.close();
+
+} catch (Exception e) {
+
+    System.out.println(
+            "File Error!");
+}
     }
 
     public void viewSuppliers() {
@@ -32,10 +49,57 @@ public class PurchaseService {
 
     public void addPurchase(Purchase purchase) {
 
-        purchaseList.add(purchase);
+    for (Purchase p : purchaseList) {
 
-        System.out.println("Purchase Added Successfully");
+        if (p.getPurchaseId()
+                == purchase.getPurchaseId()) {
+
+            System.out.println(
+                    "Purchase ID already exists!");
+
+            return;
+        }
     }
+
+    if (purchase.getQuantity() <= 0) {
+
+        System.out.println(
+                "Invalid Quantity!");
+
+        return;
+    }
+
+    if (purchase.getAmount() <= 0) {
+
+        System.out.println(
+                "Invalid Amount!");
+
+        return;
+    }
+
+    purchaseList.add(purchase);
+
+    System.out.println(
+            "Purchase Added Successfully");
+         try {
+
+    FileWriter writer =
+            new FileWriter(
+                    "src/data/purchases.txt",
+                    true);
+
+    writer.write(
+            purchase.toString()
+            + "\n");
+
+    writer.close();
+
+} catch (Exception e) {
+
+    System.out.println(
+            "File Error!");
+}   
+}
 
     public void viewPurchases() {
 
@@ -50,22 +114,29 @@ public class PurchaseService {
         }
     }
 
-    public void checkStockAvailability(String productName) {
+   public void checkStockAvailability(
+        String productName) {
 
-        boolean found = false;
+    boolean found = false;
 
-        for (Supplier supplier : supplierList) {
+    for (Supplier s : supplierList) {
 
-            if (supplier.getProductName().equalsIgnoreCase(productName)) {
+        if (s.getProductName()
+                .equalsIgnoreCase(productName)) {
 
-                System.out.println("Stock Available : " + supplier.getStockQuantity());
+            System.out.println(
+                    "Stock Available : "
+                    + s.getStockQuantity());
 
-                found = true;
-            }
-        }
-
-        if (!found) {
-            System.out.println("Product Not Found");
+            found = true;
         }
     }
+
+    if (!found) {
+
+        System.out.println(
+                "Product Not Found!");
+    }
+}
+    
 }
