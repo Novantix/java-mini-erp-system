@@ -37,3 +37,22 @@ Check-In : 20:55:26
 Check-Out : 04:55:26
 ----------------------
 vishnu123,Admin
+===== USER DATA =====
+Username : NDsandeep
+Password : NDsandeep
+Role : employee
+Check-In : 21:59:24
+Check-Out : 05:59:24
+----------------------
+NDsandeep,employee
+NDsandeep,employee
+
+
+===== USER DATA =====
+Username : vishnu123456
+Password : vishnu123456
+Role : Employee
+Check-In : 10:24:28
+Check-Out : 18:24:28
+----------------------
+vishnu123456,Employee

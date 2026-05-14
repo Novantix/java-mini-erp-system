@@ -65,3 +65,14 @@ Total Entries : 61
 ============================================
 [13-05-2026 20:59:04] USER: VISHNU123 | ACTION: Exported audit logs to data/audit_log.txt
 [13-05-2026 20:59:45] USER: VISHNU123 | ACTION: Logged Out
+[13-05-2026 21:59:42] USER: NDSANDEEP | ACTION: Logged In as employee
+[13-05-2026 21:59:46] USER: NDSANDEEP | ACTION: Opened Employee Management
+[13-05-2026 22:08:30] USER: NDSANDEEP | ACTION: Opened Reports & Audit
+[14-05-2026 10:17:16] USER: NDSANDEEP | ACTION: Logged In as employee
+[14-05-2026 10:17:18] USER: NDSANDEEP | ACTION: Opened Reports & Audit
+[14-05-2026 10:23:55] USER: NDSANDEEP | ACTION: Logged Out
+[14-05-2026 10:24:54] USER: VISHNU123456 | ACTION: Logged In as Employee
+[14-05-2026 10:25:18] USER: VISHNU123456 | ACTION: Opened Employee Management
+[14-05-2026 10:25:24] USER: VISHNU123456 | ACTION: Opened Reports & Audit
+[14-05-2026 10:25:34] USER: VISHNU123456 | ACTION: Generated Daily Report for 14-05-2026 [ID: 1]
+[14-05-2026 10:29:04] USER: VISHNU123456 | ACTION: Logged Out
