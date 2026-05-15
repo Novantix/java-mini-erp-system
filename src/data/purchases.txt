@@ -1,0 +1,12 @@
+Purchase ID : 110
+Product Name : pc
+Quantity : 10
+Amount : 500000.0
+Purchase ID : 201
+Product Name : AC
+Quantity : 5
+Amount : 10000.0
+Purchase ID : 205
+Product Name : cooler
+Quantity : 5
+Amount : 10000.0
