@@ -1,16 +1,17 @@
 package main;
 
 import java.util.Scanner;
-import models.Payroll;
-import models.Product;
+import models.Purchase;
+import models.Supplier;
 import models.User;
 import services.AuditService;
 import services.EmployeeService;
-import services.InventoryService;
 import services.LoginService;
-import services.PayrollService;
+import services.PurchaseService;
 import services.ReportService;
 import services.RoleService;
+
+c
 
 public class Main {
 
@@ -23,10 +24,7 @@ public class Main {
         AuditService auditService = new AuditService();
         ReportService reportService = new ReportService(auditService);
         EmployeeService employeeService = new EmployeeService();
-
-        // NEW SERVICES
-        PayrollService payrollService = new PayrollService();
-        InventoryService inventoryService = new InventoryService();
+        PurchaseService purchaseService = new PurchaseService();
 
         boolean systemRunning = true;
 
@@ -34,7 +32,6 @@ public class Main {
 
         while (systemRunning) {
 
-            // ================= MAIN MENU =================
             System.out.println("\n===== MAIN MENU =====");
             System.out.println("1. User Registration");
             System.out.println("2. Login");
@@ -45,15 +42,11 @@ public class Main {
             int choice = sc.nextInt();
             sc.nextLine();
 
-            // ================= REGISTER =================
             if (choice == 1) {
 
                 loginService.registerUser();
 
-            }
-
-            // ================= LOGIN =================
-            else if (choice == 2) {
+            } else if (choice == 2) {
 
                 loginUser = loginService.login();
 
@@ -67,7 +60,6 @@ public class Main {
                             "User Logged In"
                     );
 
-                    // ROLE MESSAGE
                     if (roleService.isAdmin(currentRole)) {
 
                         System.out.println("\nWelcome Admin");
@@ -83,7 +75,6 @@ public class Main {
                         System.out.println("\nWelcome User");
                     }
 
-                    // ================= ERP MENU =================
                     int mainChoice;
 
                     do {
@@ -101,23 +92,29 @@ public class Main {
                         System.out.println(
                                 "-----------------------------------------");
 
-                        System.out.println("1. Employee Management");
-                        System.out.println("2. Payroll Module");
-                        System.out.println("3. Inventory Module");
-                        System.out.println("4. Reports & Audit");
-                        System.out.println("0. Logout");
+                        System.out.println(
+                                "1. Employee Management");
+
+                        System.out.println(
+                                "2. Reports & Audit");
+
+                        System.out.println(
+                                "3. Supplier & Purchase Management");
+
+                        System.out.println(
+                                "0. Logout");
 
                         System.out.println(
                                 "=========================================");
 
-                        System.out.print("Enter Choice: ");
+                        System.out.print(
+                                "Enter Choice: ");
 
                         mainChoice = sc.nextInt();
                         sc.nextLine();
 
                         switch (mainChoice) {
 
-                            // EMPLOYEE MANAGEMENT
                             case 1:
 
                                 auditService.logAction(
@@ -129,76 +126,7 @@ public class Main {
 
                                 break;
 
-                            // ================= PAYROLL =================
                             case 2:
-
-                                System.out.println(
-                                        "\n======== PAYROLL MODULE ========");
-
-                                System.out.print("Enter Employee ID: ");
-                                int employeeId = sc.nextInt();
-                                sc.nextLine();
-
-                                System.out.print("Enter Year and Month: ");
-                                String yrmonth = sc.nextLine();
-
-                                System.out.print("Enter Net Salary: ");
-                                double salary = sc.nextDouble();
-                                sc.nextLine();
-
-                                // Payroll Object
-                                Payroll payroll = new Payroll(
-                                        employeeId,
-                                        salary,
-                                        yrmonth
-                                );
-
-                                // Generate Payslip
-                                payrollService.generatePayslip(payroll);
-
-                                auditService.logAction(
-                                        currentUser,
-                                        "Generated Payroll"
-                                );
-
-                                break;
-
-                            // ================= INVENTORY =================
-                            case 3:
-
-                                System.out.println(
-                                        "\n======== INVENTORY MODULE ========");
-
-                                System.out.print("Enter Product ID: ");
-                                int productId = sc.nextInt();
-                                sc.nextLine();
-
-                                System.out.print("Enter Product Name: ");
-                                String productName = sc.nextLine();
-
-                                System.out.print("Enter Product Stock: ");
-                                int stock = sc.nextInt();
-                                sc.nextLine();
-
-                                // Product Object
-                                Product product = new Product(
-                                        productId,
-                                        productName,
-                                        stock
-                                );
-
-                                // Add Product
-                              //  inventoryService.addProduct(product);
-
-                                auditService.logAction(
-                                        currentUser,
-                                        "Added Product to Inventory"
-                                );
-
-                                break;
-
-                            // REPORTS & AUDIT
-                            case 4:
 
                                 auditService.logAction(
                                         currentUser,
@@ -216,8 +144,159 @@ public class Main {
                                 );
 
                                 break;
+                            case 3:
 
-                            // LOGOUT
+                                System.out.println(
+                                        "\n===== SUPPLIER & PURCHASE MANAGEMENT =====");
+
+                                int supplierId;
+
+                                while (true) {
+
+                                    System.out.print(
+                                            "Enter Supplier ID : ");
+
+                                    supplierId = sc.nextInt();
+
+                                    if (supplierId > 0) {
+                                        break;
+                                    }
+
+                                    System.out.println(
+                                            "Supplier ID must be positive!");
+                                }
+
+                                sc.nextLine();
+
+                                System.out.print(
+                                        "Enter Supplier Name : ");
+
+                                String supplierName
+                                        = sc.nextLine();
+
+                                System.out.print(
+                                        "Enter Product Name : ");
+
+                                String productName
+                                        = sc.nextLine();
+
+                                int stockQuantity;
+
+                                while (true) {
+
+                                    System.out.print(
+                                            "Enter Stock Quantity : ");
+
+                                    stockQuantity = sc.nextInt();
+
+                                    if (stockQuantity > 0) {
+                                        break;
+                                    }
+
+                                    System.out.println(
+                                            "Stock must be greater than 0!");
+                                }
+
+                                Supplier supplier
+                                        = new Supplier(
+                                                supplierId,
+                                                supplierName,
+                                                productName,
+                                                stockQuantity
+                                        );
+
+                                purchaseService.addSupplier(
+                                        supplier);
+
+                                int purchaseId;
+
+                                while (true) {
+
+                                    System.out.print(
+                                            "\nEnter Purchase ID : ");
+
+                                    purchaseId = sc.nextInt();
+
+                                    if (purchaseId > 0) {
+                                        break;
+                                    }
+
+                                    System.out.println(
+                                            "Purchase ID must be positive!");
+                                }
+
+                                sc.nextLine();
+
+                                System.out.print(
+                                        "Enter Purchase Product Name : ");
+
+                                String purchaseProduct
+                                        = sc.nextLine();
+
+                                int quantity;
+
+                                while (true) {
+
+                                    System.out.print(
+                                            "Enter Quantity : ");
+
+                                    quantity = sc.nextInt();
+
+                                    if (quantity > 0) {
+                                        break;
+                                    }
+
+                                    System.out.println(
+                                            "Quantity must be greater than 0!");
+                                }
+
+                                double amount;
+
+                                while (true) {
+
+                                    System.out.print(
+                                            "Enter Amount : ");
+
+                                    amount = sc.nextDouble();
+                                    sc.nextLine();
+
+                                    if (amount > 0) {
+                                        break;
+                                    }
+
+                                    System.out.println(
+                                            "Amount must be greater than 0!");
+                                }
+
+                                Purchase purchase
+                                        = new Purchase(
+                                                purchaseId,
+                                                purchaseProduct,
+                                                quantity,
+                                                amount
+                                        );
+
+                                purchaseService.addPurchase(
+                                        purchase);
+
+                                System.out.println(
+                                        "\n===== SUPPLIER DETAILS =====");
+
+                                purchaseService.viewSuppliers();
+
+                                System.out.println(
+                                        "\n===== PURCHASE DETAILS =====");
+
+                                purchaseService.viewPurchases();
+
+                                System.out.println(
+                                        "\n===== STOCK CHECK =====");
+
+                                purchaseService.checkStockAvailability(
+                                        purchaseProduct);
+
+                                break;
+
                             case 0:
 
                                 auditService.logAction(
@@ -242,40 +321,31 @@ public class Main {
 
                     System.out.println(
                             "\nInvalid Username or Password");
-
                 }
 
-            }
-
-            // ================= FORGOT PASSWORD =================
-            else if (choice == 3) {
+            } else if (choice == 3) {
 
                 loginService.forgotPassword();
 
-            }
-
-            // ================= EXIT =================
-            else if (choice == 4) {
+            } else if (choice == 4) {
 
                 systemRunning = false;
 
-                System.out.println("\nExiting ERP System...");
-                System.out.println("Thank You!");
+                System.out.println(
+                        "\nExiting ERP System...");
+                System.out.println(
+                        "Thank You!");
 
-            }
+            } else {
 
-            // ================= INVALID =================
-             else {
-
-                System.out.println("\nInvalid Choice");
-
+                System.out.println(
+                        "\nInvalid Choice");
             }
         }
 
         sc.close();
     }
 
-        // ================= REPORTS MENU =================
     private static void reportsMenu(
             Scanner sc,
             ReportService reportService,
