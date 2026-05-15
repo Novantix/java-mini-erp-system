@@ -1,0 +1,3 @@
+[16-05-2026 01:56:38] USER: HARI | ACTION: User Logged In
+[16-05-2026 01:57:16] USER: HARI | ACTION: Marked Attendance
+[16-05-2026 01:58:00] USER: HARI | ACTION: Logged Out
