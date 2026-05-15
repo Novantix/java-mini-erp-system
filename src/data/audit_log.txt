@@ -1,5 +1,4 @@
-<<<<<<< HEAD
-<<<<<<< HEAD
+
 ========== FULL AUDIT LOG EXPORT ==========
 Total Entries : 61
 --------------------------------------------
@@ -144,7 +143,6 @@ Total Entries : 61
 [15-05-2026 12:18:57] USER: RAVI | ACTION: Generated Payroll
 [15-05-2026 12:19:29] USER: RAVI | ACTION: Logged Out
 =======
-=======
 [15-05-2026 15:33:22] USER: VISHNU123 | ACTION: Cleared all audit logs (50 entries removed)
 [15-05-2026 15:33:32] USER: VISHNU123 | ACTION: Logged Out
 [15-05-2026 15:33:51] USER: VISHNU123456 | ACTION: User Logged In
@@ -198,7 +196,6 @@ Total Entries : 61
 [15-05-2026 18:01:39] USER: VISHNU123 | ACTION: Opened Reports & Audit
 [15-05-2026 18:01:45] USER: VISHNU123 | ACTION: Generated Employee Report for Employee ID : 105
 [15-05-2026 18:04:12] USER: VISHNU123 | ACTION: Logged Out
->>>>>>> ef5638a580cdae4823ad98ae18e164398a7407cf
 [14-05-2026 23:57:32] USER: VISHNU123 | ACTION: Cleared all audit logs (156 entries removed)
 [15-05-2026 00:03:31] USER: VISHNU123 | ACTION: Logged Out
 [15-05-2026 00:03:53] USER: VISHNU123 | ACTION: User Logged In
