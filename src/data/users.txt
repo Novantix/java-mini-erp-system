@@ -109,3 +109,31 @@ Role : admin
 Check-In : 17:20:42
 Check-Out : 01:20:42
 ----------------------
+===== USER DATA =====
+Username : hari
+Password : hari@123
+Role : Employee
+Check-In : 22:18:03
+Check-Out : 06:18:03
+----------------------
+===== USER DATA =====
+Username : Janu
+Password : Janu@123
+Role : Admin
+Check-In : 20:29:13
+Check-Out : 04:29:13
+----------------------
+===== USER DATA =====
+Username : Anil
+Password : anil
+Role : Employee
+Check-In : 01:38:13
+Check-Out : 09:38:13
+----------------------
+===== USER DATA =====
+Username : hari
+Password : hari@123
+Role : Admin
+Check-In : 01:44:47
+Check-Out : 09:44:47
+----------------------
