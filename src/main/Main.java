@@ -11,6 +11,8 @@ import services.PurchaseService;
 import services.ReportService;
 import services.RoleService;
 
+c
+
 public class Main {
 
     public static void main(String[] args) {
@@ -147,18 +149,53 @@ public class Main {
                                 System.out.println(
                                         "\n===== SUPPLIER & PURCHASE MANAGEMENT =====");
 
-                                System.out.print("Enter Supplier ID : ");
-                                int supplierId = sc.nextInt();
+                                int supplierId;
+
+                                while (true) {
+
+                                    System.out.print(
+                                            "Enter Supplier ID : ");
+
+                                    supplierId = sc.nextInt();
+
+                                    if (supplierId > 0) {
+                                        break;
+                                    }
+
+                                    System.out.println(
+                                            "Supplier ID must be positive!");
+                                }
+
                                 sc.nextLine();
 
-                                System.out.print("Enter Supplier Name : ");
-                                String supplierName = sc.nextLine();
+                                System.out.print(
+                                        "Enter Supplier Name : ");
 
-                                System.out.print("Enter Product Name : ");
-                                String productName = sc.nextLine();
+                                String supplierName
+                                        = sc.nextLine();
 
-                                System.out.print("Enter Stock Quantity : ");
-                                int stockQuantity = sc.nextInt();
+                                System.out.print(
+                                        "Enter Product Name : ");
+
+                                String productName
+                                        = sc.nextLine();
+
+                                int stockQuantity;
+
+                                while (true) {
+
+                                    System.out.print(
+                                            "Enter Stock Quantity : ");
+
+                                    stockQuantity = sc.nextInt();
+
+                                    if (stockQuantity > 0) {
+                                        break;
+                                    }
+
+                                    System.out.println(
+                                            "Stock must be greater than 0!");
+                                }
 
                                 Supplier supplier
                                         = new Supplier(
@@ -168,20 +205,68 @@ public class Main {
                                                 stockQuantity
                                         );
 
-                                purchaseService.addSupplier(supplier);
+                                purchaseService.addSupplier(
+                                        supplier);
 
-                                System.out.print("\nEnter Purchase ID : ");
-                                int purchaseId = sc.nextInt();
+                                int purchaseId;
+
+                                while (true) {
+
+                                    System.out.print(
+                                            "\nEnter Purchase ID : ");
+
+                                    purchaseId = sc.nextInt();
+
+                                    if (purchaseId > 0) {
+                                        break;
+                                    }
+
+                                    System.out.println(
+                                            "Purchase ID must be positive!");
+                                }
+
                                 sc.nextLine();
 
-                                System.out.print("Enter Purchase Product Name : ");
-                                String purchaseProduct = sc.nextLine();
+                                System.out.print(
+                                        "Enter Purchase Product Name : ");
 
-                                System.out.print("Enter Quantity : ");
-                                int quantity = sc.nextInt();
+                                String purchaseProduct
+                                        = sc.nextLine();
 
-                                System.out.print("Enter Amount : ");
-                                double amount = sc.nextDouble();
+                                int quantity;
+
+                                while (true) {
+
+                                    System.out.print(
+                                            "Enter Quantity : ");
+
+                                    quantity = sc.nextInt();
+
+                                    if (quantity > 0) {
+                                        break;
+                                    }
+
+                                    System.out.println(
+                                            "Quantity must be greater than 0!");
+                                }
+
+                                double amount;
+
+                                while (true) {
+
+                                    System.out.print(
+                                            "Enter Amount : ");
+
+                                    amount = sc.nextDouble();
+                                    sc.nextLine();
+
+                                    if (amount > 0) {
+                                        break;
+                                    }
+
+                                    System.out.println(
+                                            "Amount must be greater than 0!");
+                                }
 
                                 Purchase purchase
                                         = new Purchase(
@@ -191,7 +276,8 @@ public class Main {
                                                 amount
                                         );
 
-                                purchaseService.addPurchase(purchase);
+                                purchaseService.addPurchase(
+                                        purchase);
 
                                 System.out.println(
                                         "\n===== SUPPLIER DETAILS =====");

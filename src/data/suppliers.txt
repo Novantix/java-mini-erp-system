@@ -7,3 +7,7 @@ Supplier ID : 21
 Supplier Name : Anil
 Product Name : AC
 Stock Quantity : 40
+Supplier ID : 25
+Supplier Name : bhanu
+Product Name : cooler
+Stock Quantity : 30

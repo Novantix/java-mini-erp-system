@@ -95,3 +95,17 @@ Role : Employee
 Check-In : 11:46:03
 Check-Out : 19:46:03
 ----------------------
+===== USER DATA =====
+Username : sandeep
+Password : sandeep
+Role : admin
+Check-In : 17:15:55
+Check-Out : 01:15:55
+----------------------
+===== USER DATA =====
+Username : mohan
+Password : mohan
+Role : admin
+Check-In : 17:20:42
+Check-Out : 01:20:42
+----------------------
