@@ -1,0 +1,4 @@
+Purchase ID : 110
+Product Name : pc
+Quantity : 10
+Amount : 500000.0

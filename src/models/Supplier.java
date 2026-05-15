@@ -4,8 +4,8 @@ public class Supplier {
 
     private int supplierId;
     private String supplierName;
-    private String productName;
-    private int stockQuantity;
+    private String productName;                 //javac models/*.java services/*.java main/*.java
+    private int stockQuantity;                    //java main.Main
 
     public Supplier(int supplierId, String supplierName, String productName, int stockQuantity) {
         this.supplierId = supplierId;

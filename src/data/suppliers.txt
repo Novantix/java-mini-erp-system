@@ -1,0 +1,5 @@
+Supplier ID : 10
+Supplier Name : prakash
+Product Name : pc
+Stock Quantity : 40
+
