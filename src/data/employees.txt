@@ -1,3 +1,12 @@
+<<<<<<< HEAD
+Employee ID      : 5
+Employee Name    : Mohan
+Department       : csm
+Designation      : csm
+Salary           : 50000.0
+Manager Name     : Sai
+Experience       : 2 years
+=======
 Employee ID      : 105
 Employee Name    : sai
 Department       : manager
@@ -5,5 +14,6 @@ Designation      : Manager
 Salary           : 100000.0
 Manager Name     : Akhil
 Experience       : 5 years
+>>>>>>> 4e3a10ca4349a8c57756e1a5f83a779970a6a35b
 Promotion Status : Not Promoted
 ----------------------------------------
