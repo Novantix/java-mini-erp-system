@@ -1,6 +1,7 @@
 package main;
 
 import java.util.Scanner;
+import models.Payroll;
 import models.Purchase;
 import models.Supplier;
 import models.User;
@@ -10,8 +11,6 @@ import services.LoginService;
 import services.PurchaseService;
 import services.ReportService;
 import services.RoleService;
-
-c
 
 public class Main {
 
