@@ -13,16 +13,130 @@ public class LoginService {
     // FILE PATH
     String filePath = "data/users.txt";
 
+    // ================= USERNAME VALIDATION =================
+    public boolean isValidUsername(String username) {
+
+        /*
+           Username Must Contain:
+           1 Alphabet
+           1 Number
+           1 Special Character
+           Numbers Only NOT Allowed
+        */
+
+        boolean alphabet = false;
+        boolean number = false;
+        boolean special = false;
+
+        for (int i = 0; i < username.length(); i++) {
+
+            char ch = username.charAt(i);
+
+            if (Character.isLetter(ch)) {
+
+                alphabet = true;
+
+            } else if (Character.isDigit(ch)) {
+
+                number = true;
+
+            } else {
+
+                special = true;
+            }
+        }
+
+        return alphabet && number && special;
+    }
+
+    // ================= PASSWORD VALIDATION =================
+    public boolean isValidPassword(String password) {
+
+        /*
+           Password Must Contain:
+           1 Alphabet
+           1 Number
+           1 Special Character
+           Numbers Only NOT Allowed
+        */
+
+        boolean alphabet = false;
+        boolean number = false;
+        boolean special = false;
+
+        for (int i = 0; i < password.length(); i++) {
+
+            char ch = password.charAt(i);
+
+            if (Character.isLetter(ch)) {
+
+                alphabet = true;
+
+            } else if (Character.isDigit(ch)) {
+
+                number = true;
+
+            } else {
+
+                special = true;
+            }
+        }
+
+        return alphabet && number && special;
+    }
+
     // ================= REGISTER USER =================
     public User registerUser() {
 
         System.out.println("\n===== USER REGISTRATION =====");
 
-        System.out.print("Create Username : ");
-        String username = sc.nextLine().trim();
+        String username;
 
-        System.out.print("Create Password : ");
-        String password = sc.nextLine().trim();
+        // USERNAME VALIDATION
+        while (true) {
+
+            System.out.print("Create Username : ");
+            username = sc.nextLine().trim();
+
+            if (isValidUsername(username)) {
+
+                break;
+
+            } else {
+
+                System.out.println(
+                        "Invalid Username!"
+                );
+
+                System.out.println(
+                        "Username Must Contain Alphabet + Number + Special Character"
+                );
+            }
+        }
+
+        String password;
+
+        // PASSWORD VALIDATION
+        while (true) {
+
+            System.out.print("Create Password : ");
+            password = sc.nextLine().trim();
+
+            if (isValidPassword(password)) {
+
+                break;
+
+            } else {
+
+                System.out.println(
+                        "Invalid Password!"
+                );
+
+                System.out.println(
+                        "Password Must Contain Alphabet + Number + Special Character"
+                );
+            }
+        }
 
         // ROLE VALIDATION
         String role;
@@ -148,7 +262,7 @@ public class LoginService {
             System.out.print("Enter Password : ");
             String password = sc.nextLine().trim();
 
-            // NEW ROLE OPTION
+            // ROLE OPTION
             System.out.print("Enter Role : ");
             String roleInput = sc.nextLine().trim();
 
@@ -280,12 +394,28 @@ public class LoginService {
                             roleInput
                     )) {
 
-                        System.out.print(
-                                "Enter New Password : "
-                        );
+                        String newPassword;
 
-                        String newPassword =
-                                sc.nextLine().trim();
+                        while (true) {
+
+                            System.out.print(
+                                    "Enter New Password : "
+                            );
+
+                            newPassword =
+                                    sc.nextLine().trim();
+
+                            if (isValidPassword(newPassword)) {
+
+                                break;
+
+                            } else {
+
+                                System.out.println(
+                                        "Password Must Contain Alphabet + Number + Special Character"
+                                );
+                            }
+                        }
 
                         lines.set(
                                 i + 1,

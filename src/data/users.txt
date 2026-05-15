@@ -1,6 +1,6 @@
 ===== USER DATA =====
 Username : Mohan
-Password : Cmohan@123
+Password : Mohan@123
 Role : AdmiN
 Check-In : 18:57:53
 Check-Out : 02:57:53
@@ -25,4 +25,11 @@ Password : Sandeep@123
 Role : EmploYEE
 Check-In : 19:03:27
 Check-Out : 03:03:27
+----------------------
+===== USER DATA =====
+Username : Cmohan@123
+Password : Mohan@123
+Role : AdmIN
+Check-In : 19:27:09
+Check-Out : 03:27:09
 ----------------------
