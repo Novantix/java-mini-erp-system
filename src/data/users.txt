@@ -1,0 +1,22 @@
+
+===== USER DATA =====
+Username : C MOHAN
+Password : Cmohan@123
+Role : Admin
+Check-In : 22:48:03
+Check-Out : 06:48:03
+----------------------
+===== USER DATA =====
+Username : Anil
+Password : Anil@1234
+Role : Admin
+Check-In : 23:36:06
+Check-Out : 07:36:06
+----------------------
+===== USER DATA =====
+Username : Sandeep
+Password : Sandeep@123
+Role : HR
+Check-In : 23:42:30
+Check-Out : 07:42:30
+----------------------

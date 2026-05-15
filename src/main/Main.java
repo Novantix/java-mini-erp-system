@@ -68,12 +68,12 @@ public class Main {
 
                     if (roleService.isAdmin(currentRole)) {
 
-                        System.out.println("\nWelcome Admin");
-                        System.out.println("Admin Access Granted");
+                        System.out.println("\nWelcome "+ currentUser);
+                        System.out.println(currentUser + ", Access Granted");
 
                     } else if (roleService.isEmployee(currentRole)) {
 
-                        System.out.println("\nWelcome Employee");
+                        System.out.println("\nWelcome Employee" + currentUser);
                         System.out.println("Employee Access Granted");
 
                     } else {
