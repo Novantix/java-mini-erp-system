@@ -5,6 +5,9 @@
 src/data/users.txt
 src/data/suppliers.txt
 src/data/purchases.txt
+src/data/audit_log.txt
+src/data/customers.txt
+src/data/sales.txt
 
 # Dat files
 *.dat
