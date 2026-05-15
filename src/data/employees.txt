@@ -1,4 +1,13 @@
 <<<<<<< HEAD
+Employee ID      : 102
+Employee Name    : vishnu
+Department       : IT
+Designation      : manager
+Salary           : 400000.0
+Manager Name     : Mohan
+Experience       : 4 years
+=======
+<<<<<<< HEAD
 Employee ID      : 5
 Employee Name    : Mohan
 Department       : csm
@@ -15,5 +24,6 @@ Salary           : 100000.0
 Manager Name     : Akhil
 Experience       : 5 years
 >>>>>>> 4e3a10ca4349a8c57756e1a5f83a779970a6a35b
+>>>>>>> ef5638a580cdae4823ad98ae18e164398a7407cf
 Promotion Status : Not Promoted
 ----------------------------------------
