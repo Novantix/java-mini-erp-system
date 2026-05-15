@@ -1,9 +1,18 @@
-Employee ID      : 8
-Employee Name    : Bharath
-Department       : Iot
-Designation      : intern
-Salary           : 8000.0
-Manager Name     : Anil
-Experience       : 5 years
+Employee ID      : 144
+Employee Name    : Mohan
+Department       : Java Develpoer
+Designation      : Emp
+Salary           : 1.0E9
+Manager Name     : Akhil
+Experience       : 2 years
+Promotion Status : Not Promoted
+----------------------------------------
+Employee ID      : 143
+Employee Name    : vishnu
+Department       : Java Developer
+Designation      : emp
+Salary           : 100000.0
+Manager Name     : akhil
+Experience       : 2 years
 Promotion Status : Not Promoted
 ----------------------------------------

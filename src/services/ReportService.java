@@ -10,6 +10,10 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Arrays;
+
+import models.Payroll;
+import services.PayrollService;
 
 
 public class ReportService {
@@ -18,10 +22,15 @@ public class ReportService {
     private int reportIdCounter = 1;
 
     private AuditService auditService;
+    private PayrollService payrollService = new PayrollService();
 
     private static final DateTimeFormatter DATE_FORMATTER =
             DateTimeFormatter.ofPattern("dd-MM-yyyy");
-
+    private static final List<String> VALID_MONTHS = Arrays.asList(
+            "january", "february", "march", "april",
+            "may", "june", "july", "august",
+            "september", "october", "november", "december"
+    );
     // Constructor
 
     public ReportService(AuditService auditService) {
@@ -48,6 +57,42 @@ public class ReportService {
                 + "' with role '" + user.getRole()
                 + "' is not allowed to perform this action.");
         return false;
+    }
+     private boolean isValidMonth(String month) {
+        if (month == null || month.trim().isEmpty()) {
+            return false;
+        }
+ 
+        // Split by space or dash
+        String[] parts = month.trim().split("[\\s-]+");
+ 
+        // Must have exactly 2 parts: month name and year
+        if (parts.length != 2) {
+            return false;
+        }
+ 
+        String monthName = parts[0].toLowerCase();
+        String yearStr   = parts[1];
+ 
+        // Check month name is valid
+        if (!VALID_MONTHS.contains(monthName)) {
+            return false;
+        }
+ 
+        // Check year is exactly 4 digits and a real number
+        if (!yearStr.matches("\\d{4}")) {
+            return false;
+        }
+ 
+        int year = Integer.parseInt(yearStr);
+ 
+        // Year must be between 2000 and current year + 1
+        int currentYear = LocalDate.now().getYear();
+        if (year < 2000 || year > currentYear + 1) {
+            return false;
+        }
+ 
+        return true;
     }
 
     // 1. Employee Report  →  ADMIN 
@@ -123,7 +168,12 @@ public class ReportService {
         try {
             if (!isLoggedIn(loggedInUser)) return;
             if (!hasRole(loggedInUser, "ADMIN", "MANAGER")) return;
-
+            if (!isValidMonth(month)) {
+                System.out.println("[Report] Invalid month format : '" + month + "'");
+                System.out.println("[Report] Please enter a valid format.");
+                System.out.println("[Report] Examples : 'May 2025'  or  'June-2025'");
+                return;
+            }
             StringBuilder content = new StringBuilder();
             content.append("MONTHLY REPORT — ").append(month).append("\n\n");
 
@@ -229,6 +279,112 @@ public class ReportService {
             System.out.println("[ReportService Error] printDataSummary : " + e.getMessage());
         }
     }
+    // Integration with PayrollService for Payroll Report 
+    
+    
+
+    public void generatePayrollReport(List<Payroll> payrollList,
+                                  User loggedInUser) {
+
+    try {
+
+        // Login check
+        if (!isLoggedIn(loggedInUser)) return;
+
+        // Role check
+        if (!hasRole(loggedInUser, "ADMIN", "MANAGER")) return;
+
+        // Empty list check
+        if (payrollList == null || payrollList.isEmpty()) {
+
+            System.out.println(
+                    "[Payroll Report] No payroll data available."
+            );
+
+            return;
+        }
+
+        StringBuilder content = new StringBuilder();
+
+        content.append("=========== PAYROLL REPORT ===========\n\n");
+
+        double totalNetSalary = 0;
+
+        for (Payroll payroll : payrollList) {
+
+            double salary = payroll.getSalary();
+
+            double pf =
+                    payrollService.calculatePF(salary);
+
+            double tax =
+                    payrollService.calculateTax(salary);
+
+            double bonus =
+                    payrollService.calculateBonus(salary);
+
+            double netSalary =
+                    salary - pf - tax + bonus;
+
+            content.append("Employee ID : ")
+                   .append(payroll.getEmployeeId())
+                   .append("\n");
+
+            content.append("Basic Salary : Rs. ")
+                   .append(String.format("%.2f", salary))
+                   .append("\n");
+
+            content.append("PF : Rs. ")
+                   .append(String.format("%.2f", pf))
+                   .append("\n");
+
+            content.append("Tax : Rs. ")
+                   .append(String.format("%.2f", tax))
+                   .append("\n");
+
+            content.append("Bonus : Rs. ")
+                   .append(String.format("%.2f", bonus))
+                   .append("\n");
+
+            content.append("Net Salary : Rs. ")
+                   .append(String.format("%.2f", netSalary))
+                   .append("\n");
+
+            content.append("-----------------------------------\n");
+
+            totalNetSalary += netSalary;
+        }
+
+        content.append("\nTOTAL PAYROLL EXPENSE : Rs. ")
+               .append(String.format("%.2f", totalNetSalary))
+               .append("\n");
+
+        Report report = new Report(
+                reportIdCounter++,
+                "PAYROLL",
+                loggedInUser.getUsername(),
+                content.toString()
+        );
+
+        reportStore.add(report);
+
+        System.out.println(report);
+
+        auditService.logAction(
+                loggedInUser.getUsername(),
+                "Generated Payroll Report [ID: "
+                        + report.getReportId()
+                        + "]"
+        );
+
+    } catch (Exception e) {
+
+        System.out.println(
+                "[ReportService Error] generatePayrollReport : "
+                        + e.getMessage()
+        );
+    }
+}
 
     // Getter — for BackupService 
     public List<Report> getReportStore() {
@@ -244,15 +400,53 @@ public class ReportService {
         System.out.println("[Notice] Sales Report module is pending integration.");
     }
 
-    public void generatePayrollReport(User loggedInUser) {
-        System.out.println("[Notice] Payroll Report module is pending integration.");
+    
+
+    public void viewDailyReports(User loggedInUser) {
+        try {
+            if (!isLoggedIn(loggedInUser)) return;
+
+            java.io.File file = new java.io.File("data/daily_report.txt");
+            if (!file.exists() || file.length() == 0) {
+                System.out.println("[Report] No daily reports found.");
+                return;
+            }
+
+            System.out.println("\n===== DAILY REPORTS =====");
+            java.util.Scanner scanner = new java.util.Scanner(file);
+            while (scanner.hasNextLine()) {
+                System.out.println(scanner.nextLine());
+            }
+            scanner.close();
+
+            auditService.logAction(loggedInUser.getUsername(), "Viewed daily reports list");
+        } catch (Exception e) {
+            System.out.println("[ReportService Error] viewDailyReports : " + e.getMessage());
+        }
     }
 
-    public void viewDailyReports() {
-        System.out.println("[Notice] View Daily Reports is pending integration. Please use '6. View All Reports'.");
-    }
+    public void viewMonthlyReports(User loggedInUser) {
+        try {
+            if (!isLoggedIn(loggedInUser)) return;
+            // Monthly reports usually require ADMIN or MANAGER role
+            if (!hasRole(loggedInUser, "ADMIN", "MANAGER")) return;
 
-    public void viewMonthlyReports() {
-        System.out.println("[Notice] View Monthly Reports is pending integration. Please use '6. View All Reports'.");
+            java.io.File file = new java.io.File("data/monthly_report.txt");
+            if (!file.exists() || file.length() == 0) {
+                System.out.println("[Report] No monthly reports found.");
+                return;
+            }
+
+            System.out.println("\n===== MONTHLY REPORTS =====");
+            java.util.Scanner scanner = new java.util.Scanner(file);
+            while (scanner.hasNextLine()) {
+                System.out.println(scanner.nextLine());
+            }
+            scanner.close();
+
+            auditService.logAction(loggedInUser.getUsername(), "Viewed monthly reports list");
+        } catch (Exception e) {
+            System.out.println("[ReportService Error] viewMonthlyReports : " + e.getMessage());
+        }
     }
 }

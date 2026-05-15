@@ -102,10 +102,7 @@ public class AuditService {
         }
     }
 
-    // ─────────────────────────────────────
-    // 2. View All Logs
-    // ADMIN only
-    // ─────────────────────────────────────
+    
     public void viewAllLogs(User loggedInUser) {
         try {
             if (!isLoggedIn(loggedInUser)) {
@@ -140,10 +137,7 @@ public class AuditService {
         }
     }
 
-    // ─────────────────────────────────────
-    // 3. View Logs by Username
-    // ADMIN only
-    // ─────────────────────────────────────
+    
     public void viewLogsByUser(String targetUsername,
             User loggedInUser) {
         try {
@@ -163,9 +157,8 @@ public class AuditService {
 
             List<String> filtered = new ArrayList<>();
             for (String log : auditLogs) {
-                if (log.toUpperCase().contains(
-                        "USER: "
-                        + targetUsername.toUpperCase())) {
+                String exactPattern = "USER: " + targetUsername.toUpperCase() + " |";
+                if(log.toUpperCase().contains(exactPattern))   {
                     filtered.add(log);
                 }
             }
@@ -194,10 +187,6 @@ public class AuditService {
         }
     }
 
-    // ─────────────────────────────────────
-    // 4. View Logs by Date
-    // ADMIN and MANAGER
-    // ─────────────────────────────────────
     public void viewLogsByDate(String date,
             User loggedInUser) {
         try {
@@ -247,11 +236,7 @@ public class AuditService {
         }
     }
 
-    // ─────────────────────────────────────
-    // 5. Export Logs to File
-    // ADMIN only
-    // Called by BackupService Module 8
-    // ─────────────────────────────────────
+
     public void exportLogsToFile(User loggedInUser) {
         try {
             if (!isLoggedIn(loggedInUser)) {
@@ -267,8 +252,8 @@ public class AuditService {
             }
 
             // Overwrite mode for full export
-            FileWriter fw = new FileWriter(
-                    AUDIT_FILE, false);
+            String exportFile = "data/audit_export.txt";
+            FileWriter fw = new FileWriter(exportFile, false);
             fw.write(
                     "========== FULL AUDIT LOG EXPORT"
                     + " ==========\n");
@@ -286,10 +271,10 @@ public class AuditService {
 
             System.out.println(
                     "[Audit] Logs exported to : "
-                    + AUDIT_FILE);
+                    + exportFile);
 
             logAction(loggedInUser.getUsername(),
-                    "Exported audit logs to " + AUDIT_FILE);
+                    "Exported audit logs to " + exportFile);
 
         } catch (IOException e) {
             System.out.println(
@@ -298,7 +283,6 @@ public class AuditService {
         }
     }
 
-    // 6. Clear All Logs  by  ADMIN only
     public void clearAllLogs(User loggedInUser) {
         try {
             if (!isLoggedIn(loggedInUser)) {
