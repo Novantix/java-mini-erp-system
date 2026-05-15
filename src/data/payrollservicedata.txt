@@ -104,3 +104,11 @@ Tax: 500.0
 Bonus: 250.0
 Final Salary: 4150.0
 -----------------------
+===== PAYSLIP =====
+Employee ID: 5
+Basic Salary: 12000.0
+PF: 1440.0
+Tax: 1200.0
+Bonus: 600.0
+Final Salary: 9960.0
+-----------------------

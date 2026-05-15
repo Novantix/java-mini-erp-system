@@ -14,8 +14,7 @@ import services.PayrollService;
 import services.PurchaseService;
 import services.ReportService;
 import services.RoleService;
-
-
+import services.SalesService;
 
 public class Main {
 
@@ -31,6 +30,7 @@ public class Main {
         PurchaseService purchaseService = new PurchaseService();
         PayrollService payrollService = new PayrollService();
          InventoryService inventoryService = new InventoryService();
+        SalesService salesService = new SalesService();
 
         boolean systemRunning = true;
 
@@ -78,7 +78,7 @@ public class Main {
 
                     } else {
 
-                        System.out.println("\nWelcome User");
+                        System.out.println("\nWelcome " + currentUser);
                     }
 
                     int mainChoice;
@@ -229,6 +229,7 @@ public class Main {
                                         reportService,
                                         auditService,
                                         employeeService,
+                                        purchaseService,
                                         loginUser,
                                         currentUser,
                                         currentRole
@@ -385,6 +386,68 @@ public class Main {
                                         purchaseProduct);
 
                                 break;
+                                case 6:
+                                        int salesChoice;
+                                         do {
+                                                 System.out.println( "\n===== SALES & CUSTOMER MANAGEMENT =====");
+                                                  System.out.println( "1. Add Customer");
+                                                  System.out.println( "2. View Customers");
+                                                   System.out.println( "3. Add Sale");
+                                                   System.out.println("4. View Sales");
+                                                   System.out.println("5. Generate Invoice");
+                                                   System.out.println( "0. Back");
+                                                   System.out.print("Enter Choice : ");
+                                                   salesChoice = sc.nextInt();
+                                                    sc.nextLine();
+
+        switch (salesChoice) {
+
+            case 1:
+
+                salesService.addCustomer(sc);
+
+                break;
+
+            case 2:
+
+                salesService.viewCustomers();
+
+                break;
+
+            case 3:
+
+                salesService.addSale(sc);
+
+                break;
+
+            case 4:
+
+                salesService.viewSales();
+
+                break;
+
+            case 5:
+
+                salesService.generateInvoice();
+
+                break;
+
+            case 0:
+
+                System.out.println(
+                        "Returning to Main Menu...");
+
+                break;
+
+            default:
+
+                System.out.println(
+                        "Invalid Choice!");
+        }
+
+    } while (salesChoice != 0);
+
+    break;
 
                             case 0:
 
@@ -440,6 +503,7 @@ public class Main {
             ReportService reportService,
             AuditService auditService,
             EmployeeService employeeService,
+            PurchaseService purchaseService,
             User loginUser,
             String currentUser,
             String currentRole) {
@@ -541,9 +605,17 @@ public class Main {
 
                 case 4:
 
-                    reportService.generateSalesReport(
-                            loginUser
-                    );
+                    System.out.println("Enter Supplier ID : ");
+                        int supplierId = sc.nextInt();
+                        sc.nextLine();
+
+                        System.out.println("Enter Product Name : ");
+                        String productName = sc.nextLine();
+
+                        reportService.generateSalesReport(
+        loginUser,
+        supplierId,
+        productName);
 
                     break;
 
@@ -584,44 +656,114 @@ public class Main {
 
                 case 6:
 
-                    java.util.List<models.Employee> employeeList = new java.util.ArrayList<>();
-                    try {
-                        java.io.File empFile = new java.io.File("data/employees.txt");
-                        if (empFile.exists()) {
-                            java.util.Scanner empScanner = new java.util.Scanner(empFile);
-                            int empId = 0, exp = 0;
-                            String empName = "", dept = "", desig = "", mgr = "", promo = "";
-                            double salary = 0;
-                            while (empScanner.hasNextLine()) {
-                                String line = empScanner.nextLine();
-                                if (line.startsWith("Employee ID")) {
-                                    empId = Integer.parseInt(line.split(":", 2)[1].trim());
-                                } else if (line.startsWith("Employee Name")) {
-                                    empName = line.split(":", 2)[1].trim();
-                                } else if (line.startsWith("Department")) {
-                                    dept = line.split(":", 2)[1].trim();
-                                } else if (line.startsWith("Designation")) {
-                                    desig = line.split(":", 2)[1].trim();
-                                } else if (line.startsWith("Salary")) {
-                                    salary = Double.parseDouble(line.split(":", 2)[1].trim());
-                                } else if (line.startsWith("Manager Name")) {
-                                    mgr = line.split(":", 2)[1].trim();
-                                } else if (line.startsWith("Experience")) {
-                                    exp = Integer.parseInt(line.split(":", 2)[1].replaceAll("[^0-9]", "").trim());
-                                } else if (line.startsWith("Promotion Status")) {
-                                    promo = line.split(":", 2)[1].trim();
-                                } else if (line.startsWith("----------------------------------------")) {
-                                    employeeList.add(new models.Employee(empId, empName, dept, desig, salary, mgr, exp, promo));
-                                }
-                            }
-                            empScanner.close();
-                        }
-                    } catch (Exception e) {
-                        System.out.println("Error reading employee data: " + e.getMessage());
-                    }
-                    reportService.generateEmployeeReport(employeeList, loginUser);
+    System.out.print("Enter Employee ID : ");
+    int searchId = sc.nextInt();
+    sc.nextLine();
 
-                    break;
+    java.util.List<models.Employee> employeeList =
+            new java.util.ArrayList<>();
+
+    try {
+
+        java.io.File empFile =
+                new java.io.File("data/employees.txt");
+
+        if (empFile.exists()) {
+
+            java.util.Scanner empScanner =
+                    new java.util.Scanner(empFile);
+
+            int empId = 0;
+            int exp = 0;
+
+            String empName = "";
+            String dept = "";
+            String desig = "";
+            String mgr = "";
+            String promo = "";
+
+            double salary = 0;
+
+            while (empScanner.hasNextLine()) {
+
+                String line = empScanner.nextLine();
+
+                if (line.startsWith("Employee ID")) {
+
+                    empId = Integer.parseInt(
+                            line.split(":", 2)[1].trim());
+
+                } else if (line.startsWith("Employee Name")) {
+
+                    empName =
+                            line.split(":", 2)[1].trim();
+
+                } else if (line.startsWith("Department")) {
+
+                    dept =
+                            line.split(":", 2)[1].trim();
+
+                } else if (line.startsWith("Designation")) {
+
+                    desig =
+                            line.split(":", 2)[1].trim();
+
+                } else if (line.startsWith("Salary")) {
+
+                    salary = Double.parseDouble(
+                            line.split(":", 2)[1].trim());
+
+                } else if (line.startsWith("Manager Name")) {
+
+                    mgr =
+                            line.split(":", 2)[1].trim();
+
+                } else if (line.startsWith("Experience")) {
+
+                    exp = Integer.parseInt(
+                            line.split(":", 2)[1]
+                                    .replaceAll("[^0-9]", "")
+                                    .trim());
+
+                } else if (line.startsWith("Promotion Status")) {
+
+                    promo =
+                            line.split(":", 2)[1].trim();
+
+                } else if (line.startsWith("----------------------------------------")) {
+
+                    employeeList.add(
+                            new models.Employee(
+                                    empId,
+                                    empName,
+                                    dept,
+                                    desig,
+                                    salary,
+                                    mgr,
+                                    exp,
+                                    promo
+                            )
+                    );
+                }
+            }
+
+            empScanner.close();
+        }
+
+    } catch (Exception e) {
+
+        System.out.println(
+                "Error reading employee data: "
+                        + e.getMessage());
+    }
+
+    reportService.generateEmployeeReport(
+            employeeList,
+            loginUser,
+            searchId
+    );
+
+    break;
 
                 case 7:
 

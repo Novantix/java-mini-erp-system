@@ -10,3 +10,7 @@ Purchase ID : 205
 Product Name : cooler
 Quantity : 5
 Amount : 10000.0
+Purchase ID : 1
+Product Name : 1
+Quantity : 1
+Amount : 1.0

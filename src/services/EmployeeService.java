@@ -379,7 +379,8 @@ public class EmployeeService {
 
         employees = new ArrayList<>();
 
-        System.out.println("Existing employee data found at: " + FILE_PATH);
+        // System.out.println("Existing employee data found at: " + FILE_PATH);
+
     }
     public ArrayList<Employee> getEmployees() {
         return employees;
