@@ -9,56 +9,36 @@ import models.User;
 public class LoginService {
 
     Scanner sc = new Scanner(System.in);
-
-    // FILE PATH
     String filePath = "data/users.txt";
 
     // ================= USERNAME VALIDATION =================
     public boolean isValidUsername(String username) {
 
-        /*
-           Username Must Contain:
-           1 Alphabet
-           1 Number
-           1 Special Character
-           Numbers Only NOT Allowed
-        */
-
-        boolean alphabet = false;
-        boolean number = false;
-        boolean special = false;
+        boolean hasAlphabet = false;
 
         for (int i = 0; i < username.length(); i++) {
 
             char ch = username.charAt(i);
 
             if (Character.isLetter(ch)) {
-
-                alphabet = true;
+                hasAlphabet = true;
 
             } else if (Character.isDigit(ch)) {
+                // allowed
 
-                number = true;
+            } else if (ch == ' ') {
+                // allowed space
 
             } else {
-
-                special = true;
+                return false;
             }
         }
 
-        return alphabet && number && special;
+        return hasAlphabet;
     }
 
     // ================= PASSWORD VALIDATION =================
     public boolean isValidPassword(String password) {
-
-        /*
-           Password Must Contain:
-           1 Alphabet
-           1 Number
-           1 Special Character
-           Numbers Only NOT Allowed
-        */
 
         boolean alphabet = false;
         boolean number = false;
@@ -69,20 +49,45 @@ public class LoginService {
             char ch = password.charAt(i);
 
             if (Character.isLetter(ch)) {
-
                 alphabet = true;
 
             } else if (Character.isDigit(ch)) {
-
                 number = true;
 
             } else {
-
                 special = true;
             }
         }
 
         return alphabet && number && special;
+    }
+
+    // ================= CHECK USER EXISTS =================
+    public boolean isUserExists(String username) {
+
+        try {
+            File file = new File(filePath);
+            if (!file.exists()) return false;
+
+            Scanner fileScanner = new Scanner(file);
+
+            while (fileScanner.hasNextLine()) {
+
+                String line = fileScanner.nextLine();
+
+                if (line.equalsIgnoreCase("Username : " + username)) {
+                    fileScanner.close();
+                    return true;
+                }
+            }
+
+            fileScanner.close();
+
+        } catch (Exception e) {
+            System.out.println("File Error");
+        }
+
+        return false;
     }
 
     // ================= REGISTER USER =================
@@ -92,119 +97,81 @@ public class LoginService {
 
         String username;
 
-        // USERNAME VALIDATION
         while (true) {
 
             System.out.print("Create Username : ");
             username = sc.nextLine().trim();
 
-            if (isValidUsername(username)) {
-
-                break;
-
-            } else {
-
-                System.out.println(
-                        "Invalid Username!"
-                );
-
-                System.out.println(
-                        "Username Must Contain Alphabet + Number + Special Character"
-                );
+            if (!isValidUsername(username)) {
+                System.out.println("Invalid Username!");
+                continue;
             }
+
+            if (isUserExists(username)) {
+                System.out.println("Username Already Exists!");
+                continue;
+            }
+
+            break;
         }
 
         String password;
 
-        // PASSWORD VALIDATION
         while (true) {
 
             System.out.print("Create Password : ");
             password = sc.nextLine().trim();
 
-            if (isValidPassword(password)) {
+            if (isValidPassword(password)) break;
 
-                break;
-
-            } else {
-
-                System.out.println(
-                        "Invalid Password!"
-                );
-
-                System.out.println(
-                        "Password Must Contain Alphabet + Number + Special Character"
-                );
-            }
+            System.out.println("Invalid Password!");
         }
 
-        // ROLE VALIDATION
-        String role;
+        String role = "";
 
         while (true) {
 
-            System.out.print("Enter Role (Admin/Employee) : ");
-            role = sc.nextLine().trim();
+            System.out.println("\n===== ROLE MENU =====");
+            System.out.println("1. Admin");
+            System.out.println("2. HR");
 
-            // ACCEPT ONLY ADMIN OR EMPLOYEE
-            if (role.equalsIgnoreCase("Admin") ||
-                    role.equalsIgnoreCase("Employee")) {
+            System.out.print("Enter Choice : ");
 
-                break;
+            try {
 
-            } else {
+                int choice = Integer.parseInt(sc.nextLine());
 
-                System.out.println(
-                        "Invalid Role! Enter only Admin or Employee."
-                );
+                if (choice == 1) {
+                    role = "Admin";
+                    break;
+
+                } else if (choice == 2) {
+                    role = "HR";
+                    break;
+
+                } else {
+                    System.out.println("Invalid Choice!");
+                }
+
+            } catch (Exception e) {
+                System.out.println("Enter Numbers Only!");
             }
         }
 
-        // CHECK-IN TIME
-        String checkInTime =
-                LocalTime.now()
-                        .withNano(0)
-                        .toString();
+        String checkInTime = LocalTime.now().withNano(0).toString();
+        String checkOutTime = LocalTime.now().plusHours(8).withNano(0).toString();
 
-        // CHECK-OUT TIME
-        String checkOutTime =
-                LocalTime.now()
-                        .plusHours(8)
-                        .withNano(0)
-                        .toString();
+        User user = new User(username, password, role, checkInTime, checkOutTime);
 
-        System.out.println("Check-In Time  : " + checkInTime);
-        System.out.println("Check-Out Time : " + checkOutTime);
-
-        User user = new User(
-                username,
-                password,
-                role,
-                checkInTime,
-                checkOutTime
-        );
-
-        // SAVE DATA
         try {
 
-            // CREATE data FOLDER
             File folder = new File("data");
+            if (!folder.exists()) folder.mkdir();
 
-            if (!folder.exists()) {
-
-                folder.mkdir();
-            }
-
-            // CREATE FILE
             File file = new File(filePath);
+            if (!file.exists()) file.createNewFile();
 
-            if (!file.exists()) {
-
-                file.createNewFile();
-            }
-
-            FileWriter writer =
-                    new FileWriter(file, true);
+            FileWriter writer = new FileWriter(file, true);
 
             writer.write("===== USER DATA =====\n");
             writer.write("Username : " + username + "\n");
@@ -216,12 +183,9 @@ public class LoginService {
 
             writer.close();
 
-            System.out.println(
-                    "Registration Successful"
-            );
+            System.out.println("\nRegistration Successful!");
 
         } catch (IOException e) {
-
             System.out.println("File Error");
         }
 
@@ -232,25 +196,14 @@ public class LoginService {
     public User login() {
 
         int attempts = 0;
-
-        long startTime =
-                System.currentTimeMillis();
+        long startTime = System.currentTimeMillis();
 
         while (attempts < 2) {
 
-            long currentTime =
-                    System.currentTimeMillis();
+            long seconds = (System.currentTimeMillis() - startTime) / 1000;
 
-            long seconds =
-                    (currentTime - startTime) / 1000;
-
-            // 30 SEC LIMIT
             if (seconds > 30) {
-
-                System.out.println(
-                        "\nLogin Time Expired (30 Seconds)"
-                );
-
+                System.out.println("\nLogin Time Expired (30 Seconds)");
                 return null;
             }
 
@@ -262,61 +215,32 @@ public class LoginService {
             System.out.print("Enter Password : ");
             String password = sc.nextLine().trim();
 
-            // ROLE OPTION
-            System.out.print("Enter Role : ");
-            String roleInput = sc.nextLine().trim();
-
             try {
 
                 File file = new File(filePath);
-
                 Scanner fileScanner = new Scanner(file);
 
                 while (fileScanner.hasNextLine()) {
 
                     String line = fileScanner.nextLine();
 
-                    // CHECK USERNAME
-                    if (line.equalsIgnoreCase(
-                            "Username : " + username
-                    )) {
+                    if (line.equalsIgnoreCase("Username : " + username)) {
 
-                        // PASSWORD
-                        String passwordLine =
-                                fileScanner.nextLine();
+                        String passwordLine = fileScanner.nextLine();
+                        String storedPassword = passwordLine.substring(11).trim();
 
-                        String storedPassword =
-                                passwordLine.substring(11).trim();
+                        String roleLine = fileScanner.nextLine();
+                        String storedRole = roleLine.substring(7).trim();
 
-                        // ROLE
-                        String roleLine =
-                                fileScanner.nextLine();
+                        if (storedPassword.equals(password)) {
 
-                        String storedRole =
-                                roleLine.substring(7).trim();
+                            System.out.println("\nLogin Successful!");
 
-                        // VALID PASSWORD + ROLE
-                        if (storedPassword.equals(password)
-                                &&
-                                storedRole.equalsIgnoreCase(roleInput)) {
-
-                            System.out.println(
-                                    "\nLogin Successful"
-                            );
-
-                            System.out.println(
-                                    "Welcome " + storedRole
-                            );
+                            // ✅ REMOVED WELCOME LINE AS REQUESTED
 
                             fileScanner.close();
 
-                            return new User(
-                                    username,
-                                    storedPassword,
-                                    storedRole,
-                                    "",
-                                    ""
-                            );
+                            return new User(username, storedPassword, storedRole, "", "");
                         }
                     }
                 }
@@ -324,26 +248,16 @@ public class LoginService {
                 fileScanner.close();
 
             } catch (Exception e) {
-
                 System.out.println("File Error");
             }
 
             attempts++;
 
-            System.out.println(
-                    "\nInvalid Username, Password or Role"
-            );
-
-            System.out.println(
-                    "Remaining Attempts : "
-                            + (2 - attempts)
-            );
+            System.out.println("\nInvalid Username or Password");
+            System.out.println("Remaining Attempts: " + (2 - attempts));
         }
 
-        System.out.println(
-                "\nMaximum Login Attempts Reached"
-        );
-
+        System.out.println("\nMaximum Login Attempts Reached");
         return null;
     }
 
@@ -355,106 +269,50 @@ public class LoginService {
         System.out.print("Enter Username : ");
         String username = sc.nextLine().trim();
 
-        System.out.print("Enter Role : ");
-        String roleInput = sc.nextLine().trim();
-
         ArrayList<String> lines = new ArrayList<>();
-
         boolean found = false;
 
         try {
 
             File file = new File(filePath);
-
             Scanner fileScanner = new Scanner(file);
 
             while (fileScanner.hasNextLine()) {
-
-                String line = fileScanner.nextLine();
-
-                lines.add(line);
+                lines.add(fileScanner.nextLine());
             }
 
             fileScanner.close();
 
             for (int i = 0; i < lines.size(); i++) {
 
-                if (lines.get(i).equalsIgnoreCase(
-                        "Username : " + username
-                )) {
+                if (lines.get(i).equalsIgnoreCase("Username : " + username)) {
 
-                    String roleLine =
-                            lines.get(i + 2);
+                    System.out.print("Enter New Password : ");
+                    String newPassword = sc.nextLine().trim();
 
-                    String storedRole =
-                            roleLine.substring(7).trim();
-
-                    // AUTHENTICATION
-                    if (storedRole.equalsIgnoreCase(
-                            roleInput
-                    )) {
-
-                        String newPassword;
-
-                        while (true) {
-
-                            System.out.print(
-                                    "Enter New Password : "
-                            );
-
-                            newPassword =
-                                    sc.nextLine().trim();
-
-                            if (isValidPassword(newPassword)) {
-
-                                break;
-
-                            } else {
-
-                                System.out.println(
-                                        "Password Must Contain Alphabet + Number + Special Character"
-                                );
-                            }
-                        }
-
-                        lines.set(
-                                i + 1,
-                                "Password : " + newPassword
-                        );
-
-                        found = true;
-
-                        break;
-                    }
+                    lines.set(i + 1, "Password : " + newPassword);
+                    found = true;
+                    break;
                 }
             }
 
-            // UPDATE FILE
             if (found) {
 
-                FileWriter writer =
-                        new FileWriter(filePath);
+                FileWriter writer = new FileWriter(filePath);
 
                 for (String data : lines) {
-
                     writer.write(data + "\n");
                 }
 
                 writer.close();
 
-                System.out.println(
-                        "\nPassword Updated Successfully"
-                );
+                System.out.println("\nPassword Updated Successfully!");
 
             } else {
-
-                System.out.println(
-                        "\nAuthentication Failed"
-                );
+                System.out.println("\nUsername Not Found!");
             }
 
         } catch (Exception e) {
-
             System.out.println("File Error");
         }
     }

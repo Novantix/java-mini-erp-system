@@ -1,71 +1,8 @@
+
 ===== USER DATA =====
-Username : Mohan
-Password : Mohan@123
-Role : AdmiN
-Check-In : 18:57:53
-Check-Out : 02:57:53
-----------------------
-===== USER DATA =====
-Username : Mohan
-Password : Mohan@123
-Role : Employee
-Check-In : 18:58:15
-Check-Out : 02:58:15
-----------------------
-===== USER DATA =====
-Username : Sandeep
-Password : Sandeep@123
-Role : AdmIN
-Check-In : 19:02:53
-Check-Out : 03:02:53
-----------------------
-===== USER DATA =====
-Username : Sandeep
-Password : Sandeep@123
-Role : EmploYEE
-Check-In : 19:03:27
-Check-Out : 03:03:27
-----------------------
-===== USER DATA =====
-Username : Cmohan@123
-Password : Mohan@123
-Role : AdmIN
-Check-In : 19:27:09
-Check-Out : 03:27:09
-----------------------
-===== USER DATA =====
-<<<<<<< HEAD
-Username : vishnu123456789
-Password : vishnu123456789
-Role : asdfg
-Check-In : 16:55:45
-Check-Out : 00:55:45
-----------------------
-===== USER DATA =====
-Username : vishnu
-Password : vishnu123
-Role : admin
-Check-In : 17:51:21
-Check-Out : 01:51:21
-----------------------
-===== USER DATA =====
-Username : vishn
-Password : vishn
-Role : ADMIN
-Check-In : 17:52:53
-Check-Out : 01:52:53
-=======
-Username : Anil
-Password : Bigil
+Username : C MOHAN
+Password : Cmohan@123
 Role : Admin
-Check-In : 12:57:17
-Check-Out : 20:57:17
-----------------------
-===== USER DATA =====
-Username : Anil
-Password : anil
-Role : ADmin
-Check-In : 17:45:17
-Check-Out : 01:45:17
->>>>>>> 2668d8ff7919421d84ca643b48d37cc63ad4a77c
+Check-In : 22:48:03
+Check-Out : 06:48:03
 ----------------------

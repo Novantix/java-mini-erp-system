@@ -73,7 +73,7 @@ public class Main {
 
                     } else {
 
-                        System.out.println("\nWelcome User");
+                        System.out.println("\nWelcome " + currentUser);
                     }
 
                     int mainChoice;
