@@ -11,6 +11,7 @@ import services.LoginService;
 import services.PurchaseService;
 import services.ReportService;
 import services.RoleService;
+import services.SalesService;
 
 public class Main {
 
@@ -24,6 +25,7 @@ public class Main {
         ReportService reportService = new ReportService(auditService);
         EmployeeService employeeService = new EmployeeService();
         PurchaseService purchaseService = new PurchaseService();
+        SalesService salesService = new SalesService();
 
         boolean systemRunning = true;
 
@@ -97,11 +99,9 @@ public class Main {
                         System.out.println(
                                 "2. Reports & Audit");
 
-                        System.out.println(
-                                "3. Supplier & Purchase Management");
-
-                        System.out.println(
-                                "0. Logout");
+                        System.out.println("3. Supplier & Purchase Management");
+                         System.out.println("4. Sales & Customer Management");
+                         System.out.println("0. Logout"); 
 
                         System.out.println(
                                 "=========================================");
@@ -295,6 +295,68 @@ public class Main {
                                         purchaseProduct);
 
                                 break;
+                                case 4:
+                                        int salesChoice;
+                                         do {
+                                                 System.out.println( "\n===== SALES & CUSTOMER MANAGEMENT =====");
+                                                  System.out.println( "1. Add Customer");
+                                                  System.out.println( "2. View Customers");
+                                                   System.out.println( "3. Add Sale");
+                                                   System.out.println("4. View Sales");
+                                                   System.out.println("5. Generate Invoice");
+                                                   System.out.println( "0. Back");
+                                                   System.out.print("Enter Choice : ");
+                                                   salesChoice = sc.nextInt();
+                                                    sc.nextLine();
+
+        switch (salesChoice) {
+
+            case 1:
+
+                salesService.addCustomer(sc);
+
+                break;
+
+            case 2:
+
+                salesService.viewCustomers();
+
+                break;
+
+            case 3:
+
+                salesService.addSale(sc);
+
+                break;
+
+            case 4:
+
+                salesService.viewSales();
+
+                break;
+
+            case 5:
+
+                salesService.generateInvoice();
+
+                break;
+
+            case 0:
+
+                System.out.println(
+                        "Returning to Main Menu...");
+
+                break;
+
+            default:
+
+                System.out.println(
+                        "Invalid Choice!");
+        }
+
+    } while (salesChoice != 0);
+
+    break;
 
                             case 0:
 
