@@ -3,3 +3,7 @@ Supplier Name : prakash
 Product Name : pc
 Stock Quantity : 40
 
+Supplier ID : 21
+Supplier Name : Anil
+Product Name : AC
+Stock Quantity : 40
