@@ -117,6 +117,27 @@ Check-In : 10:55:31
 Check-Out : 18:55:31
 ----------------------
 ===== USER DATA =====
+<<<<<<< HEAD
+Username : vishnu123456789
+Password : vishnu123456789
+Role : asdfg
+Check-In : 16:55:45
+Check-Out : 00:55:45
+----------------------
+===== USER DATA =====
+Username : vishnu
+Password : vishnu123
+Role : admin
+Check-In : 17:51:21
+Check-Out : 01:51:21
+----------------------
+===== USER DATA =====
+Username : vishn
+Password : vishn
+Role : ADMIN
+Check-In : 17:52:53
+Check-Out : 01:52:53
+=======
 Username : Anil
 Password : Bigil
 Role : Admin
@@ -129,4 +150,5 @@ Password : anil
 Role : ADmin
 Check-In : 17:45:17
 Check-Out : 01:45:17
+>>>>>>> 2668d8ff7919421d84ca643b48d37cc63ad4a77c
 ----------------------
