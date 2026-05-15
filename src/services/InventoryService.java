@@ -70,7 +70,7 @@ public class InventoryService {
 
         products.add(new Product(id, name, qty, price, reorder));
 
-        saveToFile(); // ✅ IMPORTANT
+        saveToFile(); //  IMPORTANT
 
         System.out.println("Product added successfully.");
     }
@@ -78,7 +78,7 @@ public class InventoryService {
     // ================= UPDATE =================
     public void updateProduct() {
 
-        loadFromFile(); // ✅ latest data
+        loadFromFile(); //  latest data
 
         System.out.print("Enter Product ID: ");
         int id = readInt();
@@ -96,7 +96,7 @@ public class InventoryService {
         System.out.print("Enter New Price: ");
         p.setPrice(readDouble());
 
-        saveToFile(); // ✅ IMPORTANT FIX
+        saveToFile(); //  IMPORTANT FIX
 
         System.out.println("Product updated successfully.");
     }
@@ -104,7 +104,7 @@ public class InventoryService {
     // ================= LOW STOCK =================
     public void lowStockAlert() {
 
-        loadFromFile(); // ✅ read from file
+        loadFromFile(); //  read from file
 
         boolean found = false;
 
@@ -128,7 +128,7 @@ public class InventoryService {
     // ================= REPORT =================
     public void inventoryReport() {
 
-        loadFromFile(); // ✅ read file
+        loadFromFile(); //  read file
 
         if (products.isEmpty()) {
             System.out.println("No products available.");

@@ -139,15 +139,33 @@ public class Main {
 
                             case 2:
 
-                                System.out.println(
-                                        "\n======== PAYROLL MODULE ========");
+                                System.out.println("\n======== PAYROLL MODULE ========");
+
+                                        System.out.println("\n======== Generate Payslip ? ========");
+                                        System.out.println("1. Generate Payslip");
+                                        System.out.println("0. Back");
+                                        System.out.print("Enter choice: ");
+
+                                        int pChoice = sc.nextInt();
+                                        sc.nextLine();
+                                        if (pChoice == 1) {
+
+                                        
+
+
+
+
+
+
+
+
 
                                 System.out.print("Enter Employee ID: ");
                                 int employeeId = sc.nextInt();
                                 sc.nextLine();
 
                                 System.out.print("Enter the Month: ");
-                                String months = sc.nextLine();
+                                String months = sc.next();
 
                                 System.err.println("Enter the Year");
                                 int year  = sc.nextInt();
@@ -174,13 +192,18 @@ public class Main {
                                 );
 
                                 break;
+                                } else if (pChoice == 0) {
+                                        System.out.println("Returning...Please wait");
+                                } else {
+                                        System.out.println("Please enter a valid choice.");
+                        }
 
                             // ================= INVENTORY =================
                         case 3:
 
 
                         if (!roleService.isAdmin(currentRole)) {
-        System.out.println("❌ Access Denied! Only Admin can access Inventory.");
+        System.out.println(" Access Denied! Only Admin can access Inventory.");
         break;
         }
 
@@ -221,17 +244,15 @@ public class Main {
 
                                 while (true) {
 
-                                    System.out.print(
-                                            "Enter Supplier ID : ");
+                                    System.out.print( "Enter Supplier ID : ");
 
-                                    supplierId = sc.nextInt();
+                                supplierId = sc.nextInt();
 
-                                    if (supplierId > 0) {
+                                if (supplierId > 0) {
                                         break;
-                                    }
+                                }
 
-                                    System.out.println(
-                                            "Supplier ID must be positive!");
+                                System.out.println("Supplier ID must be positive!");
                                 }
 
                                 sc.nextLine();

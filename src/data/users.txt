@@ -151,3 +151,10 @@ Role : employee
 Check-In : 16:38:48
 Check-Out : 00:38:48
 ----------------------
+===== USER DATA =====
+Username : heamanth
+Password : heamanth
+Role : employee
+Check-In : 18:24:06
+Check-Out : 02:24:06
+----------------------
