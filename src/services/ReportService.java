@@ -96,44 +96,79 @@ public class ReportService {
     }
 
     // 1. Employee Report  →  ADMIN 
+public void generateEmployeeReport(List<Employee> employees, User loggedInUser , int searchId) {
 
-    public void generateEmployeeReport(List<Employee> employees, User loggedInUser) {
-        try {
-            //  Login check — is anyone logged in?
-            if (!isLoggedIn(loggedInUser)) return;
+    try {
 
-            //  Role check — only ADMIN or MANAGER
-            if (!hasRole(loggedInUser, "ADMIN", "MANAGER")) return;
+        // Login check
+        if (!isLoggedIn(loggedInUser)) return;
 
-            if (employees == null || employees.isEmpty()) {
-                System.out.println("[Report] No employee data available to generate report.");
-                return;
-            }
+        // Role check
+        if (!hasRole(loggedInUser, "ADMIN", "MANAGER")) return;
 
-            StringBuilder content = new StringBuilder();
-            content.append("EMPLOYEE REPORT\n");
-            content.append("Total Employees : ").append(employees.size()).append("\n\n");
-
-            double totalSalary = 0;
-            for (Employee emp : employees) {
-                content.append("----------------------------\n");
-                content.append(emp.toString()).append("\n");
-                totalSalary += emp.getSalary();
-            }
-
-            content.append("----------------------------\n");
-            content.append("Total Salary Expense : Rs. ").append(String.format("%.2f", totalSalary)).append("\n");
-
-            Report report = new Report(reportIdCounter++, "EMPLOYEE", loggedInUser.getUsername(), content.toString());
-            reportStore.add(report);
-
-            System.out.println(report);
-            auditService.logAction(loggedInUser.getUsername(), "Generated Employee Report [ID: " + report.getReportId() + "]");
-
-        } catch (Exception e) {
-            System.out.println("[ReportService Error] generateEmployeeReport : " + e.getMessage());
+        // Empty check
+        if (employees == null || employees.isEmpty()) {
+            System.out.println("[Report] No employee data available.");
+            return;
         }
+
+        Employee foundEmployee = null;
+
+        // Search employee
+        for (Employee emp : employees) {
+
+            if (emp.getEmployeeId() == searchId) {
+                foundEmployee = emp;
+                break;
+            }
+        }
+
+        // If employee not found
+        if (foundEmployee == null) {
+
+            System.out.println("[Report] Employee ID "
+                    + searchId + " not found.");
+
+            return;
+        }
+
+        // Generate report content
+        StringBuilder content = new StringBuilder();
+
+        content.append("EMPLOYEE REPORT\n");
+        content.append("----------------------------\n");
+
+        content.append(foundEmployee.toString()).append("\n");
+
+        content.append("----------------------------\n");
+
+        Report report = new Report(
+                reportIdCounter++,
+                "EMPLOYEE",
+                loggedInUser.getUsername(),
+                content.toString()
+        );
+
+        reportStore.add(report);
+
+        // Print report
+        System.out.println(report);
+
+        // Audit log
+        auditService.logAction(
+                loggedInUser.getUsername(),
+                "Generated Employee Report for Employee ID : "
+                        + searchId
+        );
+
+    } catch (Exception e) {
+
+        System.out.println(
+                "[ReportService Error] generateEmployeeReport : "
+                        + e.getMessage()
+        );
     }
+}
 
     // 2. Daily Report  →  ALL roles allowed (ADMIN,  EMPLOYEE)-----
 

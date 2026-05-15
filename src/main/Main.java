@@ -487,44 +487,114 @@ public class Main {
 
                 case 6:
 
-                    java.util.List<models.Employee> employeeList = new java.util.ArrayList<>();
-                    try {
-                        java.io.File empFile = new java.io.File("data/employees.txt");
-                        if (empFile.exists()) {
-                            java.util.Scanner empScanner = new java.util.Scanner(empFile);
-                            int empId = 0, exp = 0;
-                            String empName = "", dept = "", desig = "", mgr = "", promo = "";
-                            double salary = 0;
-                            while (empScanner.hasNextLine()) {
-                                String line = empScanner.nextLine();
-                                if (line.startsWith("Employee ID")) {
-                                    empId = Integer.parseInt(line.split(":", 2)[1].trim());
-                                } else if (line.startsWith("Employee Name")) {
-                                    empName = line.split(":", 2)[1].trim();
-                                } else if (line.startsWith("Department")) {
-                                    dept = line.split(":", 2)[1].trim();
-                                } else if (line.startsWith("Designation")) {
-                                    desig = line.split(":", 2)[1].trim();
-                                } else if (line.startsWith("Salary")) {
-                                    salary = Double.parseDouble(line.split(":", 2)[1].trim());
-                                } else if (line.startsWith("Manager Name")) {
-                                    mgr = line.split(":", 2)[1].trim();
-                                } else if (line.startsWith("Experience")) {
-                                    exp = Integer.parseInt(line.split(":", 2)[1].replaceAll("[^0-9]", "").trim());
-                                } else if (line.startsWith("Promotion Status")) {
-                                    promo = line.split(":", 2)[1].trim();
-                                } else if (line.startsWith("----------------------------------------")) {
-                                    employeeList.add(new models.Employee(empId, empName, dept, desig, salary, mgr, exp, promo));
-                                }
-                            }
-                            empScanner.close();
-                        }
-                    } catch (Exception e) {
-                        System.out.println("Error reading employee data: " + e.getMessage());
-                    }
-                    reportService.generateEmployeeReport(employeeList, loginUser);
+    System.out.print("Enter Employee ID : ");
+    int searchId = sc.nextInt();
+    sc.nextLine();
 
-                    break;
+    java.util.List<models.Employee> employeeList =
+            new java.util.ArrayList<>();
+
+    try {
+
+        java.io.File empFile =
+                new java.io.File("data/employees.txt");
+
+        if (empFile.exists()) {
+
+            java.util.Scanner empScanner =
+                    new java.util.Scanner(empFile);
+
+            int empId = 0;
+            int exp = 0;
+
+            String empName = "";
+            String dept = "";
+            String desig = "";
+            String mgr = "";
+            String promo = "";
+
+            double salary = 0;
+
+            while (empScanner.hasNextLine()) {
+
+                String line = empScanner.nextLine();
+
+                if (line.startsWith("Employee ID")) {
+
+                    empId = Integer.parseInt(
+                            line.split(":", 2)[1].trim());
+
+                } else if (line.startsWith("Employee Name")) {
+
+                    empName =
+                            line.split(":", 2)[1].trim();
+
+                } else if (line.startsWith("Department")) {
+
+                    dept =
+                            line.split(":", 2)[1].trim();
+
+                } else if (line.startsWith("Designation")) {
+
+                    desig =
+                            line.split(":", 2)[1].trim();
+
+                } else if (line.startsWith("Salary")) {
+
+                    salary = Double.parseDouble(
+                            line.split(":", 2)[1].trim());
+
+                } else if (line.startsWith("Manager Name")) {
+
+                    mgr =
+                            line.split(":", 2)[1].trim();
+
+                } else if (line.startsWith("Experience")) {
+
+                    exp = Integer.parseInt(
+                            line.split(":", 2)[1]
+                                    .replaceAll("[^0-9]", "")
+                                    .trim());
+
+                } else if (line.startsWith("Promotion Status")) {
+
+                    promo =
+                            line.split(":", 2)[1].trim();
+
+                } else if (line.startsWith("----------------------------------------")) {
+
+                    employeeList.add(
+                            new models.Employee(
+                                    empId,
+                                    empName,
+                                    dept,
+                                    desig,
+                                    salary,
+                                    mgr,
+                                    exp,
+                                    promo
+                            )
+                    );
+                }
+            }
+
+            empScanner.close();
+        }
+
+    } catch (Exception e) {
+
+        System.out.println(
+                "Error reading employee data: "
+                        + e.getMessage());
+    }
+
+    reportService.generateEmployeeReport(
+            employeeList,
+            loginUser,
+            searchId
+    );
+
+    break;
 
                 case 7:
 

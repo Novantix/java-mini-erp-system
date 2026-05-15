@@ -1,18 +1,9 @@
-Employee ID      : 144
-Employee Name    : Mohan
-Department       : Java Develpoer
-Designation      : Emp
-Salary           : 1.0E9
-Manager Name     : Akhil
-Experience       : 2 years
-Promotion Status : Not Promoted
-----------------------------------------
-Employee ID      : 143
-Employee Name    : vishnu
-Department       : Java Developer
-Designation      : emp
+Employee ID      : 105
+Employee Name    : sai
+Department       : manager
+Designation      : Manager
 Salary           : 100000.0
-Manager Name     : akhil
-Experience       : 2 years
+Manager Name     : Akhil
+Experience       : 5 years
 Promotion Status : Not Promoted
 ----------------------------------------
