@@ -158,3 +158,24 @@ Role : employee
 Check-In : 18:24:06
 Check-Out : 02:24:06
 ----------------------
+===== USER DATA =====
+Username : sai
+Password : sai
+Role : admin
+Check-In : 22:41:06
+Check-Out : 06:41:06
+----------------------
+===== USER DATA =====
+Username : sai
+Password : sai
+Role : admin
+Check-In : 22:41:21
+Check-Out : 06:41:21
+----------------------
+===== USER DATA =====
+Username : sai
+Password : sai
+Role : admin
+Check-In : 22:41:41
+Check-Out : 06:41:41
+----------------------

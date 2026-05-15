@@ -80,3 +80,27 @@ Tax: 2400.0
 Bonus: 1200.0
 Final Salary: 19920.0
 -----------------------
+===== PAYSLIP =====
+Employee ID: 102
+Basic Salary: 50000.0
+PF: 6000.0
+Tax: 5000.0
+Bonus: 2500.0
+Final Salary: 41500.0
+-----------------------
+===== PAYSLIP =====
+Employee ID: 102
+Basic Salary: 67000.0
+PF: 8040.0
+Tax: 6700.0
+Bonus: 3350.0
+Final Salary: 55610.0
+-----------------------
+===== PAYSLIP =====
+Employee ID: 102
+Basic Salary: 5000.0
+PF: 600.0
+Tax: 500.0
+Bonus: 250.0
+Final Salary: 4150.0
+-----------------------
