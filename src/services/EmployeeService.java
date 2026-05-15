@@ -1,12 +1,11 @@
 package services;
 
-import models.Employee;
-
 import java.io.File;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
+import models.Employee;
 
 public class EmployeeService {
     private ArrayList<Employee> employees = new ArrayList<>();
@@ -381,5 +380,8 @@ public class EmployeeService {
         employees = new ArrayList<>();
 
         System.out.println("Existing employee data found at: " + FILE_PATH);
+    }
+    public ArrayList<Employee> getEmployees() {
+        return employees;
     }
 }

@@ -5,5 +5,21 @@ Designation      : Csm
 Salary           : 80000.0
 Manager Name     : Not
 Experience       : 8 years
+Employee ID      : 144
+Employee Name    : Mohan
+Department       : Java Develpoer
+Designation      : Emp
+Salary           : 1.0E9
+Manager Name     : Akhil
+Experience       : 2 years
+Promotion Status : Not Promoted
+----------------------------------------
+Employee ID      : 143
+Employee Name    : vishnu
+Department       : Java Developer
+Designation      : emp
+Salary           : 100000.0
+Manager Name     : akhil
+Experience       : 2 years
 Promotion Status : Not Promoted
 ----------------------------------------
