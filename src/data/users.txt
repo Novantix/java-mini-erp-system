@@ -139,3 +139,31 @@ Check-In : 10:55:31
 Check-Out : 18:55:31
 >>>>>>> 9618113b1c22372c91ebaf29025a74214efa1244
 ----------------------
+===== USER DATA =====
+Username : Akhil
+Password : Akhil@123
+Role : AdmIn
+Check-In : 17:36:33
+Check-Out : 01:36:33
+----------------------
+===== USER DATA =====
+Username : mohan
+Password : Mohan@123
+Role : EMployee
+Check-In : 17:37
+Check-Out : 01:37
+----------------------
+===== USER DATA =====
+Username : Vishnu
+Password : Vishnu@123
+Role : AdmiN
+Check-In : 17:39:03
+Check-Out : 01:39:03
+----------------------
+===== USER DATA =====
+Username : Mohan
+Password : Mohan@123
+Role : AdmiN
+Check-In : 17:39:29
+Check-Out : 01:39:29
+----------------------
