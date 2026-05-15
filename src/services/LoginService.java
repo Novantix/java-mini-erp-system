@@ -24,10 +24,8 @@ public class LoginService {
                 hasAlphabet = true;
 
             } else if (Character.isDigit(ch)) {
-                // allowed
 
             } else if (ch == ' ') {
-                // allowed space
 
             } else {
                 return false;
@@ -62,7 +60,7 @@ public class LoginService {
         return alphabet && number && special;
     }
 
-    // ================= CHECK USER EXISTS =================
+    // ================= CHECK USER EXISTS (CASE-SENSITIVE) =================
     public boolean isUserExists(String username) {
 
         try {
@@ -75,9 +73,14 @@ public class LoginService {
 
                 String line = fileScanner.nextLine();
 
-                if (line.equalsIgnoreCase("Username : " + username)) {
-                    fileScanner.close();
-                    return true;
+                if (line.startsWith("Username : ")) {
+
+                    String storedUser = line.substring(11).trim();
+
+                    if (storedUser.equals(username)) { // CASE-SENSITIVE
+                        fileScanner.close();
+                        return true;
+                    }
                 }
             }
 
@@ -192,7 +195,7 @@ public class LoginService {
         return user;
     }
 
-    // ================= LOGIN =================
+    // ================= LOGIN (CASE-SENSITIVE FIXED) =================
     public User login() {
 
         int attempts = 0;
@@ -224,7 +227,7 @@ public class LoginService {
 
                     String line = fileScanner.nextLine();
 
-                    if (line.equalsIgnoreCase("Username : " + username)) {
+                    if (line.equals("Username : " + username)) { // CASE-SENSITIVE MATCH
 
                         String passwordLine = fileScanner.nextLine();
                         String storedPassword = passwordLine.substring(11).trim();
@@ -235,8 +238,6 @@ public class LoginService {
                         if (storedPassword.equals(password)) {
 
                             System.out.println("\nLogin Successful!");
-
-                            // ✅ REMOVED WELCOME LINE AS REQUESTED
 
                             fileScanner.close();
 
@@ -285,7 +286,7 @@ public class LoginService {
 
             for (int i = 0; i < lines.size(); i++) {
 
-                if (lines.get(i).equalsIgnoreCase("Username : " + username)) {
+                if (lines.get(i).equals("Username : " + username)) {
 
                     System.out.print("Enter New Password : ");
                     String newPassword = sc.nextLine().trim();
