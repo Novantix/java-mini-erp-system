@@ -3,6 +3,7 @@ package services;
 import models.Employee;
 import models.Report;
 import models.User;
+import models.Supplier;
 
 import java.io.FileWriter;
 import java.io.IOException;
@@ -430,58 +431,184 @@ public void generateEmployeeReport(List<Employee> employees, User loggedInUser ,
     public void generateAttendanceReport(User loggedInUser) {
         System.out.println("[Notice] Attendance Report module is pending integration.");
     }
+public void generateSalesReport(User loggedInUser,
+                                int supplierId,
+                                String productName) {
 
-    public void generateSalesReport(User loggedInUser) {
-        System.out.println("[Notice] Sales Report module is pending integration.");
-    }
+    try {
 
-    
+        if (!isLoggedIn(loggedInUser)) return;
 
-    public void viewDailyReports(User loggedInUser) {
-        try {
-            if (!isLoggedIn(loggedInUser)) return;
+        if (!hasRole(loggedInUser,
+                "ADMIN",
+                "MANAGER")) return;
 
-            java.io.File file = new java.io.File("data/daily_report.txt");
-            if (!file.exists() || file.length() == 0) {
-                System.out.println("[Report] No daily reports found.");
-                return;
-            }
+        java.io.File file =
+                new java.io.File("data/suppliers.txt");
 
-            System.out.println("\n===== DAILY REPORTS =====");
-            java.util.Scanner scanner = new java.util.Scanner(file);
-            while (scanner.hasNextLine()) {
-                System.out.println(scanner.nextLine());
-            }
-            scanner.close();
+        if (!file.exists()) {
 
-            auditService.logAction(loggedInUser.getUsername(), "Viewed daily reports list");
-        } catch (Exception e) {
-            System.out.println("[ReportService Error] viewDailyReports : " + e.getMessage());
+            System.out.println(
+                    "Supplier File Not Found");
+
+            return;
         }
-    }
 
-    public void viewMonthlyReports(User loggedInUser) {
-        try {
-            if (!isLoggedIn(loggedInUser)) return;
-            // Monthly reports usually require ADMIN or MANAGER role
-            if (!hasRole(loggedInUser, "ADMIN", "MANAGER")) return;
+        java.util.Scanner scanner =
+                new java.util.Scanner(file);
 
-            java.io.File file = new java.io.File("data/monthly_report.txt");
-            if (!file.exists() || file.length() == 0) {
-                System.out.println("[Report] No monthly reports found.");
-                return;
+        boolean found = false;
+
+        while (scanner.hasNextLine()) {
+
+            String line = scanner.nextLine();
+
+            if (line.startsWith("Supplier ID")) {
+
+                int id = Integer.parseInt(
+                        line.split(":")[1].trim());
+
+                String supplierName =
+                        scanner.nextLine()
+                                .split(":")[1]
+                                .trim();
+
+                String fileProduct =
+                        scanner.nextLine()
+                                .split(":")[1]
+                                .trim();
+
+                int stock =
+                        Integer.parseInt(
+                                scanner.nextLine()
+                                        .split(":")[1]
+                                        .trim());
+
+                if (id == supplierId
+                        &&
+                        fileProduct.equalsIgnoreCase(
+                                productName)) {
+
+                    System.out.println(
+                            "\n===== SALES REPORT =====");
+
+                    System.out.println(
+                            "Supplier ID : " + id);
+
+                    System.out.println(
+                            "Supplier Name : "
+                                    + supplierName);
+
+                    System.out.println(
+                            "Product Name : "
+                                    + fileProduct);
+
+                    System.out.println(
+                            "Stock Quantity : "
+                                    + stock);
+
+                    found = true;
+
+                    break;
+                }
             }
-
-            System.out.println("\n===== MONTHLY REPORTS =====");
-            java.util.Scanner scanner = new java.util.Scanner(file);
-            while (scanner.hasNextLine()) {
-                System.out.println(scanner.nextLine());
-            }
-            scanner.close();
-
-            auditService.logAction(loggedInUser.getUsername(), "Viewed monthly reports list");
-        } catch (Exception e) {
-            System.out.println("[ReportService Error] viewMonthlyReports : " + e.getMessage());
         }
+
+        scanner.close();
+
+        if (!found) {
+
+            System.out.println(
+                    "Sales Report Not Found");
+        }
+
+    } catch (Exception e) {
+
+        System.out.println(
+                "[ReportService Error] "
+                        + e.getMessage());
     }
+}
+public void viewDailyReports(User loggedInUser) {
+
+    try {
+
+        if (!isLoggedIn(loggedInUser)) {
+            return;
+        }
+
+        java.io.File file =
+                new java.io.File(
+                        "data/daily_report.txt");
+
+        if (!file.exists()) {
+
+            System.out.println(
+                    "No Daily Reports Found");
+
+            return;
+        }
+
+        java.util.Scanner scanner =
+                new java.util.Scanner(file);
+
+        System.out.println(
+                "\n===== DAILY REPORTS =====");
+
+        while (scanner.hasNextLine()) {
+
+            System.out.println(
+                    scanner.nextLine());
+        }
+
+        scanner.close();
+
+    } catch (Exception e) {
+
+        System.out.println(
+                "[ReportService Error] "
+                        + e.getMessage());
+    }
+}
+public void viewMonthlyReports(User loggedInUser) {
+
+    try {
+
+        if (!isLoggedIn(loggedInUser)) {
+            return;
+        }
+
+        java.io.File file =
+                new java.io.File(
+                        "data/monthly_report.txt");
+
+        if (!file.exists()) {
+
+            System.out.println(
+                    "No Monthly Reports Found");
+
+            return;
+        }
+
+        java.util.Scanner scanner =
+                new java.util.Scanner(file);
+
+        System.out.println(
+                "\n===== MONTHLY REPORTS =====");
+
+        while (scanner.hasNextLine()) {
+
+            System.out.println(
+                    scanner.nextLine());
+        }
+
+        scanner.close();
+
+    } catch (Exception e) {
+
+        System.out.println(
+                "[ReportService Error] "
+                        + e.getMessage());
+    }
+}
 }

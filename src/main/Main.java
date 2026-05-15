@@ -137,6 +137,7 @@ public class Main {
                                         reportService,
                                         auditService,
                                         employeeService,
+                                        purchaseService,
                                         loginUser,
                                         currentUser,
                                         currentRole
@@ -412,6 +413,7 @@ public class Main {
             ReportService reportService,
             AuditService auditService,
             EmployeeService employeeService,
+            PurchaseService purchaseService,
             User loginUser,
             String currentUser,
             String currentRole) {
@@ -513,9 +515,17 @@ public class Main {
 
                 case 4:
 
-                    reportService.generateSalesReport(
-                            loginUser
-                    );
+                    System.out.println("Enter Supplier ID : ");
+                        int supplierId = sc.nextInt();
+                        sc.nextLine();
+
+                        System.out.println("Enter Product Name : ");
+                        String productName = sc.nextLine();
+
+                        reportService.generateSalesReport(
+        loginUser,
+        supplierId,
+        productName);
 
                     break;
 

@@ -260,4 +260,7 @@ public class PurchaseService {
                     "Purchase File Error!");
         }
     }
+    public ArrayList<Supplier> getSupplierList() {
+    return supplierList;
+}
 }
