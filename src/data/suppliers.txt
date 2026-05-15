@@ -11,3 +11,7 @@ Supplier ID : 25
 Supplier Name : bhanu
 Product Name : cooler
 Stock Quantity : 30
+Supplier ID : 5
+Supplier Name : 8
+Product Name : 9
+Stock Quantity : 5

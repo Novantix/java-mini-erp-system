@@ -7,31 +7,45 @@ import java.util.Scanner;
 import models.User;
 
 public class LoginService {
+
     Scanner sc = new Scanner(System.in);
+
     // FILE PATH
     String filePath = "data/users.txt";
+
     // ================= REGISTER USER =================
     public User registerUser() {
+
         System.out.println("\n===== USER REGISTRATION =====");
+
         System.out.print("Create Username : ");
         String username = sc.nextLine().trim();
+
         System.out.print("Create Password : ");
         String password = sc.nextLine().trim();
+
         // ROLE VALIDATION
         String role;
+
         while (true) {
+
             System.out.print("Enter Role (Admin/Employee) : ");
             role = sc.nextLine().trim();
+
             // ACCEPT ONLY ADMIN OR EMPLOYEE
             if (role.equalsIgnoreCase("Admin") ||
                     role.equalsIgnoreCase("Employee")) {
+
                 break;
+
             } else {
+
                 System.out.println(
                         "Invalid Role! Enter only Admin or Employee."
                 );
             }
         }
+
         // CHECK-IN TIME
         String checkInTime =
                 LocalTime.now()
@@ -44,8 +58,10 @@ public class LoginService {
                         .plusHours(8)
                         .withNano(0)
                         .toString();
+
         System.out.println("Check-In Time  : " + checkInTime);
         System.out.println("Check-Out Time : " + checkOutTime);
+
         User user = new User(
                 username,
                 password,
@@ -53,20 +69,29 @@ public class LoginService {
                 checkInTime,
                 checkOutTime
         );
+
         // SAVE DATA
         try {
+
             // CREATE data FOLDER
             File folder = new File("data");
+
             if (!folder.exists()) {
+
                 folder.mkdir();
             }
+
             // CREATE FILE
             File file = new File(filePath);
+
             if (!file.exists()) {
+
                 file.createNewFile();
             }
+
             FileWriter writer =
                     new FileWriter(file, true);
+
             writer.write("===== USER DATA =====\n");
             writer.write("Username : " + username + "\n");
             writer.write("Password : " + password + "\n");
@@ -74,62 +99,99 @@ public class LoginService {
             writer.write("Check-In : " + checkInTime + "\n");
             writer.write("Check-Out : " + checkOutTime + "\n");
             writer.write("----------------------\n");
+
             writer.close();
+
             System.out.println(
                     "Registration Successful"
             );
+
         } catch (IOException e) {
+
             System.out.println("File Error");
         }
+
         return user;
     }
+
     // ================= LOGIN =================
     public User login() {
+
         int attempts = 0;
+
         long startTime =
                 System.currentTimeMillis();
+
         while (attempts < 2) {
+
             long currentTime =
                     System.currentTimeMillis();
+
             long seconds =
                     (currentTime - startTime) / 1000;
+
             // 30 SEC LIMIT
             if (seconds > 30) {
+
                 System.out.println(
                         "\nLogin Time Expired (30 Seconds)"
                 );
+
                 return null;
             }
+
             System.out.println("\n===== LOGIN PAGE =====");
+
             System.out.print("Enter Username : ");
             String username = sc.nextLine().trim();
+
             System.out.print("Enter Password : ");
             String password = sc.nextLine().trim();
+
+            // NEW ROLE OPTION
+            System.out.print("Enter Role : ");
+            String roleInput = sc.nextLine().trim();
+
             try {
+
                 File file = new File(filePath);
+
                 Scanner fileScanner = new Scanner(file);
+
                 while (fileScanner.hasNextLine()) {
+
                     String line = fileScanner.nextLine();
+
                     // CHECK USERNAME
                     if (line.equalsIgnoreCase(
                             "Username : " + username
                     )) {
+
                         // PASSWORD
                         String passwordLine =
                                 fileScanner.nextLine();
+
                         String storedPassword =
                                 passwordLine.substring(11).trim();
+
                         // ROLE
                         String roleLine =
                                 fileScanner.nextLine();
-                        String role =
-                              roleLine.substring(7).trim();
 
-                        // VALID PASSWORD
-                        if (storedPassword.equals(password)) {
+                        String storedRole =
+                                roleLine.substring(7).trim();
+
+                        // VALID PASSWORD + ROLE
+                        if (storedPassword.equals(password)
+                                &&
+                                storedRole.equalsIgnoreCase(roleInput)) {
 
                             System.out.println(
                                     "\nLogin Successful"
+                            );
+
+                            System.out.println(
+                                    "Welcome " + storedRole
                             );
 
                             fileScanner.close();
@@ -137,7 +199,7 @@ public class LoginService {
                             return new User(
                                     username,
                                     storedPassword,
-                                    role,
+                                    storedRole,
                                     "",
                                     ""
                             );
@@ -155,7 +217,7 @@ public class LoginService {
             attempts++;
 
             System.out.println(
-                    "\nInvalid Username or Password"
+                    "\nInvalid Username, Password or Role"
             );
 
             System.out.println(
