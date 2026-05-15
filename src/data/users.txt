@@ -52,3 +52,17 @@ Role : Employee
 Check-In : 11:09:09
 Check-Out : 19:09:09
 ----------------------
+===== USER DATA =====
+Username : mohan
+Password : Mohan@123
+Role : AdMin
+Check-In : 17:17:30
+Check-Out : 01:17:30
+----------------------
+===== USER DATA =====
+Username : Mohan
+Password : Mohan@123
+Role : Admin
+Check-In : 17:18:35
+Check-Out : 01:18:35
+----------------------
