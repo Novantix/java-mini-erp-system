@@ -1,4 +1,17 @@
+# Compiled Java files
 *.class
-src/users.txt
+
+# Runtime data files
 src/data/users.txt
+src/data/suppliers.txt
+src/data/purchases.txt
+
+# Dat files
 *.dat
+
+# VS Code settings
+.vscode/
+
+# OS files
+.DS_Store
+Thumbs.db

@@ -5,13 +5,13 @@ public class Payroll {
     private int employeeId;
     //private String employeeName;
     private double salary;
-    private String month;
+    private String months;
     private int year;
 
-    public Payroll(int employeeId, double salary, String month,int year) {
+    public Payroll(int employeeId, double salary, String months,int year) {
         this.employeeId = employeeId;
         this.salary = salary;
-        this.month = month;
+        this.months = months;
         this.year = year;
 
     }
@@ -33,11 +33,11 @@ public class Payroll {
     }
 
     public String getMonth() {
-        return month;
+        return months;
     }
 
-    public void setMonth(String month) {
-        this.month = month;
+    public void setMonth(String months) {
+        this.months = months;
     }
 
     public int getYear() {
@@ -53,7 +53,7 @@ public class Payroll {
         return "Payroll{" +
                 "employeeId=" + employeeId +
                 ", salary=" + salary +
-                ", month='" + month + '\'' +
+                ", month='" + months + '\'' +
                 ", year=" + year +
                 '}';
     }
