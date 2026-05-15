@@ -1,4 +1,9 @@
 *.class
+*.dat
+
+out/
+build/
+
 src/users.txt
 src/data/users.txt
-*.dat
+src/data/audit_log.txt
