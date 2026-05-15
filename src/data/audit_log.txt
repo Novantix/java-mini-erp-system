@@ -8,3 +8,7 @@
 [15-05-2026 00:07:14] USER: VISHNU123 | ACTION: Viewed daily reports list
 [15-05-2026 00:07:31] USER: VISHNU123 | ACTION: Viewed monthly reports list
 [15-05-2026 00:08:41] USER: VISHNU123 | ACTION: Logged Out
+[15-05-2026 10:55:36] USER: VISHNU | ACTION: User Logged In
+[15-05-2026 10:55:41] USER: VISHNU | ACTION: Opened Reports & Audit
+[15-05-2026 10:55:47] USER: VISHNU | ACTION: Generated Payroll Report [ID: 1]
+[15-05-2026 10:58:29] USER: VISHNU | ACTION: Logged Out
