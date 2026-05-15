@@ -2,7 +2,6 @@ package main;
 
 import java.util.Scanner;
 import models.Payroll;
-import models.Product;
 import models.User;
 import services.AuditService;
 import services.EmployeeService;
@@ -139,8 +138,12 @@ public class Main {
                                 int employeeId = sc.nextInt();
                                 sc.nextLine();
 
-                                System.out.print("Enter Year and Month: ");
-                                String yrmonth = sc.nextLine();
+                                System.out.print("Enter the Month: ");
+                                String month = sc.nextLine();
+
+                                System.err.println("Enter the Year");
+                                int year  = sc.nextInt();
+                                
 
                                 System.out.print("Enter Net Salary: ");
                                 double salary = sc.nextDouble();
@@ -150,7 +153,8 @@ public class Main {
                                 Payroll payroll = new Payroll(
                                         employeeId,
                                         salary,
-                                        yrmonth
+                                        month,
+                                        year
                                 );
 
                                 // Generate Payslip
@@ -164,41 +168,24 @@ public class Main {
                                 break;
 
                             // ================= INVENTORY =================
-                            case 3:
+                        case 3:
 
-                                System.out.println(
-                                        "\n======== INVENTORY MODULE ========");
 
-                                System.out.print("Enter Product ID: ");
-                                int productId = sc.nextInt();
-                                sc.nextLine();
+                        if (!roleService.isAdmin(currentRole)) {
+        System.out.println("❌ Access Denied! Only Admin can access Inventory.");
+        break;
+        }
 
-                                System.out.print("Enter Product Name: ");
-                                String productName = sc.nextLine();
+                System.out.println("\n======== INVENTORY MODULE ========");
 
-                                System.out.print("Enter Product Stock: ");
-                                int stock = sc.nextInt();
-                                sc.nextLine();
+                        inventoryService.inventoryDashboard();
 
-                                // Product Object
-                                Product product = new Product(
-                                        productId,
-                                        productName,
-                                        stock
-                                );
+                        auditService.logAction(currentUser, "Accessed Inventory Module");
 
-                                // Add Product
-                              //  inventoryService.addProduct(product);
-
-                                auditService.logAction(
-                                        currentUser,
-                                        "Added Product to Inventory"
-                                );
-
-                                break;
+                        break;
 
                             // REPORTS & AUDIT
-                            case 4:
+                        case 4:
 
                                 auditService.logAction(
                                         currentUser,

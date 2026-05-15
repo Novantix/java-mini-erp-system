@@ -108,4 +108,19 @@ Password : mohan
 Role : admin
 Check-In : 17:20:42
 Check-Out : 01:20:42
+
+
+===== USER DATA =====
+Username : Teja
+Password : Teja
+Role : Employee
+Check-In : 11:56:21
+Check-Out : 19:56:21
+----------------------
+===== USER DATA =====
+Username : ravi
+Password : ravi
+Role : Employee
+Check-In : 12:14:19
+Check-Out : 20:14:19
 ----------------------
