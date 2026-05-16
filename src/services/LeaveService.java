@@ -12,16 +12,14 @@ public class LeaveService {
             String employeeName,
             LocalDate fromDate,
             LocalDate toDate,
-            String reason
-    ) {
+            String reason) {
 
         Leave leave = new Leave(
                 employeeId,
                 employeeName,
                 fromDate,
                 toDate,
-                reason
-        );
+                reason);
 
         DataStore.leaveList.add(leave);
 
@@ -30,14 +28,44 @@ public class LeaveService {
 
     public void approveLeave(int employeeId) {
 
+        boolean found = false;
+
         for (Leave leave : DataStore.leaveList) {
 
             if (leave.getEmployeeId() == employeeId) {
 
-                leave.approveLeave();
+                leave.approveLeave(); // sets APPROVED status
 
                 System.out.println("\nLeave Approved");
+                found = true;
+                break;
             }
+        }
+
+        if (!found) {
+            System.out.println("\nNo leave found for Employee ID: " + employeeId);
+        }
+    }
+
+    // ✅ NEW METHOD (ADD THIS)
+    public void rejectLeave(int employeeId) {
+
+        boolean found = false;
+
+        for (Leave leave : DataStore.leaveList) {
+
+            if (leave.getEmployeeId() == employeeId) {
+
+                leave.rejectLeave(); // sets REJECTED status
+
+                System.out.println("\nLeave Rejected");
+                found = true;
+                break;
+            }
+        }
+
+        if (!found) {
+            System.out.println("\nNo leave found for Employee ID: " + employeeId);
         }
     }
 
