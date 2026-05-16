@@ -1,4 +1,3 @@
-
 package main;
 
 import java.util.Scanner;
@@ -6,6 +5,7 @@ import models.Payroll;
 import models.Purchase;
 import models.Supplier;
 import models.User;
+import services.AdminService;
 import services.AuditService;
 import services.EmployeeService;
 import services.InventoryService;
@@ -29,8 +29,9 @@ public class Main {
         EmployeeService employeeService = new EmployeeService();
         PurchaseService purchaseService = new PurchaseService();
         PayrollService payrollService = new PayrollService();
-         InventoryService inventoryService = new InventoryService();
+        InventoryService inventoryService = new InventoryService();
         SalesService salesService = new SalesService();
+        AdminService adminService = new AdminService();
 
         boolean systemRunning = true;
 
@@ -68,8 +69,9 @@ public class Main {
 
                     if (roleService.isAdmin(currentRole)) {
 
-                        System.out.println("\nWelcome "+ currentUser);
+                        System.out.println("\nWelcome " + currentUser);
                         System.out.println(currentUser + ", Access Granted");
+                        //adminService.adminMenu();
 
                     } else if (roleService.isEmployee(currentRole)) {
 
@@ -101,16 +103,26 @@ public class Main {
                         System.out.println(
                                 "1. Employee Management");
 
+                        System.out.println(
+                                "2. Payroll Module");
 
-                        System.out.println("2. Payroll Module");
-                        System.out.println("3. Inventory Module");
-
+                        System.out.println(
+                                "3. Inventory Module");
 
                         System.out.println(
                                 "4. Reports & Audit");
 
                         System.out.println(
                                 "5. Supplier & Purchase Management");
+
+                        System.out.println(
+                                "6. Sales & Customer Management");
+
+                        if (roleService.isAdmin(currentRole)) {
+
+                            System.out.println(
+                                    "7. Admin Panel");
+                        }
 
                         System.out.println(
                                 "0. Logout");
@@ -141,89 +153,75 @@ public class Main {
 
                                 System.out.println("\n======== PAYROLL MODULE ========");
 
-                                        System.out.println("\n======== Generate Payslip ? ========");
-                                        System.out.println("1. Generate Payslip");
-                                        System.out.println("0. Back");
-                                        System.out.print("Enter choice: ");
+                                System.out.println("\n======== Generate Payslip ? ========");
+                                System.out.println("1. Generate Payslip");
+                                System.out.println("0. Back");
+                                System.out.print("Enter choice: ");
 
-                                        int pChoice = sc.nextInt();
-                                        sc.nextLine();
-                                        if (pChoice == 1) {
-
-
-                                        
-
-
-
-
-
-
-
-
-
-                                System.out.print("Enter Employee ID: ");
-                                int employeeId = sc.nextInt();
+                                int pChoice = sc.nextInt();
                                 sc.nextLine();
-                                if (!payrollService.isValidEmployee(employeeId)) {
-                              System.out.println("Invalid id");
-                               break;
-                                                 }
+                                if (pChoice == 1) {
 
+                                    System.out.print("Enter Employee ID: ");
+                                    int employeeId = sc.nextInt();
+                                    sc.nextLine();
+                                    if (!payrollService.isValidEmployee(employeeId)) {
+                                        System.out.println("Invalid id");
+                                        break;
+                                    }
 
-                                System.out.print("Enter the Month: ");
-                                String months = sc.next();
+                                    System.out.print("Enter the Month: ");
+                                    String months = sc.next();
 
-                                System.err.print("Enter the Year:");
-                                int year  = sc.nextInt();
-                                
+                                    System.err.print("Enter the Year:");
+                                    int year = sc.nextInt();
 
-                                System.out.print("Enter Net Salary: ");
-                                double salary = sc.nextDouble();
-                                sc.nextLine();
+                                    System.out.print("Enter Net Salary: ");
+                                    double salary = sc.nextDouble();
+                                    sc.nextLine();
 
-                                // Payroll Object
-                                Payroll payroll = new Payroll(
-                                        employeeId,
-                                        salary,
-                                        months,
-                                        year
-                                );
+                                    // Payroll Object
+                                    Payroll payroll = new Payroll(
+                                            employeeId,
+                                            salary,
+                                            months,
+                                            year
+                                    );
 
-                                // Generate Payslip
-                                payrollService.generatePayslip(payroll);
+                                    // Generate Payslip
+                                    payrollService.generatePayslip(payroll);
 
-                                auditService.logAction(
-                                        currentUser,
-                                        "Generated Payroll"
-                                );
+                                    auditService.logAction(
+                                            currentUser,
+                                            "Generated Payroll"
+                                    );
 
-                                break;
+                                    break;
                                 } else if (pChoice == 0) {
-                                        System.out.println("Returning...Please wait");
+                                    System.out.println("Returning...Please wait");
                                 } else {
-                                        System.out.println("Please enter a valid choice.");
-                        }
+                                    System.out.println("Please enter a valid choice.");
+                                }
 
                             // ================= INVENTORY =================
-                        case 3:
+                            case 3:
 
+                                if (!roleService.isAdmin(currentRole)) {
+                                    System.out.println(" Access Denied! Only Admin can access Inventory.");
+                                    break;
+                                }
 
-                        if (!roleService.isAdmin(currentRole)) {
-        System.out.println(" Access Denied! Only Admin can access Inventory.");
-        break;
-        }
+                                System.out.println("\n======== INVENTORY MODULE ========");
 
-                System.out.println("\n======== INVENTORY MODULE ========");
+                                inventoryService.inventoryDashboard();
+                                //InventoryService inventoryService = new InventoryService();
 
-                        inventoryService.inventoryDashboard();
-                        //InventoryService inventoryService = new InventoryService();
+                                auditService.logAction(currentUser, "Accessed Inventory Module");
 
-                        auditService.logAction(currentUser, "Accessed Inventory Module");
-
-                        break;
+                                break;
 
                             // REPORTS & AUDIT
-                        case 4:
+                            case 4:
 
                                 auditService.logAction(
                                         currentUser,
@@ -251,15 +249,15 @@ public class Main {
 
                                 while (true) {
 
-                                    System.out.print( "Enter Supplier ID : ");
+                                    System.out.print("Enter Supplier ID : ");
 
-                                supplierId = sc.nextInt();
+                                    supplierId = sc.nextInt();
 
-                                if (supplierId > 0) {
+                                    if (supplierId > 0) {
                                         break;
-                                }
+                                    }
 
-                                System.out.println("Supplier ID must be positive!");
+                                    System.out.println("Supplier ID must be positive!");
                                 }
 
                                 sc.nextLine();
@@ -392,68 +390,81 @@ public class Main {
                                         purchaseProduct);
 
                                 break;
-                                case 6:
-                                        int salesChoice;
-                                         do {
-                                                 System.out.println( "\n===== SALES & CUSTOMER MANAGEMENT =====");
-                                                  System.out.println( "1. Add Customer");
-                                                  System.out.println( "2. View Customers");
-                                                   System.out.println( "3. Add Sale");
-                                                   System.out.println("4. View Sales");
-                                                   System.out.println("5. Generate Invoice");
-                                                   System.out.println( "0. Back");
-                                                   System.out.print("Enter Choice : ");
-                                                   salesChoice = sc.nextInt();
-                                                    sc.nextLine();
+                            case 6:
+                                int salesChoice;
+                                do {
+                                    System.out.println("\n===== SALES & CUSTOMER MANAGEMENT =====");
+                                    System.out.println("1. Add Customer");
+                                    System.out.println("2. View Customers");
+                                    System.out.println("3. Add Sale");
+                                    System.out.println("4. View Sales");
+                                    System.out.println("5. Generate Invoice");
+                                    System.out.println("0. Back");
+                                    System.out.print("Enter Choice : ");
+                                    salesChoice = sc.nextInt();
+                                    sc.nextLine();
 
-        switch (salesChoice) {
+                                    switch (salesChoice) {
 
-            case 1:
+                                        case 1:
 
-                salesService.addCustomer(sc);
+                                            salesService.addCustomer(sc);
 
-                break;
+                                            break;
 
-            case 2:
+                                        case 2:
 
-                salesService.viewCustomers();
+                                            salesService.viewCustomers();
 
-                break;
+                                            break;
 
-            case 3:
+                                        case 3:
 
-                salesService.addSale(sc);
+                                            salesService.addSale(sc);
 
-                break;
+                                            break;
 
-            case 4:
+                                        case 4:
 
-                salesService.viewSales();
+                                            salesService.viewSales();
 
-                break;
+                                            break;
 
-            case 5:
+                                        case 5:
 
-                salesService.generateInvoice();
+                                            salesService.generateInvoice();
 
-                break;
+                                            break;
 
-            case 0:
+                                        case 0:
 
-                System.out.println(
-                        "Returning to Main Menu...");
+                                            System.out.println(
+                                                    "Returning to Main Menu...");
 
-                break;
+                                            break;
 
-            default:
+                                        default:
 
-                System.out.println(
-                        "Invalid Choice!");
-        }
+                                            System.out.println(
+                                                    "Invalid Choice!");
+                                    }
 
-    } while (salesChoice != 0);
+                                } while (salesChoice != 0);
 
-    break;
+                                break;
+                            case 7:
+
+                                if (roleService.isAdmin(currentRole)) {
+
+                                    adminService.adminMenu();
+
+                                } else {
+
+                                    System.out.println(
+                                            "Access Denied!");
+                                }
+
+                                break;
 
                             case 0:
 
@@ -612,16 +623,16 @@ public class Main {
                 case 4:
 
                     System.out.println("Enter Supplier ID : ");
-                        int supplierId = sc.nextInt();
-                        sc.nextLine();
+                    int supplierId = sc.nextInt();
+                    sc.nextLine();
 
-                        System.out.println("Enter Product Name : ");
-                        String productName = sc.nextLine();
+                    System.out.println("Enter Product Name : ");
+                    String productName = sc.nextLine();
 
-                        reportService.generateSalesReport(
-        loginUser,
-        supplierId,
-        productName);
+                    reportService.generateSalesReport(
+                            loginUser,
+                            supplierId,
+                            productName);
 
                     break;
 
@@ -642,13 +653,13 @@ public class Main {
                                     basicSalary = Double.parseDouble(line.substring(13).trim());
                                 } else if (line.startsWith("-----------------------")) {
                                     System.out.print("Enter Month: ");
-                                String months = sc.nextLine();
+                                    String months = sc.nextLine();
 
-                        System.out.print("Enter Year: ");
-                        int year = sc.nextInt();
-                   sc.nextLine(); // Consume the newline character
+                                    System.out.print("Enter Year: ");
+                                    int year = sc.nextInt();
+                                    sc.nextLine(); // Consume the newline character
 
-                payrollList.add(new Payroll(empId, basicSalary, months, year));
+                                    payrollList.add(new Payroll(empId, basicSalary, months, year));
                                 }
                             }
                             fileScanner.close();
@@ -662,114 +673,114 @@ public class Main {
 
                 case 6:
 
-    System.out.print("Enter Employee ID : ");
-    int searchId = sc.nextInt();
-    sc.nextLine();
+                    System.out.print("Enter Employee ID : ");
+                    int searchId = sc.nextInt();
+                    sc.nextLine();
 
-    java.util.List<models.Employee> employeeList =
-            new java.util.ArrayList<>();
+                    java.util.List<models.Employee> employeeList
+                            = new java.util.ArrayList<>();
 
-    try {
+                    try {
 
-        java.io.File empFile =
-                new java.io.File("data/employees.txt");
+                        java.io.File empFile
+                                = new java.io.File("data/employees.txt");
 
-        if (empFile.exists()) {
+                        if (empFile.exists()) {
 
-            java.util.Scanner empScanner =
-                    new java.util.Scanner(empFile);
+                            java.util.Scanner empScanner
+                                    = new java.util.Scanner(empFile);
 
-            int empId = 0;
-            int exp = 0;
+                            int empId = 0;
+                            int exp = 0;
 
-            String empName = "";
-            String dept = "";
-            String desig = "";
-            String mgr = "";
-            String promo = "";
+                            String empName = "";
+                            String dept = "";
+                            String desig = "";
+                            String mgr = "";
+                            String promo = "";
 
-            double salary = 0;
+                            double salary = 0;
 
-            while (empScanner.hasNextLine()) {
+                            while (empScanner.hasNextLine()) {
 
-                String line = empScanner.nextLine();
+                                String line = empScanner.nextLine();
 
-                if (line.startsWith("Employee ID")) {
+                                if (line.startsWith("Employee ID")) {
 
-                    empId = Integer.parseInt(
-                            line.split(":", 2)[1].trim());
+                                    empId = Integer.parseInt(
+                                            line.split(":", 2)[1].trim());
 
-                } else if (line.startsWith("Employee Name")) {
+                                } else if (line.startsWith("Employee Name")) {
 
-                    empName =
-                            line.split(":", 2)[1].trim();
+                                    empName
+                                            = line.split(":", 2)[1].trim();
 
-                } else if (line.startsWith("Department")) {
+                                } else if (line.startsWith("Department")) {
 
-                    dept =
-                            line.split(":", 2)[1].trim();
+                                    dept
+                                            = line.split(":", 2)[1].trim();
 
-                } else if (line.startsWith("Designation")) {
+                                } else if (line.startsWith("Designation")) {
 
-                    desig =
-                            line.split(":", 2)[1].trim();
+                                    desig
+                                            = line.split(":", 2)[1].trim();
 
-                } else if (line.startsWith("Salary")) {
+                                } else if (line.startsWith("Salary")) {
 
-                    salary = Double.parseDouble(
-                            line.split(":", 2)[1].trim());
+                                    salary = Double.parseDouble(
+                                            line.split(":", 2)[1].trim());
 
-                } else if (line.startsWith("Manager Name")) {
+                                } else if (line.startsWith("Manager Name")) {
 
-                    mgr =
-                            line.split(":", 2)[1].trim();
+                                    mgr
+                                            = line.split(":", 2)[1].trim();
 
-                } else if (line.startsWith("Experience")) {
+                                } else if (line.startsWith("Experience")) {
 
-                    exp = Integer.parseInt(
-                            line.split(":", 2)[1]
-                                    .replaceAll("[^0-9]", "")
-                                    .trim());
+                                    exp = Integer.parseInt(
+                                            line.split(":", 2)[1]
+                                                    .replaceAll("[^0-9]", "")
+                                                    .trim());
 
-                } else if (line.startsWith("Promotion Status")) {
+                                } else if (line.startsWith("Promotion Status")) {
 
-                    promo =
-                            line.split(":", 2)[1].trim();
-
-                } else if (line.startsWith("----------------------------------------")) {
-
-                    employeeList.add(
-                            new models.Employee(
-                                    empId,
-                                    empName,
-                                    dept,
-                                    desig,
-                                    salary,
-                                    mgr,
-                                    exp,
                                     promo
-                            )
+                                            = line.split(":", 2)[1].trim();
+
+                                } else if (line.startsWith("----------------------------------------")) {
+
+                                    employeeList.add(
+                                            new models.Employee(
+                                                    empId,
+                                                    empName,
+                                                    dept,
+                                                    desig,
+                                                    salary,
+                                                    mgr,
+                                                    exp,
+                                                    promo
+                                            )
+                                    );
+                                }
+                            }
+
+                            empScanner.close();
+                        }
+
+                    } catch (Exception e) {
+
+                        System.out.println(
+                                "Error reading employee data: "
+                                + e.getMessage());
+                    }
+
+                    reportService.generateEmployeeReport(
+                            employeeList,
+                            loginUser,
+                            searchId
                     );
-                }
-            }
 
-            empScanner.close();
-        }
-
-    } catch (Exception e) {
-
-        System.out.println(
-                "Error reading employee data: "
-                        + e.getMessage());
-    }
-
-    reportService.generateEmployeeReport(
-            employeeList,
-            loginUser,
-            searchId
-    );
-
-    break;
+                    break;
 
                 case 7:
 
