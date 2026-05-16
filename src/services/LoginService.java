@@ -60,8 +60,8 @@ public class LoginService {
         return alphabet && number && special;
     }
 
-    // ================= CHECK USER EXISTS (CASE-SENSITIVE) =================
-    public boolean isUserExists(String username) {
+    // ================= CHECK (USERNAME + PASSWORD) EXIST =================
+    public boolean isUserExists(String username, String password) {
 
         try {
             File file = new File(filePath);
@@ -73,11 +73,21 @@ public class LoginService {
 
                 String line = fileScanner.nextLine();
 
-                if (line.startsWith("Username : ")) {
+                if (line.equals("===== USER DATA =====")) {
 
-                    String storedUser = line.substring(11).trim();
+                    String userLine = fileScanner.nextLine();
+                    String storedUser = userLine.substring(11).trim();
 
-                    if (storedUser.equals(username)) { // CASE-SENSITIVE
+                    String passLine = fileScanner.nextLine();
+                    String storedPass = passLine.substring(11).trim();
+
+                    // skip remaining lines
+                    fileScanner.nextLine();
+                    fileScanner.nextLine();
+                    fileScanner.nextLine();
+
+                    //  MATCH BOTH
+                    if (storedUser.equals(username) && storedPass.equals(password)) {
                         fileScanner.close();
                         return true;
                     }
@@ -99,6 +109,7 @@ public class LoginService {
         System.out.println("\n===== USER REGISTRATION =====");
 
         String username;
+        String password;
 
         while (true) {
 
@@ -110,24 +121,21 @@ public class LoginService {
                 continue;
             }
 
-            if (isUserExists(username)) {
-                System.out.println("Username Already Exists!");
+            System.out.print("Create Password : ");
+            password = sc.nextLine().trim();
+
+            if (!isValidPassword(password)) {
+                System.out.println("Invalid Password!");
+                continue;
+            }
+
+            // ONLY SAME PAIR BLOCKED
+            if (isUserExists(username, password)) {
+                System.out.println("Already Exists (Same Username + Password found!)");
                 continue;
             }
 
             break;
-        }
-
-        String password;
-
-        while (true) {
-
-            System.out.print("Create Password : ");
-            password = sc.nextLine().trim();
-
-            if (isValidPassword(password)) break;
-
-            System.out.println("Invalid Password!");
         }
 
         String role = "";
@@ -195,7 +203,7 @@ public class LoginService {
         return user;
     }
 
-    // ================= LOGIN (CASE-SENSITIVE FIXED) =================
+    // ================= LOGIN =================
     public User login() {
 
         int attempts = 0;
@@ -227,21 +235,27 @@ public class LoginService {
 
                     String line = fileScanner.nextLine();
 
-                    if (line.equals("Username : " + username)) { // CASE-SENSITIVE MATCH
+                    if (line.equals("===== USER DATA =====")) {
 
-                        String passwordLine = fileScanner.nextLine();
-                        String storedPassword = passwordLine.substring(11).trim();
+                        String userLine = fileScanner.nextLine();
+                        String storedUser = userLine.substring(11).trim();
+
+                        String passLine = fileScanner.nextLine();
+                        String storedPass = passLine.substring(11).trim();
 
                         String roleLine = fileScanner.nextLine();
                         String storedRole = roleLine.substring(7).trim();
 
-                        if (storedPassword.equals(password)) {
+                        fileScanner.nextLine();
+                        fileScanner.nextLine();
+                        fileScanner.nextLine();
+
+                        if (storedUser.equals(username) && storedPass.equals(password)) {
 
                             System.out.println("\nLogin Successful!");
 
                             fileScanner.close();
-
-                            return new User(username, storedPassword, storedRole, "", "");
+                            return new User(storedUser, storedPass, storedRole, "", "");
                         }
                     }
                 }
