@@ -81,12 +81,10 @@ public class LoginService {
                     String passLine = fileScanner.nextLine();
                     String storedPass = passLine.substring(11).trim();
 
-                    // skip remaining lines
                     fileScanner.nextLine();
                     fileScanner.nextLine();
                     fileScanner.nextLine();
 
-                    //  MATCH BOTH
                     if (storedUser.equals(username) && storedPass.equals(password)) {
                         fileScanner.close();
                         return true;
@@ -113,6 +111,9 @@ public class LoginService {
 
         while (true) {
 
+            //  HINT ADDED
+            System.out.println("\nHint: Username should contain ONLY Alphabets + Numbers (No special characters)");
+
             System.out.print("Create Username : ");
             username = sc.nextLine().trim();
 
@@ -120,6 +121,9 @@ public class LoginService {
                 System.out.println("Invalid Username!");
                 continue;
             }
+
+            //  HINT ADDED
+            System.out.println("\nHint: Password should contain Alphabets + Numbers + Special Characters");
 
             System.out.print("Create Password : ");
             password = sc.nextLine().trim();
@@ -129,7 +133,6 @@ public class LoginService {
                 continue;
             }
 
-            // ONLY SAME PAIR BLOCKED
             if (isUserExists(username, password)) {
                 System.out.println("Already Exists (Same Username + Password found!)");
                 continue;
