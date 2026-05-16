@@ -4,13 +4,11 @@ package main;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Scanner;
-
 import models.Attendance.Status;
 import models.Payroll;
 import models.Purchase;
 import models.Supplier;
 import models.User;
-
 import services.AttendanceService;
 import services.AuditService;
 import services.EmployeeService;
@@ -185,17 +183,6 @@ public class Main {
                                         sc.nextLine();
                                         if (pChoice == 1) {
 
-
-                                        
-
-
-
-
-
-
-
-
-
                                 System.out.print(
                                         "Enter Employee ID: ");
 
@@ -211,6 +198,9 @@ public class Main {
 
                                 System.err.print("Enter the Year:");
                                 int year  = sc.nextInt();
+                                System.out.print("Enter Net Salary: ");
+                             double salary = sc.nextDouble();
+                             sc.nextLine();
                                 
 
                                 sc.nextLine();
@@ -510,7 +500,7 @@ public class Main {
                                 );
 
                                 break;
-                            case 5:
+                            case 6:
 
                                 System.out.println(
                                         "\n===== SUPPLIER & PURCHASE MANAGEMENT =====");
@@ -660,7 +650,7 @@ public class Main {
                                         purchaseProduct);
 
                                 break;
-                                case 6:
+                                case 7:
                                         int salesChoice;
                                          do {
                                                  System.out.println( "\n===== SALES & CUSTOMER MANAGEMENT =====");
