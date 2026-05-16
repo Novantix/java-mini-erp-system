@@ -3,13 +3,12 @@ package main;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Scanner;
-
 import models.Attendance.Status;
 import models.Payroll;
 import models.Purchase;
 import models.Supplier;
 import models.User;
-
+import services.AdminService;
 import services.AttendanceService;
 import services.AuditService;
 import services.EmployeeService;
@@ -40,6 +39,7 @@ public class Main {
         LeaveService leaveService = new LeaveService();
         PurchaseService purchaseService = new PurchaseService();
         SalesService salesService = new SalesService();
+        AdminService adminService = new AdminService();
 
         boolean systemRunning = true;
 
@@ -59,25 +59,21 @@ public class Main {
             sc.nextLine();
 
             // ================= REGISTER =================
-
             if (choice == 1) {
 
                 loginService.registerUser();
-            }
-
-            // ================= LOGIN =================
-
+            } // ================= LOGIN =================
             else if (choice == 2) {
 
                 User loginUser = loginService.login();
 
                 if (loginUser != null) {
 
-                    String currentUser =
-                            loginUser.getUsername();
+                    String currentUser
+                            = loginUser.getUsername();
 
-                    String currentRole =
-                            loginUser.getRole();
+                    String currentRole
+                            = loginUser.getRole();
 
                     auditService.logAction(
                             currentUser,
@@ -85,11 +81,11 @@ public class Main {
                     );
 
                     // ================= ROLE ACCESS =================
-
                     if (roleService.isAdmin(currentRole)) {
 
-                        System.out.println("\nWelcome "+ currentUser);
+                        System.out.println("\nWelcome " + currentUser);
                         System.out.println(currentUser + ", Access Granted");
+                        //adminService.adminMenu();
 
                     } else if (roleService.isEmployee(currentRole)) {
 
@@ -106,32 +102,50 @@ public class Main {
                     do {
 
                         // ================= ERP MENU =================
-
                         System.out.println(
                                 "\n========= JAVA MINI ERP SYSTEM =========");
 
                         System.out.println(
                                 "Logged In As : "
-                                        + currentUser
-                                        + " ("
-                                        + currentRole
-                                        + ")");
+                                + currentUser
+                                + " ("
+                                + currentRole
+                                + ")");
 
                         System.out.println(
                                 "-----------------------------------------");
 
-                        System.out.println("1. Employee Management");
-                        System.out.println("2. Payroll Module");
-                        System.out.println("3. Inventory Module");
-                        System.out.println("4. Attendance & Leave Module");
-                        System.out.println("5. Reports & Audit Module");
-                        System.out.println("6. Supplier & Purchase Management ");
-                        System.out.println( "7. Sales & Customer Management");
-                        System.out.println( "0. Logout");
+                        System.out.println(
+                                "1. Employee Management");
 
-                        System.out.println( "=========================================");
+                        System.out.println(
+                                "2. Payroll Module");
 
-                        System.out.print( "Enter Choice: ");
+                        System.out.println(
+                                "3. Inventory Module");
+
+                        System.out.println(
+                                "4. Attendance & Leave Module");
+
+                        System.out.println(
+                                "5. Reports & Audit");
+
+                        System.out.println(
+                                "6. Supplier & Purchase Management");
+
+                        System.out.println(
+                                "7. Sales & Customer Management");
+
+                        if (roleService.isAdmin(currentRole)) {
+
+                            System.out.println(
+                                    "8. Admin Panel");
+                        }
+
+                        System.out.println(
+                                "0. Logout");
+                        System.out.print(
+                                "Enter Choice: ");
 
                         mainChoice = sc.nextInt();
                         sc.nextLine();
@@ -139,7 +153,6 @@ public class Main {
                         switch (mainChoice) {
 
                             // ================= LOGOUT =================
-
                             case 0:
 
                                 auditService.logAction(
@@ -153,7 +166,6 @@ public class Main {
                                 break;
 
                             // ================= EMPLOYEE =================
-
                             case 1:
 
                                 auditService.logAction(
@@ -166,134 +178,65 @@ public class Main {
                                 break;
 
                             // ================= PAYROLL =================
-
                             case 2:
 
     System.out.println(
             "\n======== PAYROLL MODULE ========");
 
-    System.out.println(
-            "\n======== Generate Payslip ? ========");
+                                System.out.println("\n======== Generate Payslip ? ========");
+                                System.out.println("1. Generate Payslip");
+                                System.out.println("0. Back");
+                                System.out.print("Enter choice: ");
 
-    System.out.println(
-            "1. Generate Payslip");
+                                int pChoice = sc.nextInt();
+                                sc.nextLine();
 
-    System.out.println(
-            "0. Back");
+                                if (pChoice == 1) {
 
-    System.out.print(
-            "Enter choice: ");
+                                    System.out.print("Enter Employee ID: ");
+                                    int employeeId = sc.nextInt();
+                                    sc.nextLine();
 
-    int pChoice = sc.nextInt();
-    sc.nextLine();
+                                    if (!payrollService.isValidEmployee(employeeId)) {
 
-    if (pChoice == 1) {
+                                        System.out.println("Invalid id");
+                                        break;
+                                    }
 
-        System.out.print(
-                "Enter Employee ID: ");
+                                    System.out.print("Enter the Month: ");
+                                    String months = sc.next();
 
-        int employeeId = sc.nextInt();
-        sc.nextLine();
+                                    System.out.print("Enter the Year:");
+                                    int year = sc.nextInt();
 
-        // Validate Employee ID
-        if (!payrollService.isValidEmployee(
-                employeeId)) {
+                                    System.out.print("Enter Net Salary: ");
+                                    double salary = sc.nextDouble();
+                                    sc.nextLine();
 
-            System.out.println(
-                    "Invalid Employee ID");
+                                    Payroll payroll = new Payroll(
+                                            employeeId,
+                                            salary,
+                                            months,
+                                            year
+                                    );
 
-            break;
-        }
+                                    payrollService.generatePayslip(payroll);
 
-        // Month Input
-        System.out.print(
-                "Enter the Month: ");
+                                    auditService.logAction(
+                                            currentUser,
+                                            "Generated Payroll"
+                                    );
 
-        String months = sc.nextLine();
+                                } else if (pChoice == 0) {
 
-        // Valid Month List
-        java.util.List<String> validMonths =
-                java.util.Arrays.asList(
-                        "january", "february",
-                        "march", "april",
-                        "may", "june",
-                        "july", "august",
-                        "september", "october",
-                        "november", "december"
-                );
+                                    System.out.println("Returning...Please wait");
 
-        // Month Validation
-        if (!validMonths.contains(
-                months.toLowerCase())) {
+                                } else {
 
-            System.out.println(
-                    "Invalid Month!");
+                                    System.out.println("Please enter a valid choice.");
+                                }
 
-            break;
-        }
-
-        // Year Input
-        System.out.print(
-                "Enter the Year: ");
-
-        int year = sc.nextInt();
-        sc.nextLine();
-
-        // Year Validation
-        if (year < 2000) {
-
-            System.out.println(
-                    "Invalid Year!");
-
-            break;
-        }
-
-        // Salary Input
-        System.out.print(
-                "Enter Net Salary: ");
-
-        double salary = sc.nextDouble();
-        sc.nextLine();
-
-        // Salary Validation
-        if (salary <= 0) {
-
-            System.out.println(
-                    "Salary must be greater than 0!");
-
-            break;
-        }
-
-        // Create Payroll Object
-        Payroll payroll = new Payroll(
-                employeeId,
-                salary,
-                months,
-                year
-        );
-
-        // Generate Payslip
-        payrollService.generatePayslip(
-                payroll);
-
-        auditService.logAction(
-                currentUser,
-                "Generated Payroll Payslip for Employee ID : "
-                        + employeeId
-        );
-
-    } else if (pChoice == 0) {
-
-        System.out.println(
-                "Returning...Please wait");
-
-    } else {
-
-        System.out.println(
-                "Please enter a valid choice.");
-    }
-
-    break;
+                                break;
                             // ================= INVENTORY =================
 
                             case 3:
@@ -305,13 +248,14 @@ public class Main {
                                 System.out.println("\n======== INVENTORY MODULE ========");
 
                                 inventoryService.inventoryDashboard();
+                                //InventoryService inventoryService = new InventoryService();
 
                                 auditService.logAction(currentUser, "Accessed Inventory Module");
 
                                 break;
 
+                            // REPORTS & AUDIT
                             // ================= ATTENDANCE & LEAVE =================
-
                             case 4:
 
                                 int attendanceChoice;
@@ -342,15 +286,14 @@ public class Main {
                                     System.out.print(
                                             "Enter Choice: ");
 
-                                    attendanceChoice =
-                                            sc.nextInt();
+                                    attendanceChoice
+                                            = sc.nextInt();
 
                                     sc.nextLine();
 
                                     switch (attendanceChoice) {
 
                                         // ================= MARK ATTENDANCE =================
-
                                         case 1:
 
                                             System.out.println(
@@ -359,25 +302,24 @@ public class Main {
                                             System.out.print(
                                                     "Enter Employee ID: ");
 
-                                            int empId =
-                                                    sc.nextInt();
+                                            int empId
+                                                    = sc.nextInt();
 
                                             sc.nextLine();
 
                                             System.out.print(
                                                     "Enter Employee Name: ");
 
-                                            String empName =
-                                                    sc.nextLine();
+                                            String empName
+                                                    = sc.nextLine();
 
                                             // AUTO LOGIN TIME
-
-                                            LocalTime loginTime =
-                                                    LocalTime.now();
+                                            LocalTime loginTime
+                                                    = LocalTime.now();
 
                                             System.out.println(
                                                     "Login Time : "
-                                                            + loginTime);
+                                                    + loginTime);
 
                                             attendanceService.markAttendance(
                                                     empId,
@@ -394,7 +336,6 @@ public class Main {
                                             break;
 
                                         // ================= APPLY LEAVE =================
-
                                         case 2:
 
                                             System.out.println(
@@ -403,60 +344,60 @@ public class Main {
                                             System.out.print(
                                                     "Enter Employee ID: ");
 
-                                            int leaveEmpId =
-                                                    sc.nextInt();
+                                            int leaveEmpId
+                                                    = sc.nextInt();
 
                                             sc.nextLine();
 
                                             System.out.print(
                                                     "Enter Employee Name: ");
 
-                                            String leaveEmpName =
-                                                    sc.nextLine();
+                                            String leaveEmpName
+                                                    = sc.nextLine();
 
                                             System.out.print(
                                                     "Enter From Year: ");
 
-                                            int fy =
-                                                    sc.nextInt();
+                                            int fy
+                                                    = sc.nextInt();
 
                                             System.out.print(
                                                     "Enter From Month: ");
 
-                                            int fm =
-                                                    sc.nextInt();
+                                            int fm
+                                                    = sc.nextInt();
 
                                             System.out.print(
                                                     "Enter From Day: ");
 
-                                            int fd =
-                                                    sc.nextInt();
+                                            int fd
+                                                    = sc.nextInt();
 
                                             System.out.print(
                                                     "Enter To Year: ");
 
-                                            int ty =
-                                                    sc.nextInt();
+                                            int ty
+                                                    = sc.nextInt();
 
                                             System.out.print(
                                                     "Enter To Month: ");
 
-                                            int tm =
-                                                    sc.nextInt();
+                                            int tm
+                                                    = sc.nextInt();
 
                                             System.out.print(
                                                     "Enter To Day: ");
 
-                                            int td =
-                                                    sc.nextInt();
+                                            int td
+                                                    = sc.nextInt();
 
                                             sc.nextLine();
 
                                             System.out.print(
                                                     "Enter Leave Reason: ");
 
-                                            String reason =
-                                                    sc.nextLine();
+                                            String reason
+                                                    = sc.nextLine();
 
                                             leaveService.applyLeave(
                                                     leaveEmpId,
@@ -482,7 +423,6 @@ public class Main {
                                             break;
 
                                         // ================= APPROVE LEAVE =================
-
                                         case 3:
 
                                             System.out.println(
@@ -491,8 +431,8 @@ public class Main {
                                             System.out.print(
                                                     "Enter Employee ID: ");
 
-                                            int approveId =
-                                                    sc.nextInt();
+                                            int approveId
+                                                    = sc.nextInt();
 
                                             sc.nextLine();
 
@@ -508,7 +448,6 @@ public class Main {
                                             break;
 
                                         // ================= VIEW ATTENDANCE =================
-
                                         case 4:
 
                                             attendanceService.showAllAttendance();
@@ -516,7 +455,6 @@ public class Main {
                                             break;
 
                                         // ================= VIEW LEAVE =================
-
                                         case 5:
 
                                             leaveService.showAllLeaves();
@@ -524,7 +462,6 @@ public class Main {
                                             break;
 
                                         // ================= BACK =================
-
                                         case 0:
 
                                             System.out.println(
@@ -533,7 +470,6 @@ public class Main {
                                             break;
 
                                         // ================= INVALID =================
-
                                         default:
 
                                             System.out.println(
@@ -544,7 +480,7 @@ public class Main {
 
                                 break;
 
-
+                            // ================= REPORTS =================
                             case 5:
                                 // ================= REPORTS =================
                                 System.out.println("\n===== REPORTS & AUDITS MODULE =====");
@@ -576,15 +512,15 @@ public class Main {
 
                                 while (true) {
 
-                                    System.out.print( "Enter Supplier ID : ");
+                                    System.out.print("Enter Supplier ID : ");
 
-                                supplierId = sc.nextInt();
+                                    supplierId = sc.nextInt();
 
-                                if (supplierId > 0) {
+                                    if (supplierId > 0) {
                                         break;
-                                }
+                                    }
 
-                                System.out.println("Supplier ID must be positive!");
+                                    System.out.println("Supplier ID must be positive!");
                                 }
 
                                 sc.nextLine();
@@ -717,72 +653,83 @@ public class Main {
                                         purchaseProduct);
 
                                 break;
-                        
-                                case 7:
-                                        int salesChoice;
-                                         do {
-                                                 System.out.println( "\n===== SALES & CUSTOMER MANAGEMENT =====");
-                                                  System.out.println( "1. Add Customer");
-                                                  System.out.println( "2. View Customers");
-                                                   System.out.println( "3. Add Sale");
-                                                   System.out.println("4. View Sales");
-                                                   System.out.println("5. Generate Invoice");
-                                                   System.out.println( "0. Back");
-                                                   System.out.print("Enter Choice : ");
-                                                   salesChoice = sc.nextInt();
-                                                    sc.nextLine();
+                            case 7:
+                                int salesChoice;
+                                do {
+                                    System.out.println("\n===== SALES & CUSTOMER MANAGEMENT =====");
+                                    System.out.println("1. Add Customer");
+                                    System.out.println("2. View Customers");
+                                    System.out.println("3. Add Sale");
+                                    System.out.println("4. View Sales");
+                                    System.out.println("5. Generate Invoice");
+                                    System.out.println("0. Back");
+                                    System.out.print("Enter Choice : ");
+                                    salesChoice = sc.nextInt();
+                                    sc.nextLine();
 
-        switch (salesChoice) {
+                                    switch (salesChoice) {
 
-            case 1:
+                                        case 1:
 
-                salesService.addCustomer(sc);
+                                            salesService.addCustomer(sc);
 
-                break;
+                                            break;
 
-            case 2:
+                                        case 2:
 
-                salesService.viewCustomers();
+                                            salesService.viewCustomers();
 
-                break;
+                                            break;
 
-            case 3:
+                                        case 3:
 
-                salesService.addSale(sc);
+                                            salesService.addSale(sc);
 
-                break;
+                                            break;
 
-            case 4:
+                                        case 4:
 
-                salesService.viewSales();
+                                            salesService.viewSales();
 
-                break;
+                                            break;
 
-            case 5:
+                                        case 5:
 
-                salesService.generateInvoice();
+                                            salesService.generateInvoice();
 
-                break;
+                                            break;
 
-            case 0:
+                                        case 0:
 
-                System.out.println(
-                        "Returning to Main Menu...");
+                                            System.out.println(
+                                                    "Returning to Main Menu...");
 
-                break;
+                                            break;
 
-            default:
+                                        default:
 
-                System.out.println(
-                        "Invalid Choice!");
-        }
+                                            System.out.println(
+                                                    "Invalid Choice!");
+                                    }
 
-    } while (salesChoice != 0);
+                                } while (salesChoice != 0);
 
-    break;
+                                break;
+                            case 8:
+
+                                if (roleService.isAdmin(currentRole)) {
+
+                                    adminService.adminMenu();
+
+                                } else {
+
+                                    System.out.println(
+                                            "Access Denied!");
+                                }
+
+                                break;
 
                             // ================= INVALID =================
-
                             default:
 
                                 System.out.println(
@@ -819,7 +766,6 @@ public class Main {
 
         sc.close();
     }
-
     // ================= REPORT MENU =================
 
     private static void reportsMenu(
@@ -910,7 +856,8 @@ public class Main {
                     System.out.print(
                             "Enter Month (e.g. June-2025): ");
 
-                    String month = sc.nextLine();
+                    String month
+                            = sc.nextLine();
 
                     reportService.generateMonthlyReport(
                             employeeService.getEmployees(),
@@ -931,36 +878,62 @@ public class Main {
                 case 4:
 
                     System.out.println("Enter Supplier ID : ");
-                        int supplierId = sc.nextInt();
-                        sc.nextLine();
+                    int supplierId = sc.nextInt();
+                    sc.nextLine();
 
-                        System.out.println("Enter Product Name : ");
-                        String productName = sc.nextLine();
+                    System.out.println("Enter Product Name : ");
+                    String productName = sc.nextLine();
 
-                        reportService.generateSalesReport(
-        loginUser,
-        supplierId,
-        productName);
+                    reportService.generateSalesReport(
+                            loginUser,
+                            supplierId,
+                            productName);
 
                     break;
 
-                case 5:
+          case 5:
 
-    System.out.print("Enter Employee ID : ");
+    System.out.print(
+            "Enter Employee ID : ");
+
     int searchEmpId = sc.nextInt();
     sc.nextLine();
 
     // Validate Employee ID
-    if (!payrollService.isValidEmployee(searchEmpId)) {
+    if (!payrollService.isValidEmployee(
+            searchEmpId)) {
 
         System.out.println(
                 "Employee ID not found.");
+
         break;
     }
 
-    // Month Input
-    System.out.print("Enter Month : ");
-    String months = sc.nextLine();
+    // Month-Year Input
+    System.out.print(
+            "Enter Month (e.g. June-2025): ");
+
+    String input =
+            sc.nextLine().trim();
+
+    // Split Month-Year
+    String[] parts =
+            input.split("-");
+
+    // Format Validation
+    if (parts.length != 2) {
+
+        System.out.println(
+                "Invalid Format!");
+
+        break;
+    }
+
+    String months =
+            parts[0].trim().toLowerCase();
+
+    String yearStr =
+            parts[1].trim();
 
     // Valid Months
     java.util.List<String> validMonths =
@@ -974,8 +947,7 @@ public class Main {
             );
 
     // Month Validation
-    if (!validMonths.contains(
-            months.toLowerCase())) {
+    if (!validMonths.contains(months)) {
 
         System.out.println(
                 "Invalid Month!");
@@ -983,16 +955,23 @@ public class Main {
         break;
     }
 
-    // Year Input
-    System.out.print("Enter Year : ");
-    int year = sc.nextInt();
-    sc.nextLine();
+    // Year Format Validation
+    if (!yearStr.matches("\\d{4}")) {
 
-    // Year Validation
+        System.out.println(
+                "Invalid Year Format!");
+
+        break;
+    }
+
+    int year =
+            Integer.parseInt(yearStr);
+
+    // Year Range Validation
     if (year < 2000) {
 
         System.out.println(
-                "Invalid Year!");
+                "Year must be 2000 or above!");
 
         break;
     }
@@ -1025,7 +1004,8 @@ public class Main {
                         "Employee ID:")) {
 
                     empId = Integer.parseInt(
-                            line.substring(12).trim());
+                            line.substring(12)
+                                    .trim());
 
                 } else if (line.startsWith(
                         "Basic Salary:")) {
@@ -1050,6 +1030,7 @@ public class Main {
                         );
 
                         found = true;
+
                         break;
                     }
                 }
@@ -1081,114 +1062,114 @@ public class Main {
     break;
                 case 6:
 
-    System.out.print("Enter Employee ID : ");
-    int searchId = sc.nextInt();
-    sc.nextLine();
+                    System.out.print("Enter Employee ID : ");
+                    int searchId = sc.nextInt();
+                    sc.nextLine();
 
-    java.util.List<models.Employee> employeeList =
-            new java.util.ArrayList<>();
+                    java.util.List<models.Employee> employeeList
+                            = new java.util.ArrayList<>();
 
-    try {
+                    try {
 
-        java.io.File empFile =
-                new java.io.File("data/employees.txt");
+                        java.io.File empFile
+                                = new java.io.File("data/employees.txt");
 
-        if (empFile.exists()) {
+                        if (empFile.exists()) {
 
-            java.util.Scanner empScanner =
-                    new java.util.Scanner(empFile);
+                            java.util.Scanner empScanner
+                                    = new java.util.Scanner(empFile);
 
-            int empId = 0;
-            int exp = 0;
+                            int empId = 0;
+                            int exp = 0;
 
-            String empName = "";
-            String dept = "";
-            String desig = "";
-            String mgr = "";
-            String promo = "";
+                            String empName = "";
+                            String dept = "";
+                            String desig = "";
+                            String mgr = "";
+                            String promo = "";
 
-            double salary = 0;
+                            double salary = 0;
 
-            while (empScanner.hasNextLine()) {
+                            while (empScanner.hasNextLine()) {
 
-                String line = empScanner.nextLine();
+                                String line = empScanner.nextLine();
 
-                if (line.startsWith("Employee ID")) {
+                                if (line.startsWith("Employee ID")) {
 
-                    empId = Integer.parseInt(
-                            line.split(":", 2)[1].trim());
+                                    empId = Integer.parseInt(
+                                            line.split(":", 2)[1].trim());
 
-                } else if (line.startsWith("Employee Name")) {
+                                } else if (line.startsWith("Employee Name")) {
 
-                    empName =
-                            line.split(":", 2)[1].trim();
+                                    empName
+                                            = line.split(":", 2)[1].trim();
 
-                } else if (line.startsWith("Department")) {
+                                } else if (line.startsWith("Department")) {
 
-                    dept =
-                            line.split(":", 2)[1].trim();
+                                    dept
+                                            = line.split(":", 2)[1].trim();
 
-                } else if (line.startsWith("Designation")) {
+                                } else if (line.startsWith("Designation")) {
 
-                    desig =
-                            line.split(":", 2)[1].trim();
+                                    desig
+                                            = line.split(":", 2)[1].trim();
 
-                } else if (line.startsWith("Salary")) {
+                                } else if (line.startsWith("Salary")) {
 
-                    salary = Double.parseDouble(
-                            line.split(":", 2)[1].trim());
+                                    salary = Double.parseDouble(
+                                            line.split(":", 2)[1].trim());
 
-                } else if (line.startsWith("Manager Name")) {
+                                } else if (line.startsWith("Manager Name")) {
 
-                    mgr =
-                            line.split(":", 2)[1].trim();
+                                    mgr
+                                            = line.split(":", 2)[1].trim();
 
-                } else if (line.startsWith("Experience")) {
+                                } else if (line.startsWith("Experience")) {
 
-                    exp = Integer.parseInt(
-                            line.split(":", 2)[1]
-                                    .replaceAll("[^0-9]", "")
-                                    .trim());
+                                    exp = Integer.parseInt(
+                                            line.split(":", 2)[1]
+                                                    .replaceAll("[^0-9]", "")
+                                                    .trim());
 
-                } else if (line.startsWith("Promotion Status")) {
+                                } else if (line.startsWith("Promotion Status")) {
 
-                    promo =
-                            line.split(":", 2)[1].trim();
-
-                } else if (line.startsWith("----------------------------------------")) {
-
-                    employeeList.add(
-                            new models.Employee(
-                                    empId,
-                                    empName,
-                                    dept,
-                                    desig,
-                                    salary,
-                                    mgr,
-                                    exp,
                                     promo
-                            )
+                                            = line.split(":", 2)[1].trim();
+
+                                } else if (line.startsWith("----------------------------------------")) {
+
+                                    employeeList.add(
+                                            new models.Employee(
+                                                    empId,
+                                                    empName,
+                                                    dept,
+                                                    desig,
+                                                    salary,
+                                                    mgr,
+                                                    exp,
+                                                    promo
+                                            )
+                                    );
+                                }
+                            }
+
+                            empScanner.close();
+                        }
+
+                    } catch (Exception e) {
+
+                        System.out.println(
+                                "Error reading employee data: "
+                                + e.getMessage());
+                    }
+
+                    reportService.generateEmployeeReport(
+                            employeeList,
+                            loginUser,
+                            searchId
                     );
-                }
-            }
 
-            empScanner.close();
-        }
-
-    } catch (Exception e) {
-
-        System.out.println(
-                "Error reading employee data: "
-                        + e.getMessage());
-    }
-
-    reportService.generateEmployeeReport(
-            employeeList,
-            loginUser,
-            searchId
-    );
-
-    break;
+                    break;
 
                 case 7:
 

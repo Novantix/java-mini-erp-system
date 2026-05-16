@@ -12,6 +12,10 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Arrays;
+import data.DataStore;
+import models.Attendance;
+import models.Leave;
+import models.Report;
 
 import models.Payroll;
 import services.PayrollService;
@@ -428,9 +432,142 @@ public void generateEmployeeReport(List<Employee> employees, User loggedInUser ,
     }
 
     // ....................... methods for pending modules .......................
-    public void generateAttendanceReport(User loggedInUser) {
-        System.out.println("[Notice] Attendance Report module is pending integration.");
+    public void generateAttendanceReport(
+        User loggedInUser) {
+
+    try {
+
+        // Login Validation
+        if (!isLoggedIn(loggedInUser)) {
+            return;
+        }
+
+        // Role Validation
+        if (!hasRole(
+                loggedInUser,
+                "ADMIN",
+                "MANAGER",
+                "HR")) {
+
+            return;
+        }
+
+        StringBuilder content =
+                new StringBuilder();
+
+        content.append(
+                "=========== ATTENDANCE REPORT ===========\n\n");
+
+        // Attendance Section
+        content.append(
+                "----- ATTENDANCE DETAILS -----\n");
+
+        if (data.DataStore.attendanceList.isEmpty()) {
+
+            content.append(
+                    "No attendance records found.\n");
+
+        } else {
+
+            for (models.Attendance attendance
+                    : data.DataStore.attendanceList) {
+
+                content.append(attendance)
+                        .append("\n");
+
+                content.append(
+                        "-----------------------------------\n");
+            }
+        }
+
+        // Leave Section
+        content.append(
+                "\n----- LEAVE DETAILS -----\n");
+
+        if (data.DataStore.leaveList.isEmpty()) {
+
+            content.append(
+                    "No leave records found.\n");
+
+        } else {
+
+            for (models.Leave leave
+                    : data.DataStore.leaveList) {
+
+                content.append(leave)
+                        .append("\n");
+
+                content.append(
+                        "-----------------------------------\n");
+            }
+        }
+
+        // Create Report
+        Report report = new Report(
+                reportIdCounter++,
+                "ATTENDANCE",
+                loggedInUser.getUsername(),
+                content.toString()
+        );
+
+        // Store Report
+        reportStore.add(report);
+
+        // Print Report
+        System.out.println(report);
+
+        // Save Report To File
+        try {
+
+            java.io.File dir =
+                    new java.io.File("reports");
+
+            if (!dir.exists()) {
+
+                dir.mkdirs();
+            }
+
+            String fileName =
+                    "reports/Attendance_Report_"
+                            + report.getReportId()
+                            + ".txt";
+
+            java.io.FileWriter fw =
+                    new java.io.FileWriter(fileName);
+
+            fw.write(report.toString());
+
+            fw.close();
+
+            System.out.println(
+                    "\n[Report Saved Successfully]");
+
+            System.out.println(
+                    "File Location : "
+                            + fileName);
+
+        } catch (Exception e) {
+
+            System.out.println(
+                    "[File Export Error] "
+                            + e.getMessage());
+        }
+
+        // Audit Log
+        auditService.logAction(
+                loggedInUser.getUsername(),
+                "Generated Attendance Report [ID: "
+                        + report.getReportId()
+                        + "]"
+        );
+
+    } catch (Exception e) {
+
+        System.out.println(
+                "[Attendance Report Error] "
+                        + e.getMessage());
     }
+}
 public void generateSalesReport(User loggedInUser,
                                 int supplierId,
                                 String productName) {

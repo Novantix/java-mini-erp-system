@@ -1,32 +1,11 @@
-
-===== USER DATA =====
-Username : C MOHAN
-Password : Cmohan@123
-Role : Admin
-Check-In : 22:48:03
-Check-Out : 06:48:03
-----------------------
 ===== USER DATA =====
 Username : Anil
-Password : Anil@1234
+Password : anil@123
 Role : Admin
-Check-In : 23:36:06
-Check-Out : 07:36:06
+Check-In : 13:12:44
+Check-Out : 21:12:44
 ----------------------
-===== USER DATA =====
-Username : Sandeep
-Password : Sandeep@123
-Role : HR
-Check-In : 23:42:30
-Check-Out : 07:42:30
-----------------------
-===== USER DATA =====
-Username : sandeep
-Password : sandeep@123
-Role : Admin
-Check-In : 01:18:24
-Check-Out : 09:18:24
-----------------------
+ID : 101 | Username : Anil | Role : HR
 ===== USER DATA =====
 Username : vishnu123
 Password : vishnu@123
@@ -67,3 +46,4 @@ Role : HR
 Check-In : 13:33:36
 Check-Out : 21:33:36
 ----------------------
+ID : 101 | Username : Sundar | Role : HR
