@@ -27,3 +27,10 @@ Role : Admin
 Check-In : 01:18:24
 Check-Out : 09:18:24
 ----------------------
+===== USER DATA =====
+Username : vishnu123
+Password : vishnu@123
+Role : Admin
+Check-In : 12:08:47
+Check-Out : 20:08:47
+----------------------

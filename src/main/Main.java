@@ -1,4 +1,3 @@
-
 package main;
 
 import java.util.Scanner;
@@ -16,6 +15,7 @@ import services.ReportService;
 import services.RoleService;
 import services.SalesService;
 
+
 public class Main {
 
     public static void main(String[] args) {
@@ -29,7 +29,7 @@ public class Main {
         EmployeeService employeeService = new EmployeeService();
         PurchaseService purchaseService = new PurchaseService();
         PayrollService payrollService = new PayrollService();
-         InventoryService inventoryService = new InventoryService();
+        InventoryService inventoryService = new InventoryService();
         SalesService salesService = new SalesService();
 
         boolean systemRunning = true;
@@ -111,6 +111,8 @@ public class Main {
 
                         System.out.println(
                                 "5. Supplier & Purchase Management");
+                        System.out.println( 
+                                "6. Sales & Customer Management");
 
                         System.out.println(
                                 "0. Logout");
@@ -236,6 +238,7 @@ public class Main {
                                         auditService,
                                         employeeService,
                                         purchaseService,
+                                        payrollService,
                                         loginUser,
                                         currentUser,
                                         currentRole
@@ -392,6 +395,7 @@ public class Main {
                                         purchaseProduct);
 
                                 break;
+                        
                                 case 6:
                                         int salesChoice;
                                          do {
@@ -510,6 +514,7 @@ public class Main {
             AuditService auditService,
             EmployeeService employeeService,
             PurchaseService purchaseService,
+            PayrollService payrollService,
             User loginUser,
             String currentUser,
             String currentRole) {
@@ -627,39 +632,139 @@ public class Main {
 
                 case 5:
 
-                    java.util.List<Payroll> payrollList = new java.util.ArrayList<>();
-                    try {
-                        java.io.File file = new java.io.File("data/payrollservicedata.txt");
-                        if (file.exists()) {
-                            java.util.Scanner fileScanner = new java.util.Scanner(file);
-                            int empId = 0;
-                            double basicSalary = 0;
-                            while (fileScanner.hasNextLine()) {
-                                String line = fileScanner.nextLine();
-                                if (line.startsWith("Employee ID:")) {
-                                    empId = Integer.parseInt(line.substring(12).trim());
-                                } else if (line.startsWith("Basic Salary:")) {
-                                    basicSalary = Double.parseDouble(line.substring(13).trim());
-                                } else if (line.startsWith("-----------------------")) {
-                                    System.out.print("Enter Month: ");
-                                String months = sc.nextLine();
+    System.out.print("Enter Employee ID : ");
+    int searchEmpId = sc.nextInt();
+    sc.nextLine();
 
-                        System.out.print("Enter Year: ");
-                        int year = sc.nextInt();
-                   sc.nextLine(); // Consume the newline character
+    // Validate Employee ID
+    if (!payrollService.isValidEmployee(searchEmpId)) {
 
-                payrollList.add(new Payroll(empId, basicSalary, months, year));
-                                }
-                            }
-                            fileScanner.close();
-                        }
-                    } catch (Exception e) {
-                        System.out.println("Error reading payroll data: " + e.getMessage());
+        System.out.println(
+                "Employee ID not found.");
+        break;
+    }
+
+    // Month Input
+    System.out.print("Enter Month : ");
+    String months = sc.nextLine();
+
+    // Valid Months
+    java.util.List<String> validMonths =
+            java.util.Arrays.asList(
+                    "january", "february",
+                    "march", "april",
+                    "may", "june",
+                    "july", "august",
+                    "september", "october",
+                    "november", "december"
+            );
+
+    // Month Validation
+    if (!validMonths.contains(
+            months.toLowerCase())) {
+
+        System.out.println(
+                "Invalid Month!");
+
+        break;
+    }
+
+    // Year Input
+    System.out.print("Enter Year : ");
+    int year = sc.nextInt();
+    sc.nextLine();
+
+    // Year Validation
+    if (year < 2000) {
+
+        System.out.println(
+                "Invalid Year!");
+
+        break;
+    }
+
+    java.util.List<Payroll> payrollList =
+            new java.util.ArrayList<>();
+
+    boolean found = false;
+
+    try {
+
+        java.io.File file =
+                new java.io.File(
+                        "data/payrollservicedata.txt");
+
+        if (file.exists()) {
+
+            java.util.Scanner fileScanner =
+                    new java.util.Scanner(file);
+
+            int empId = 0;
+            double basicSalary = 0;
+
+            while (fileScanner.hasNextLine()) {
+
+                String line =
+                        fileScanner.nextLine();
+
+                if (line.startsWith(
+                        "Employee ID:")) {
+
+                    empId = Integer.parseInt(
+                            line.substring(12).trim());
+
+                } else if (line.startsWith(
+                        "Basic Salary:")) {
+
+                    basicSalary =
+                            Double.parseDouble(
+                                    line.substring(13)
+                                            .trim());
+
+                } else if (line.startsWith(
+                        "-----------------------")) {
+
+                    if (empId == searchEmpId) {
+
+                        payrollList.add(
+                                new Payroll(
+                                        empId,
+                                        basicSalary,
+                                        months,
+                                        year
+                                )
+                        );
+
+                        found = true;
+                        break;
                     }
-                    reportService.generatePayrollReport(payrollList, loginUser);
+                }
+            }
 
-                    break;
+            fileScanner.close();
+        }
 
+        if (!found) {
+
+            System.out.println(
+                    "Payroll data not found.");
+
+            break;
+        }
+
+    } catch (Exception e) {
+
+        System.out.println(
+                "Error reading payroll data: "
+                        + e.getMessage());
+    }
+
+    reportService.generatePayrollReport(
+            payrollList,
+            loginUser
+    );
+
+    break;
                 case 6:
 
     System.out.print("Enter Employee ID : ");
