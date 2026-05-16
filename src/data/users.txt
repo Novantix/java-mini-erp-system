@@ -15,7 +15,7 @@ Check-Out : 07:36:06
 ----------------------
 ===== USER DATA =====
 Username : Sandeep
-Password : Sandeep@123
+Password : sandeep@123
 Role : HR
 Check-In : 23:42:30
 Check-Out : 07:42:30
