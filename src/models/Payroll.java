@@ -5,12 +5,14 @@ public class Payroll {
     private int employeeId;
     //private String employeeName;
     private double salary;
-    private String yrmonth;
+    private String months;
+    private int year;
 
-    public Payroll(int employeeId, double salary, String yrmonth) {
+    public Payroll(int employeeId, double salary, String months,int year) {
         this.employeeId = employeeId;
         this.salary = salary;
-        this.yrmonth = yrmonth;
+        this.months = months;
+        this.year = year;
 
     }
 
@@ -22,8 +24,6 @@ public class Payroll {
         this.employeeId = employeeId;
     }
 
-
-
     public double getSalary() {
         return salary;
     }
@@ -32,12 +32,20 @@ public class Payroll {
         this.salary = salary;
     }
 
-    public String getYrmonth() {
-        return yrmonth;
+    public String getMonth() {
+        return months;
     }
 
-    public void setYrmonth(String yrmonth) {
-        this.yrmonth = yrmonth;
+    public void setMonth(String months) {
+        this.months = months;
+    }
+
+    public int getYear() {
+        return year;
+    }
+
+    public void setYear(int year) {
+        this.year = year;
     }
 
     @Override
@@ -45,7 +53,8 @@ public class Payroll {
         return "Payroll{" +
                 "employeeId=" + employeeId +
                 ", salary=" + salary +
-                ", yrmonth=" + yrmonth +
+                ", month='" + months + '\'' +
+                ", year=" + year +
                 '}';
     }
 }

@@ -10,7 +10,7 @@ import models.Employee;
 public class EmployeeService {
     private ArrayList<Employee> employees = new ArrayList<>();
     private Scanner scanner = new Scanner(System.in);
-    private static final String FILE_PATH = "data/employees.txt";
+    private static final String FILE_PATH = "src/data/employees.txt";
 
     public EmployeeService() {
         loadEmployees();
@@ -379,7 +379,8 @@ public class EmployeeService {
 
         employees = new ArrayList<>();
 
-        System.out.println("Existing employee data found at: " + FILE_PATH);
+        // System.out.println("Existing employee data found at: " + FILE_PATH);
+
     }
     public ArrayList<Employee> getEmployees() {
         return employees;
