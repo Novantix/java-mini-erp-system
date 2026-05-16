@@ -1,14 +1,21 @@
 
 package main;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.Scanner;
+
+import models.Attendance.Status;
 import models.Payroll;
 import models.Purchase;
 import models.Supplier;
 import models.User;
+
+import services.AttendanceService;
 import services.AuditService;
 import services.EmployeeService;
 import services.InventoryService;
+import services.LeaveService;
 import services.LoginService;
 import services.PayrollService;
 import services.PurchaseService;
@@ -27,44 +34,57 @@ public class Main {
         AuditService auditService = new AuditService();
         ReportService reportService = new ReportService(auditService);
         EmployeeService employeeService = new EmployeeService();
-        PurchaseService purchaseService = new PurchaseService();
         PayrollService payrollService = new PayrollService();
-         InventoryService inventoryService = new InventoryService();
+        InventoryService inventoryService = new InventoryService();
+        AttendanceService attendanceService = new AttendanceService();
+        LeaveService leaveService = new LeaveService();
+        PurchaseService purchaseService = new PurchaseService();
         SalesService salesService = new SalesService();
 
         boolean systemRunning = true;
 
-        User loginUser = null;
-
         while (systemRunning) {
 
+            // ================= MAIN MENU =================
             System.out.println("\n===== MAIN MENU =====");
+
             System.out.println("1. User Registration");
             System.out.println("2. Login");
             System.out.println("3. Forgot Password");
-            System.out.println("4. Logout");
+            System.out.println("4. Exit");
+
             System.out.print("Enter Choice : ");
 
             int choice = sc.nextInt();
             sc.nextLine();
 
+            // ================= REGISTER =================
+
             if (choice == 1) {
 
                 loginService.registerUser();
+            }
 
-            } else if (choice == 2) {
+            // ================= LOGIN =================
 
-                loginUser = loginService.login();
+            else if (choice == 2) {
+
+                User loginUser = loginService.login();
 
                 if (loginUser != null) {
 
-                    String currentUser = loginUser.getUsername();
-                    String currentRole = loginUser.getRole();
+                    String currentUser =
+                            loginUser.getUsername();
+
+                    String currentRole =
+                            loginUser.getRole();
 
                     auditService.logAction(
                             currentUser,
                             "User Logged In"
                     );
+
+                    // ================= ROLE ACCESS =================
 
                     if (roleService.isAdmin(currentRole)) {
 
@@ -73,7 +93,7 @@ public class Main {
 
                     } else if (roleService.isEmployee(currentRole)) {
 
-                        System.out.println("\nWelcome Employee" + currentUser);
+                        System.out.println("\nWelcome Employee " + currentUser);
                         System.out.println("Employee Access Granted");
 
                     } else {
@@ -85,15 +105,17 @@ public class Main {
 
                     do {
 
+                        // ================= ERP MENU =================
+
                         System.out.println(
                                 "\n========= JAVA MINI ERP SYSTEM =========");
 
                         System.out.println(
                                 "Logged In As : "
-                                + currentUser
-                                + " ("
-                                + currentRole
-                                + ")");
+                                        + currentUser
+                                        + " ("
+                                        + currentRole
+                                        + ")");
 
                         System.out.println(
                                 "-----------------------------------------");
@@ -101,16 +123,11 @@ public class Main {
                         System.out.println(
                                 "1. Employee Management");
 
-
                         System.out.println("2. Payroll Module");
                         System.out.println("3. Inventory Module");
-
-
-                        System.out.println(
-                                "4. Reports & Audit");
-
-                        System.out.println(
-                                "5. Supplier & Purchase Management");
+                        System.out.println("4. Attendance & Leave Module");
+                        System.out.println("5. Reports & Audit");
+                        System.out.println("6. Supplier & Purchase Management");
 
                         System.out.println(
                                 "0. Logout");
@@ -126,6 +143,22 @@ public class Main {
 
                         switch (mainChoice) {
 
+                            // ================= LOGOUT =================
+
+                            case 0:
+
+                                auditService.logAction(
+                                        currentUser,
+                                        "Logged Out"
+                                );
+
+                                System.out.println(
+                                        "\nLogged out successfully!");
+
+                                break;
+
+                            // ================= EMPLOYEE =================
+
                             case 1:
 
                                 auditService.logAction(
@@ -136,6 +169,8 @@ public class Main {
                                 employeeService.employeeDashboard();
 
                                 break;
+
+                            // ================= PAYROLL =================
 
                             case 2:
 
@@ -161,14 +196,15 @@ public class Main {
 
 
 
-                                System.out.print("Enter Employee ID: ");
+                                System.out.print(
+                                        "Enter Employee ID: ");
+
                                 int employeeId = sc.nextInt();
                                 sc.nextLine();
                                 if (!payrollService.isValidEmployee(employeeId)) {
                               System.out.println("Invalid id");
                                break;
                                                  }
-
 
                                 System.out.print("Enter the Month: ");
                                 String months = sc.next();
@@ -177,8 +213,6 @@ public class Main {
                                 int year  = sc.nextInt();
                                 
 
-                                System.out.print("Enter Net Salary: ");
-                                double salary = sc.nextDouble();
                                 sc.nextLine();
 
                                 // Payroll Object
@@ -189,8 +223,9 @@ public class Main {
                                         year
                                 );
 
-                                // Generate Payslip
-                                payrollService.generatePayslip(payroll);
+                                payrollService.generatePayslip(
+                                        payroll
+                                );
 
                                 auditService.logAction(
                                         currentUser,
@@ -205,25 +240,258 @@ public class Main {
                         }
 
                             // ================= INVENTORY =================
-                        case 3:
 
+                            case 3:
+                                if (!roleService.isAdmin(currentRole)) {
+                                    System.out.println(" Access Denied! Only Admin can access Inventory.");
+                                    break;
+                                }
 
-                        if (!roleService.isAdmin(currentRole)) {
-        System.out.println(" Access Denied! Only Admin can access Inventory.");
-        break;
-        }
+                                System.out.println("\n======== INVENTORY MODULE ========");
 
-                System.out.println("\n======== INVENTORY MODULE ========");
+                                inventoryService.inventoryDashboard();
 
-                        inventoryService.inventoryDashboard();
-                        //InventoryService inventoryService = new InventoryService();
+                                auditService.logAction(currentUser, "Accessed Inventory Module");
 
-                        auditService.logAction(currentUser, "Accessed Inventory Module");
+                                break;
 
-                        break;
+                            // ================= ATTENDANCE & LEAVE =================
 
-                            // REPORTS & AUDIT
-                        case 4:
+                            case 4:
+
+                                int attendanceChoice;
+
+                                do {
+
+                                    System.out.println(
+                                            "\n===== ATTENDANCE & LEAVE MODULE =====");
+
+                                    System.out.println(
+                                            "1. Mark Attendance");
+
+                                    System.out.println(
+                                            "2. Apply Leave");
+
+                                    System.out.println(
+                                            "3. Approve Leave");
+
+                                    System.out.println(
+                                            "4. View Attendance Report");
+
+                                    System.out.println(
+                                            "5. View Leave Report");
+
+                                    System.out.println(
+                                            "0. Back");
+
+                                    System.out.print(
+                                            "Enter Choice: ");
+
+                                    attendanceChoice =
+                                            sc.nextInt();
+
+                                    sc.nextLine();
+
+                                    switch (attendanceChoice) {
+
+                                        // ================= MARK ATTENDANCE =================
+
+                                        case 1:
+
+                                            System.out.println(
+                                                    "\n===== MARK ATTENDANCE =====");
+
+                                            System.out.print(
+                                                    "Enter Employee ID: ");
+
+                                            int empId =
+                                                    sc.nextInt();
+
+                                            sc.nextLine();
+
+                                            System.out.print(
+                                                    "Enter Employee Name: ");
+
+                                            String empName =
+                                                    sc.nextLine();
+
+                                            // AUTO LOGIN TIME
+
+                                            LocalTime loginTime =
+                                                    LocalTime.now();
+
+                                            System.out.println(
+                                                    "Login Time : "
+                                                            + loginTime);
+
+                                            attendanceService.markAttendance(
+                                                    empId,
+                                                    empName,
+                                                    loginTime,
+                                                    Status.PRESENT
+                                            );
+
+                                            auditService.logAction(
+                                                    currentUser,
+                                                    "Attendance Marked"
+                                            );
+
+                                            break;
+
+                                        // ================= APPLY LEAVE =================
+
+                                        case 2:
+
+                                            System.out.println(
+                                                    "\n===== APPLY LEAVE =====");
+
+                                            System.out.print(
+                                                    "Enter Employee ID: ");
+
+                                            int leaveEmpId =
+                                                    sc.nextInt();
+
+                                            sc.nextLine();
+
+                                            System.out.print(
+                                                    "Enter Employee Name: ");
+
+                                            String leaveEmpName =
+                                                    sc.nextLine();
+
+                                            System.out.print(
+                                                    "Enter From Year: ");
+
+                                            int fy =
+                                                    sc.nextInt();
+
+                                            System.out.print(
+                                                    "Enter From Month: ");
+
+                                            int fm =
+                                                    sc.nextInt();
+
+                                            System.out.print(
+                                                    "Enter From Day: ");
+
+                                            int fd =
+                                                    sc.nextInt();
+
+                                            System.out.print(
+                                                    "Enter To Year: ");
+
+                                            int ty =
+                                                    sc.nextInt();
+
+                                            System.out.print(
+                                                    "Enter To Month: ");
+
+                                            int tm =
+                                                    sc.nextInt();
+
+                                            System.out.print(
+                                                    "Enter To Day: ");
+
+                                            int td =
+                                                    sc.nextInt();
+
+                                            sc.nextLine();
+
+                                            System.out.print(
+                                                    "Enter Leave Reason: ");
+
+                                            String reason =
+                                                    sc.nextLine();
+
+                                            leaveService.applyLeave(
+                                                    leaveEmpId,
+                                                    leaveEmpName,
+                                                    LocalDate.of(
+                                                            fy,
+                                                            fm,
+                                                            fd
+                                                    ),
+                                                    LocalDate.of(
+                                                            ty,
+                                                            tm,
+                                                            td
+                                                    ),
+                                                    reason
+                                            );
+
+                                            auditService.logAction(
+                                                    currentUser,
+                                                    "Applied Leave"
+                                            );
+
+                                            break;
+
+                                        // ================= APPROVE LEAVE =================
+
+                                        case 3:
+
+                                            System.out.println(
+                                                    "\n===== APPROVE LEAVE =====");
+
+                                            System.out.print(
+                                                    "Enter Employee ID: ");
+
+                                            int approveId =
+                                                    sc.nextInt();
+
+                                            sc.nextLine();
+
+                                            leaveService.approveLeave(
+                                                    approveId
+                                            );
+
+                                            auditService.logAction(
+                                                    currentUser,
+                                                    "Approved Leave"
+                                            );
+
+                                            break;
+
+                                        // ================= VIEW ATTENDANCE =================
+
+                                        case 4:
+
+                                            attendanceService.showAllAttendance();
+
+                                            break;
+
+                                        // ================= VIEW LEAVE =================
+
+                                        case 5:
+
+                                            leaveService.showAllLeaves();
+
+                                            break;
+
+                                        // ================= BACK =================
+
+                                        case 0:
+
+                                            System.out.println(
+                                                    "Returning...");
+
+                                            break;
+
+                                        // ================= INVALID =================
+
+                                        default:
+
+                                            System.out.println(
+                                                    "Invalid Choice");
+                                    }
+
+                                } while (attendanceChoice != 0);
+
+                                break;
+
+                            // ================= REPORTS =================
+
+                            case 5:
 
                                 auditService.logAction(
                                         currentUser,
@@ -455,17 +723,7 @@ public class Main {
 
     break;
 
-                            case 0:
-
-                                auditService.logAction(
-                                        currentUser,
-                                        "Logged Out"
-                                );
-
-                                System.out.println(
-                                        "\nLogged out successfully!");
-
-                                break;
+                            // ================= INVALID =================
 
                             default:
 
@@ -480,7 +738,6 @@ public class Main {
                     System.out.println(
                             "\nInvalid Username or Password");
                 }
-
             } else if (choice == 3) {
 
                 loginService.forgotPassword();
@@ -491,6 +748,7 @@ public class Main {
 
                 System.out.println(
                         "\nExiting ERP System...");
+
                 System.out.println(
                         "Thank You!");
 
@@ -503,6 +761,8 @@ public class Main {
 
         sc.close();
     }
+
+    // ================= REPORT MENU =================
 
     private static void reportsMenu(
             Scanner sc,
@@ -522,52 +782,34 @@ public class Main {
                     "\n====== REPORTS & AUDIT MENU ======");
 
             System.out.println(
-                    "1.  Generate Daily Report");
+                    "1. Generate Daily Report");
 
             System.out.println(
-                    "2.  Generate Monthly Report");
+                    "2. Generate Monthly Report");
 
             System.out.println(
-                    "3.  Generate Attendance Report");
+                    "3. Generate Attendance Report");
 
             System.out.println(
-                    "4.  Generate Sales Report");
+                    "4. Generate Sales Report");
 
             System.out.println(
-                    "5.  Generate Payroll Report");
+                    "5. Generate Payroll Report");
 
             System.out.println(
-                    "6.  Generate Employee Report");
+                    "6. Generate Employee Report");
 
             System.out.println(
-                    "7.  View Daily Reports");
+                    "7. View Daily Reports");
 
             System.out.println(
-                    "8.  View Monthly Reports");
+                    "8. View Monthly Reports");
 
             System.out.println(
-                    "9.  View All Audit Logs");
+                    "9. View All Audit Logs");
 
             System.out.println(
-                    "10. Filter Audit by User");
-
-            System.out.println(
-                    "11. Filter Audit by Date");
-
-            System.out.println(
-                    "12. Data Summary");
-
-            System.out.println(
-                    "13. Export Logs to File");
-
-            System.out.println(
-                    "14. Clear Audit Logs");
-
-            System.out.println(
-                    "0.  Back to Main Menu");
-
-            System.out.println(
-                    "==================================");
+                    "0. Back");
 
             System.out.print(
                     "Enter Choice: ");
@@ -589,9 +831,10 @@ public class Main {
                 case 2:
 
                     System.out.print(
-                            "Enter Month (e.g. June-2025): ");
+                            "Enter Month: ");
 
-                    String month = sc.nextLine();
+                    String month =
+                            sc.nextLine();
 
                     reportService.generateMonthlyReport(
                             employeeService.getEmployees(),
@@ -791,59 +1034,6 @@ public class Main {
 
                     break;
 
-                case 10:
-
-                    System.out.print(
-                            "Enter Username to filter: ");
-
-                    String user = sc.nextLine();
-
-                    auditService.viewLogsByUser(
-                            user,
-                            loginUser
-                    );
-
-                    break;
-
-                case 11:
-
-                    System.out.print(
-                            "Enter Date (dd-MM-yyyy): ");
-
-                    String date = sc.nextLine();
-
-                    auditService.viewLogsByDate(
-                            date,
-                            loginUser
-                    );
-
-                    break;
-
-                case 12:
-
-                    reportService.printDataSummary(
-                            employeeService.getEmployees(),
-                            loginUser
-                    );
-
-                    break;
-
-                case 13:
-
-                    auditService.exportLogsToFile(
-                            loginUser
-                    );
-
-                    break;
-
-                case 14:
-
-                    auditService.clearAllLogs(
-                            loginUser
-                    );
-
-                    break;
-
                 case 0:
 
                     System.out.println(
@@ -854,7 +1044,7 @@ public class Main {
                 default:
 
                     System.out.println(
-                            "Invalid choice! Try again.");
+                            "Invalid Choice");
             }
 
         } while (choice != 0);
