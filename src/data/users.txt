@@ -20,3 +20,10 @@ Role : HR
 Check-In : 23:42:30
 Check-Out : 07:42:30
 ----------------------
+===== USER DATA =====
+Username : c mohan
+Password : Cmohan@123
+Role : Admin
+Check-In : 07:58:12
+Check-Out : 15:58:12
+----------------------
