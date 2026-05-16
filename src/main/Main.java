@@ -150,6 +150,7 @@ public class Main {
                                         sc.nextLine();
                                         if (pChoice == 1) {
 
+
                                         
 
 
@@ -163,11 +164,16 @@ public class Main {
                                 System.out.print("Enter Employee ID: ");
                                 int employeeId = sc.nextInt();
                                 sc.nextLine();
+                                if (!payrollService.isValidEmployee(employeeId)) {
+                              System.out.println("Invalid id");
+                               break;
+                                                 }
+
 
                                 System.out.print("Enter the Month: ");
                                 String months = sc.next();
 
-                                System.err.println("Enter the Year");
+                                System.err.print("Enter the Year:");
                                 int year  = sc.nextInt();
                                 
 
