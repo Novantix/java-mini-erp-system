@@ -7,6 +7,11 @@ Check-Out : 21:12:44
 ----------------------
 ID : 101 | Username : Anil | Role : HR
 ===== USER DATA =====
+Username : vishnu123
+Password : vishnu@123
+Role : Admin
+Check-In : 12:08:47
+Check-Out : 20:08:47
 Username : hari
 Password : hari@123
 Role : Employee
@@ -33,6 +38,13 @@ Password : hari@123
 Role : Admin
 Check-In : 01:44:47
 Check-Out : 09:44:47
+----------------------
+===== USER DATA =====
+Username : vishnu123456
+Password : vishnu@123456
+Role : HR
+Check-In : 13:33:36
+Check-Out : 21:33:36
 ----------------------
 ID : 101 | Username : Sundar | Role : HR
 ===== USER DATA =====

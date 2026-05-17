@@ -22,6 +22,7 @@ import services.ReportService;
 import services.RoleService;
 import services.SalesService;
 
+
 public class Main {
 
     public static void main(String[] args) {
@@ -180,7 +181,8 @@ public class Main {
                             // ================= PAYROLL =================
                             case 2:
 
-                                System.out.println("\n======== PAYROLL MODULE ========");
+    System.out.println(
+            "\n======== PAYROLL MODULE ========");
 
                                 System.out.println("\n======== Generate Payslip ? ========");
                                 System.out.println("1. Generate Payslip");
@@ -481,6 +483,8 @@ public class Main {
 
                             // ================= REPORTS =================
                             case 5:
+                                // ================= REPORTS =================
+                                System.out.println("\n===== REPORTS & AUDITS MODULE =====");
 
                                 auditService.logAction(
                                         currentUser,
@@ -493,6 +497,7 @@ public class Main {
                                         auditService,
                                         employeeService,
                                         purchaseService,
+                                        payrollService,
                                         loginUser,
                                         currentUser,
                                         currentRole
@@ -770,6 +775,7 @@ public class Main {
             AuditService auditService,
             EmployeeService employeeService,
             PurchaseService purchaseService,
+            PayrollService payrollService,
             User loginUser,
             String currentUser,
             String currentRole) {
@@ -782,34 +788,52 @@ public class Main {
                     "\n====== REPORTS & AUDIT MENU ======");
 
             System.out.println(
-                    "1. Generate Daily Report");
+                    "1.  Generate Daily Report");
 
             System.out.println(
-                    "2. Generate Monthly Report");
+                    "2.  Generate Monthly Report");
 
             System.out.println(
-                    "3. Generate Attendance Report");
+                    "3.  Generate Attendance Report");
 
             System.out.println(
-                    "4. Generate Sales Report");
+                    "4.  Generate Sales Report");
 
             System.out.println(
-                    "5. Generate Payroll Report");
+                    "5.  Generate Payroll Report");
 
             System.out.println(
-                    "6. Generate Employee Report");
+                    "6.  Generate Employee Report");
 
             System.out.println(
-                    "7. View Daily Reports");
+                    "7.  View Daily Reports");
 
             System.out.println(
-                    "8. View Monthly Reports");
+                    "8.  View Monthly Reports");
 
             System.out.println(
-                    "9. View All Audit Logs");
+                    "9.  View All Audit Logs");
 
             System.out.println(
-                    "0. Back");
+                    "10. Filter Audit by User");
+
+            System.out.println(
+                    "11. Filter Audit by Date");
+
+            System.out.println(
+                    "12. Data Summary");
+
+            System.out.println(
+                    "13. Export Logs to File");
+
+            System.out.println(
+                    "14. Clear Audit Logs");
+
+            System.out.println(
+                    "0.  Back to Main Menu");
+
+            System.out.println(
+                    "==================================");
 
             System.out.print(
                     "Enter Choice: ");
@@ -831,7 +855,7 @@ public class Main {
                 case 2:
 
                     System.out.print(
-                            "Enter Month: ");
+                            "Enter Month (e.g. June-2025): ");
 
                     String month
                             = sc.nextLine();
@@ -868,41 +892,175 @@ public class Main {
 
                     break;
 
-                case 5:
+          case 5:
 
-                    java.util.List<Payroll> payrollList = new java.util.ArrayList<>();
-                    try {
-                        java.io.File file = new java.io.File("data/payrollservicedata.txt");
-                        if (file.exists()) {
-                            java.util.Scanner fileScanner = new java.util.Scanner(file);
-                            int empId = 0;
-                            double basicSalary = 0;
-                            while (fileScanner.hasNextLine()) {
-                                String line = fileScanner.nextLine();
-                                if (line.startsWith("Employee ID:")) {
-                                    empId = Integer.parseInt(line.substring(12).trim());
-                                } else if (line.startsWith("Basic Salary:")) {
-                                    basicSalary = Double.parseDouble(line.substring(13).trim());
-                                } else if (line.startsWith("-----------------------")) {
-                                    System.out.print("Enter Month: ");
-                                    String months = sc.nextLine();
+    System.out.print(
+            "Enter Employee ID : ");
 
-                                    System.out.print("Enter Year: ");
-                                    int year = sc.nextInt();
-                                    sc.nextLine(); // Consume the newline character
+    int searchEmpId = sc.nextInt();
+    sc.nextLine();
 
-                                    payrollList.add(new Payroll(empId, basicSalary, months, year));
-                                }
-                            }
-                            fileScanner.close();
-                        }
-                    } catch (Exception e) {
-                        System.out.println("Error reading payroll data: " + e.getMessage());
+    // Validate Employee ID
+    if (!payrollService.isValidEmployee(
+            searchEmpId)) {
+
+        System.out.println(
+                "Employee ID not found.");
+
+        break;
+    }
+
+    // Month-Year Input
+    System.out.print(
+            "Enter Month (e.g. June-2025): ");
+
+    String input =
+            sc.nextLine().trim();
+
+    // Split Month-Year
+    String[] parts =
+            input.split("-");
+
+    // Format Validation
+    if (parts.length != 2) {
+
+        System.out.println(
+                "Invalid Format!");
+
+        break;
+    }
+
+    String months =
+            parts[0].trim().toLowerCase();
+
+    String yearStr =
+            parts[1].trim();
+
+    // Valid Months
+    java.util.List<String> validMonths =
+            java.util.Arrays.asList(
+                    "january", "february",
+                    "march", "april",
+                    "may", "june",
+                    "july", "august",
+                    "september", "october",
+                    "november", "december"
+            );
+
+    // Month Validation
+    if (!validMonths.contains(months)) {
+
+        System.out.println(
+                "Invalid Month!");
+
+        break;
+    }
+
+    // Year Format Validation
+    if (!yearStr.matches("\\d{4}")) {
+
+        System.out.println(
+                "Invalid Year Format!");
+
+        break;
+    }
+
+    int year =
+            Integer.parseInt(yearStr);
+
+    // Year Range Validation
+    if (year < 2000) {
+
+        System.out.println(
+                "Year must be 2000 or above!");
+
+        break;
+    }
+
+    java.util.List<Payroll> payrollList =
+            new java.util.ArrayList<>();
+
+    boolean found = false;
+
+    try {
+
+        java.io.File file =
+                new java.io.File(
+                        "data/payrollservicedata.txt");
+
+        if (file.exists()) {
+
+            java.util.Scanner fileScanner =
+                    new java.util.Scanner(file);
+
+            int empId = 0;
+            double basicSalary = 0;
+
+            while (fileScanner.hasNextLine()) {
+
+                String line =
+                        fileScanner.nextLine();
+
+                if (line.startsWith(
+                        "Employee ID:")) {
+
+                    empId = Integer.parseInt(
+                            line.substring(12)
+                                    .trim());
+
+                } else if (line.startsWith(
+                        "Basic Salary:")) {
+
+                    basicSalary =
+                            Double.parseDouble(
+                                    line.substring(13)
+                                            .trim());
+
+                } else if (line.startsWith(
+                        "-----------------------")) {
+
+                    if (empId == searchEmpId) {
+
+                        payrollList.add(
+                                new Payroll(
+                                        empId,
+                                        basicSalary,
+                                        months,
+                                        year
+                                )
+                        );
+
+                        found = true;
+
+                        break;
                     }
-                    reportService.generatePayrollReport(payrollList, loginUser);
+                }
+            }
 
-                    break;
+            fileScanner.close();
+        }
 
+        if (!found) {
+
+            System.out.println(
+                    "Payroll data not found.");
+
+            break;
+        }
+
+    } catch (Exception e) {
+
+        System.out.println(
+                "Error reading payroll data: "
+                        + e.getMessage());
+    }
+
+    reportService.generatePayrollReport(
+            payrollList,
+            loginUser
+    );
+
+    break;
                 case 6:
 
                     System.out.print("Enter Employee ID : ");
@@ -1034,6 +1192,59 @@ public class Main {
 
                     break;
 
+                case 10:
+
+                    System.out.print(
+                            "Enter Username to filter: ");
+
+                    String user = sc.nextLine();
+
+                    auditService.viewLogsByUser(
+                            user,
+                            loginUser
+                    );
+
+                    break;
+
+                case 11:
+
+                    System.out.print(
+                            "Enter Date (dd-MM-yyyy): ");
+
+                    String date = sc.nextLine();
+
+                    auditService.viewLogsByDate(
+                            date,
+                            loginUser
+                    );
+
+                    break;
+
+                case 12:
+
+                    reportService.printDataSummary(
+                            employeeService.getEmployees(),
+                            loginUser
+                    );
+
+                    break;
+
+                case 13:
+
+                    auditService.exportLogsToFile(
+                            loginUser
+                    );
+
+                    break;
+
+                case 14:
+
+                    auditService.clearAllLogs(
+                            loginUser
+                    );
+
+                    break;
+
                 case 0:
 
                     System.out.println(
@@ -1044,7 +1255,7 @@ public class Main {
                 default:
 
                     System.out.println(
-                            "Invalid Choice");
+                            "Invalid choice! Try again.");
             }
 
         } while (choice != 0);

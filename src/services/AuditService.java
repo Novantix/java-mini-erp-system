@@ -118,17 +118,13 @@ public class AuditService {
                 return;
             }
 
-            System.out.println(
-                    "\n========== AUDIT LOG ==========");
-            System.out.println(
-                    "Total Entries : " + auditLogs.size());
-            System.out.println(
-                    "--------------------------------");
+            System.out.println("\n========== AUDIT LOG ==========");
+            System.out.println("Total Entries : " + auditLogs.size());
+            System.out.println("--------------------------------");
             for (String log : auditLogs) {
                 System.out.println(log);
             }
-            System.out.println(
-                    "================================\n");
+            System.out.println("================================\n");
 
         } catch (Exception e) {
             System.out.println(
@@ -137,7 +133,9 @@ public class AuditService {
         }
     }
 
-    
+    //  Filter Audit by User       -> ADMIN
+
+
     public void viewLogsByUser(String targetUsername,
             User loggedInUser) {
         try {
@@ -187,6 +185,8 @@ public class AuditService {
         }
     }
 
+
+//Filter Audit by Date       -> ADMIN
     public void viewLogsByDate(String date,
             User loggedInUser) {
         try {
@@ -194,7 +194,7 @@ public class AuditService {
                 return;
             }
             if (!hasRole(loggedInUser,
-                    "ADMIN", "MANAGER")) {
+                    "ADMIN")) {
                 return;
             }
 
@@ -236,7 +236,7 @@ public class AuditService {
         }
     }
 
-
+//  Export Logs to File        -> ADMIN
     public void exportLogsToFile(User loggedInUser) {
         try {
             if (!isLoggedIn(loggedInUser)) {
@@ -283,6 +283,8 @@ public class AuditService {
         }
     }
 
+
+//  Clear Audit Logs           -> ADMIN
     public void clearAllLogs(User loggedInUser) {
         try {
             if (!isLoggedIn(loggedInUser)) {
