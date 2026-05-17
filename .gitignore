@@ -8,6 +8,13 @@ src/data/purchases.txt
 src/data/audit_log.txt
 src/data/customers.txt
 src/data/sales.txt
+src/data/inventoryservice.txt
+src/data/payrollservicedata.txt
+src/data/daily_report.txt
+src/data/monthly_report.txt 
+src/data/*.txt
+src/data/employees.txt
+
 
 # Dat files
 *.dat
