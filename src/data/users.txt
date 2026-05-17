@@ -47,3 +47,10 @@ Check-In : 13:33:36
 Check-Out : 21:33:36
 ----------------------
 ID : 101 | Username : Sundar | Role : HR
+===== USER DATA =====
+Username : Sandeep
+Password : Sandeep@123
+Role : Admin
+Check-In : 15:57:50
+Check-Out : 23:57:50
+----------------------

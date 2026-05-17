@@ -3,7 +3,6 @@ package models;
 public class Payroll {
 
     private int employeeId;
-    //private String employeeName;
     private double salary;
     private String months;
     private int year;
